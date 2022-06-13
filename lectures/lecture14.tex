@@ -1,0 +1,241 @@
+%!TEX root = ../lectures.tex
+
+\lecture[October 3rd, 2019]{Compactness in $H(G)$}
+
+\topic{Compactness in the space of analytic functions}
+
+\begin{proof}[Proof of \autoref{thm7.4}]
+	For the first part, that the limit $f_n \to f$ is analytic, note that differentiability is a local property, so it suffices for $z \in G$ to consider $B(a, r) \subset G$.
+	Then for any triangular path $T \subset B(z, r)$,
+	\[
+		\int_T f(z) \, d z = \lim_{n \to \infty} \int_T f_n(z) \, d z
+	\]
+	since $f_n \to f$ uniformly on compact sets, say $\closure{B(z, r)}$ (take a slightly smaller $r$ if necessary).
+	Now all $f_n$ are analytic by assumption, so the integral is $0$.
+	Hence by \nameref{thm4.5} $f$ is analytic.
+
+	For the second part, again take $B(z, r) \subset G$, and let $\gamma$ be the circle $\abs{w - z} = r$.
+	By Cauchy's formula,
+	\[
+		f_n^{(k)}(z) - f^{(k)}(z) = \int_\gamma \frac{f_n(w) - f(w)}{(w - z)^{k + 1}} \, d w.
+	\]
+	Since $f_n \to f$ uniformly on $\closure{B(z, r)}$, we can choose, for any $\varepsilon > 0$, $n$ large enough so that $\abs{f_n(w) - f(w)} < \varepsilon$ for all $w \in \closure{B(z, r)}$.
+	Hence
+	\[
+		\abs{f_n^{(k)}(z) - f^{(k)}(z)} \leq \int_\gamma \frac{\varepsilon}{r^{k + 1}} \, d w \leq \varepsilon r^{-(k + 1)} (2 \pi r),
+	\]
+	which we can hence make arbitrarily small, so $f_n^{(k)} \to f^{(k)}$.
+\end{proof}
+
+Immediately from this we have:
+
+\begin{corollary}\label{cor7.5}
+	$H(G)$ is a complete metric space.
+\end{corollary}
+
+\begin{proof}
+	It is a closed subset of a complete metric space, hence itself complete.
+\end{proof}
+
+\begin{corollary}\label{cor7.6}
+	Let $\Set{f_n} \subset H(G)$.
+	Suppose
+	\[
+		\sum_{n = 1}^\infty f_n(z)
+	\]
+	converges uniformly on compact subsets to $f(z)$.
+	Then
+	\[
+		f^{(k)}(z) = \sum_{n = 1}^\infty f_n^{(k)}(z).
+	\]
+	In other words, we can take derivatives term by term.
+\end{corollary}
+
+\begin{exercise}
+	Let $f, f_1, f_2, \dots$ be elements of $H(G)$.
+	Show that $f_n \to f$ in $H(G)$ if and only if for each closed rectifiable curve $\gamma$ in $G$, $f_n(z) \to f(z)$ uniformly for $z$ in $\Set{\gamma}$.
+\end{exercise}
+
+It is instructive to remark that this is not true in the real case: the special structure of complex analytic functions that make this work is that, in the case of complex functions, the derivatives of a function $f$ are controlled by $f$ itself.
+
+\index{Hurwitz's theorem|(}
+\begin{theorem}[Hurwitz's theorem]\label{thm7.7}
+	Let $G$ be a region, and let $\Set{f_n} \subset H(G)$ be a convergent sequence, so $f_n \to f \in H(G)$.
+	Suppose $f \neq 0$ on $\closure{B(a, R)} \subset G$ and $f(z) \neq 0$ on $\abs{z - a} = R$.
+	Then there exists some $N \in \N$ such that for $n \geq N$, $f_n$ and $f$ have the same number of zeros in $B(a, R)$.
+\end{theorem}
+\index{Hurwitz's theorem|)}
+
+\begin{proof}
+	Since $f(z) \neq 0$ on $\abs{z - a} = R$, which is a compact set, we must have $\delta \coloneqq \inf\limits_{\abs{z - a} = R} \abs{f(z)} > 0$.
+	Since $f_n \to f$ uniformly on $\abs{z - a} = R$, there exists some $N \in \N$ such that for $n \geq N$ and $\abs{z - a} = R$, $f_n(z) \neq 0$, since it is close to $f$, which is at least $\delta$ away from $0$.
+
+	So on $\abs{z - a} = R$,
+	\[
+		\abs{f_n(z) - f(z)} < \frac{\delta}{2} < \abs{f(z)},
+	\]
+	which by \nameref{thm5.8} means $f_n$ and $f$ have the same number of zeros in $B(a, R)$.
+\end{proof}
+
+\begin{corollary}\label{cor7.8}
+	Let $G$ be a region.
+	Let $\Set{f_n} \subset H(G)$ and $f_n \to f \in H(G)$.
+	Suppose $f_n(z) \neq 0$ for all $z \in G$ and all $n \in \N$.
+	Then either $f = 0$ or $f(z) \neq 0$ for all $z \in G$.
+\end{corollary}
+
+\begin{exercise}
+	Let $\Set{f_n} \subset H(G)$ be a sequence of one-to-one functions.
+	Suppose $f_n \to f$ in $H(G)$.
+	Show that either $f$ is one-to-one or $f$ is a constant function.
+\end{exercise}
+
+\topic{Montel's theorem}
+
+In order to do the following discussion justice we need to recall some information from functional analysis.
+
+First of all, if $(M, d)$ is a metric space\index{metric space}, then there are several equivalent notions of compactness.
+In particular, $M$ is compact (in the sense of every open cover having a finite subcover) if and only of $M$ is sequentially compact (i.e., every bounded sequence has a convergent subsequence), if and only if $M$ is limit point compact (meaning every infinite set has a limit point).
+
+Recall how in $\R^n$ or $\C^n$ (or in fact any finite dimensional vector space), a set is compact if and only if it is closed and bounded.
+In general, this is not enough:
+
+\begin{definition}[Equicontinuity]
+	A family of functions $\mathcal{F}$ in a metric space $(M, d)$ is \keyword{equicontinuous}\index{equicontinuity} if for every $\varepsilon > 0$ there exists a $\delta > 0$ so that $d(f(x), f(y)) < \varepsilon$ for all $f \in \mathcal{F}$ and $d(x, y) < \delta$.
+
+	In other words, it is the usual definition of continuity, except that for a given $\varepsilon > 0$, the \emph{same} $\delta > 0$ works for every $f \in \mathcal{F}$ at once.
+\end{definition}
+
+\index{Arzelà--Ascoli theorem|(}
+\begin{theorem}[Arzelà--Ascoli theorem]\label{arzelaascoli}
+	Let $(M, d)$ be a compact metric space, and let $C(M) = \Set{f \colon M \to \R \text{ or } \C \given f \text{ is continuous}}$.
+	A family $\mathcal{F} \subset C(M)$ is compact if and only if $\mathcal{F}$ is closed, bounded, and equicontinuous.
+\end{theorem}
+\index{Arzelà--Ascoli theorem|)}
+
+\begin{definition}[Normal]
+	Let $G \subset \C$ be open and $\Omega = \C$ or $\Omega = \C_\infty$.
+	A set $\mathcal{F} \subset C(G, \Omega)$ is \keyword{normal}\index{normal} if every sequence in $\mathcal{F}$ has a subsequence which converges to a function $f \in C(G, \Omega)$.
+\end{definition}
+
+Note how this is different from sequential compactness---the limit $f$ of the convergent subsequence need not be in $\mathcal{F}$.
+
+\begin{exercise}
+	A set $\mathcal{F} \subset C(G, \Omega)$ is normal if and only if its closure is compact.
+\end{exercise}
+
+% \begin{solution}
+% 	For the forward direction, we know the limit is somewhere in $\closure{\mathcal{F}}$ (by definition), so we need to show that $\closure{\mathcal{F}}$ is sequentially compact.
+% \end{solution}
+
+\begin{exercise}
+	\begin{parts}
+		\item Let $f$ be an analytic function on an open neighbourhood of $\closure{B(a; R)}$.
+		Show that
+		\[
+			\abs{f(a)}^2 \leq \frac{1}{\pi R^2} \int_0^{2 \pi} \int_0^R \abs{f(a + r e^{i \theta})}^2 r \, d r \, d \theta.
+		\]
+		\item Let $G$ be a region and let $M > 0$ be a fixed constant.
+		Let $\mathcal{F}$ be the family of all functions $f$ in $H(G)$ such that $\iint_G \abs{f(z)}^2 \, d x \, d y \leq M$.
+		Show that $\mathcal{F}$ is normal. \qedhere
+	\end{parts}
+\end{exercise}
+
+\begin{remark}
+	This problem implies the following:
+	Let $f, f_n \in H(G)$.
+	If $f_n \to f$ in $L^2(G)$, then $f_n \to f$ in $H(G)$.
+
+	In other words, $L^2$ convergence for analytic functions implies uniform convergence on compact subsets.
+	The same is true for $L^1$ convergence, as it happens, though neither are true for real analytic functions:
+\end{remark}
+
+\begin{exercise}
+	Let $f, f_n \in H(G)$.
+	Suppose $f_n \to f$ in $L^1(G)$, i.e., $\iint_G \abs{f_n(z) - f(z)} \, d x \, d y \to 0$.
+	Show that $f_n \to f$ in $H(G)$.
+\end{exercise}
+
+So in $C(G, \C)$, compact means closed, bounded, and equicontinuous.
+The question we are looking to answer with this discussion is how we would similarly characterise compact sets in $H(G)$.
+In other words, what does it mean to be normal in $H(G)$?
+
+\begin{definition}[Locally bounded]
+	A set $\mathcal{F} \subset H(G)$ is \keyword{locally bounded}\index{locally bounded} if for each $a \in G$ there exists some $M > 0$ and $r > 0$ so that for every $f \in \mathcal{F}$, $\abs{f(z)} \leq M$ for all $z \in B(a, r)$.
+
+	In other words, for each $a \in G$, there exists $r > 0$ such that
+	\[
+		\sup_{\substack{z \in B(a, r) \\ f \in \mathcal{F}}} \abs{f(z)} < \infty,
+	\]
+	or, as a final way of putting it, for every $a \in G$ there exists $r > 0$ such that $\mathcal{F}$ is uniformly bounded in $B(a, r)$.
+\end{definition}
+
+It follows more or less from this definition that:
+
+\begin{lemma}\label{lem7.9}
+	A set $\mathcal{F} \subset H(G)$ is locally bounded if and only if $\mathcal{F}$ is uniformly bounded on every compact subset $K \subset G$.
+\end{lemma}
+
+\index{Montel's theorem|(}
+\begin{theorem}[Montel's theorem]\label{thm7.10}
+	A family $\mathcal{F} \subset H(G)$ is normal if and only if $\mathcal{F}$ is locally bounded.
+\end{theorem}
+\index{Montel's theorem|)}
+
+\begin{proof}
+	For the forward direction, suppose $\mathcal{F}$ is not locally bounded, i.e., there exists some compact subset $K \subset G$ such that
+	\[
+		\sup_{\substack{z \in K \\ f \in \mathcal{F}}} \abs{f(z)} = \infty.
+	\]
+	So there exists some $\Set{f_n} \subset \mathcal{F}$ such that $\sup\limits_{z \in K} \abs{f_n(z)} \geq n$.
+	Since $\mathcal{F}$ is normal, $\Set{f_n}$ has a convergent subsequence $\Set{f_{n_k}}$, say $f_{n_k} \to f \in H(G)$ (nominally $C(G, \C)$, but $H(G)$ is closed, we showed).
+	Since $K$ is compact and $f$ is continuous,
+	\[
+		\sup_{z \in K} \abs{f(z)} = M < \infty.
+	\]
+	Hence
+	\begin{align*}
+		n_k &\leq \sup_{z \in K} \abs{f_{n_k}(z)} \leq \sup_{z \in K} \abs{f_{n_k}(z) - f(z)} + \sup_{z \in K} \abs{f(z)} \\
+		&= \sup_{z \in K} \abs{f_{n_k}(z) - f(z)} + M
+	\end{align*}
+	where the right-hand side approaches $M$ as $n_k \to \infty$ since $f_{n_k} \to f$ uniformly on $K$, but the left-hand side goes to infinity, which is a contradiction.
+
+	For the converse direction, let $K \subset G$ be compact.
+	We claim that when $\mathcal{F}$ restricts to $(C(K), \norm{}_\infty)$, every sequence in $\closure{\mathcal{F}}$ has a convergent subsequence in $C(K)$.
+
+	To prove this, by the \nameref{arzelaascoli}, we need to show that $\closure{\mathcal{F}}$ is closed, bounded, and equicontinuous.
+	That it is closed in $(C(K), \norm{}_\infty)$ is clear: it is a closure.
+	Since $\mathcal{F}$ is locally bounded, it is uniformly bounded on $K$, being compact, so $\closure{\mathcal{F}}$ is also uniformly bounded on $K$.
+	Hence $\closure{\mathcal{F}}$ is bounded in $(C(K), \norm{}_\infty)$.
+
+	It remains to show that it is equicontinuous.
+	Since $\mathcal{F}$ is locally bounded, for each $a \in G$ there exists $r > 0$ and $M > 0$ such that $\abs{f(z)} \leq M$ for every $z \in \closure{B(a, r)}$ and every $f \in \mathcal{F}$.
+	For $z \in B(a, \frac{r}{2})$, by \nameref{thm4.2},
+	\begin{align*}
+		\abs{f(a) - f(z)} &= \frac{1}{2 \pi} \abs[\Big]{\int_\gamma \frac{f(w)}{w - a} - \frac{f(w)}{w - z} \, d w} \\
+		&= \frac{1}{2 \pi} \abs[\Big]{\int_\gamma \frac{f(w) (a - z)}{(w - a) (w - z)} \, d w} \\
+		&\leq \frac{1}{2 \pi} \int_\gamma \frac{M \abs{a - z}}{r \cdot \frac{r}{2}} \, \abs{d w} \leq \frac{1}{\pi} \frac{M}{r^2} 2 \pi r \abs{a - z},
+	\end{align*}
+	where the constant in front of $\abs{a - z}$ does not depend on $f$.
+	Hence $\mathcal{F}$ is uniformly Lipschitz, and hence equicontinuous, and so finally $\closure{\mathcal{F}}$ is equicontinuous, finishing the claim.
+	\begin{marginfigure}
+		\centering
+		\mfincludegraphics[width=\textwidth]{figures/l14fig710a.tikz}
+
+		\caption{\label{thm710:fig} Schematic of $w$ and $z$.}
+	\end{marginfigure}
+
+	Finally, to finish the theorem, write $G = \bigcup\limits_{n = 1}^\infty K_n$ as in \autoref{prop7.1}.
+	For any $\Set{f_n} \subset \mathcal{F} \subset \closure{\mathcal{F}}$, by the claim, when $\Set{f_n}$ restricts to $K_1$, it has a convergent subsequence, sat $\Set{f_{n_k^1}}$ in $H(K_1)$.
+
+	Now consider $\Set{f_{n_k^1}}$ restricted to $K_2$---it has a convergent subsequence $\Set{f_{n_k^2}}$ in $H(K_2)$, and so on, with $\Set{f_{n_k^m}}$ being convergent in $H(K_m)$.
+
+	Take the diagonal $\Set{f_{n_k^k}} \subset \Set{f_n}$.
+	Then $\Set{f_{n_k^k}}$ converges uniformly when restricted to any compact set $K \subset G$, so $f_{n_k^k} \to f$ in $H(G)$, meaning that $\mathcal{F}$ is normal.
+\end{proof}
+
+This lets us answer our question:
+
+\begin{corollary}\label{cor7.11}
+	A set $\mathcal{F} \subset H(G)$ is compact if and only if $\mathcal{F}$ is closed and locally bounded.
+\end{corollary}

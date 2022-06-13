@@ -1,0 +1,277 @@
+%!TEX root = ../lectures.tex
+
+\lecture[September 26th, 2019]{Phragmén--Lindelöf Principle}
+
+\topic{Further generalising the maximum modulus principle}
+
+First let us establish a variant of the \nameref{thm6.6}:
+
+\index{Hadamard three-circle theorem|(}
+\begin{theorem}[Hadamard three-circle theorem]\label{thm6.9}
+	Let $0 < R_1 < R_2 < \infty$.
+	Suppose $f$ is analytic and not identically zero on the annulus $A = \Set{z \in \C \given R_1 < \abs{z} < R_2}$.
+	For $R_1 < r < R_2$, define
+	\[
+		M(r) = \max_{0 \leq \theta \leq 2 \pi} \abs{f(r e^{i \theta})}.
+	\]
+	Then for $R_1 < r_1 < r < r_2 < R_2$, we have
+	\[
+		\log M(r) \leq \frac{\log r_2 - \log r}{\log r_2 - \log r_1} \log M(r_1) + \frac{\log r - \log r_1}{\log r_2 - \log r_1} \log M(r_2),
+	\]
+	i.e., $\log M(r)$ is a convex function of $\log r$.
+\end{theorem}
+\index{Hadamard three-circle theorem|)}
+
+\begin{marginfigure}
+	\centering
+	\mfincludegraphics[width=\textwidth]{figures/l12fig69a.tikz}
+
+	becomes
+
+	\mfincludegraphics[width=\textwidth]{figures/l12fig69b.tikz}
+	\caption{\label{thm69:fig} Transforming a vertical strip with $\exp$.}
+\end{marginfigure}
+
+\begin{proof}
+	Noticing how the exponential function $\exp$ maps vertical lines at real part $\log r$ to circles centred at the origin with radius $r$, as illustrated in \autoref{thm69:fig}.
+
+	This result now follows immediately from the \nameref{thm6.6}, since if we consider $g = f \circ \exp$, then $g(\log r + i \theta) = f(r e^{i \theta})$.
+	Hence
+	\[
+		M(r) = \max_{0 \leq \theta \leq 2 \pi} \abs{f(r e^{i \theta})} = \sup_{-\infty \leq \theta \leq \infty} \abs{g(\log r + i \theta)},
+	\]
+	the logarithm of which is convex in $\log r$.
+\end{proof}
+
+\begin{exercise}
+	Let $f$ be analytic in an annulus $R_1 < \abs{z} < R_2$ and not identically zero.
+	Let
+	\[
+		I_2(r) = \frac{1}{2 \pi} \int_0^{2 \pi} \abs{f(r e^{i \theta})}^2 \, d \theta
+	\]
+	Show that $\log I_2(r)$ is a convex function of $\log r$ for $R_1 < r < R_2$.
+
+	Moreover, if $f$ is a non-constant analytic function on $B(0; R)$, then $I_2(r)$ is strictly increasing.
+\end{exercise}
+
+\index{Hardy's theorem|(}
+\begin{exercise}[(A special case of) Hardy's theorem]
+	Let $f$ be a non-constant analytic function on $B(0; R)$.
+	Show that
+	\[
+		I(r) = \frac{1}{2 \pi} \int_0^{2 \pi} \abs{f(r e^{i \theta})} \, d \theta
+	\]
+	is strictly increasing and $\log I(r)$ is a convex function of $\log r$.
+\end{exercise}
+\index{Hardy's theorem|)}
+
+Notice how \autoref{cor6.8} of the \nameref{thm6.6} says that if a function $f$ is bounded by $M$ on vertical lines, then it is also bounded by $M$ between the vertical lines.
+
+In general, to use the \nameref{thm6.1} to draw such a conclusion, we would require boundedness also at infinity, since the vertical strip is unbounded.
+The following is a powerful generalisation of this:
+
+\index{Phragmén--Lindelöf principle|(}
+\begin{theorem}[Phragmén--Lindelöf principle]\label{thm6.10}
+	Let $G$ be a simply connected region.
+	Let $f \colon G \to \C$ be an analytic function, and $\varphi \colon G \to \C$ be analytic and bounded in $G$ and $\varphi(z) \neq 0$ for all $z \in G$.
+
+	Suppose $\partial_\infty G = A \cup B$ such that
+	\begin{items}
+		\item $\displaystyle \limsup_{z \to a} \abs{f(z)} \leq M$ for all $a \in A$, and
+		\item $\displaystyle \limsup_{z \to b} \abs{\varphi(z)}^\eta \abs{f(z)} \leq M$ for all $b \in B$ and all $\eta > 0$ (in other words, $f$ isn't necessarily bounded on $B$, but its growth is controlled by $\varphi$).
+	\end{items}
+	Then $\abs{f(z)} \leq M$ for all $z$ in $G$.
+\end{theorem}
+\index{Phragmén--Lindelöf principle|)}
+
+\begin{remark}
+	In applications, one often takes $A = \partial G$ and $B = \Set{\infty}$, so we only need to control growth at infinity, and on the usual boundary we are just bounded.
+\end{remark}
+
+\begin{proof}
+	Let $\abs{\varphi(z)} \leq K$ for all $z \in G$.
+	Since $G$ is simply connected and $\varphi(z) \neq 0$ for all $z \in G$, we can take $\varphi(z) = e^{h(z)}$ for some analytic function $h \colon G \to \C$.
+	Now define $g(z) = e^{\eta h(z)}$ so that $\abs{g(z)} = \abs{\varphi(z)}^\eta$.
+
+	Consider the function $F \colon G \to \C$ defined by
+	\[
+		F(z) = \frac{f(z) g(z)}{K^\eta},
+	\]
+	which is analytic on $G$.
+	We wish to use the \nameref{thm6.1}, and so we should check that $F(z)$ is bounded on $\partial_\infty G$, which by construction is $A \cup B$.
+	To do this, first notice how
+	\[
+		\abs{F(z)} = \frac{\abs{f(z)} \abs{g(z)}}{K^\eta} \leq \frac{\abs{f(z)} K^\eta}{K^\eta} = \abs{f(z)},
+	\]
+	so for $a \in A$,
+	\[
+		\limsup_{z \to a} \abs{F(z)} \leq \limsup_{z \to a} \abs{f(z)} \leq M.
+	\]
+	Similarly, for $b \in B$,
+	\[
+		\limsup_{z \to b} \abs{F(z)} = \limsup_{z \to b} \frac{\abs{f(z)} \abs{g(z)}}{K^\eta} \leq \frac{1}{K^\eta} M
+	\]
+	by choice of $g$.
+	Hence by the \nameref{thm6.1},
+	\[
+		\abs{F(z)} \leq \max\Set[\Big]{M, \frac{M}{k^\eta}}
+	\]
+	for all $z \in G$, and therefore
+	\[
+		\abs{f(z)} \leq \frac{K^\eta}{\abs{\varphi(z)}^\eta} \max\Set[\Big]{M, \frac{M}{K^\eta}}
+	\]
+	for all $z \in G$ since $\varphi(z) \neq 0$.
+	By taking $\eta \to 0$, this bound goes to $M$, and so $\abs{f(z)} \leq M$ for all $z \in G$.
+\end{proof}
+
+This gives us a general tool for bounding functions on unbounded domains, more powerful than the \nameref{thm6.1} since we no longer require boundedness at infinity, only some sufficiently good growth conditions.
+
+For example, both as an example of how to use the theorem and the common practice of taking $B = \Set{\infty}$ as mentioned in the remark:
+
+\begin{corollary}\label{cor6.11}
+	Let $G$ be the sector $G = \Set{z \given \abs{\arg z} < \frac{\pi}{2 a}}$ for $a \geq \frac{1}{2}$.
+	Suppose $f$ is analytic in $G$ and there exists some $M > 0$ such that
+	\[
+		\limsup_{z \to w} \abs{f(z)} \leq M
+	\]
+	for all $w \in \partial G$.
+	Suppose moreover there exists some $p > 0$ and $0 \leq b < a$ such that
+	\[
+		\abs{f(z)} \leq p \exp(\abs{z}^b)
+	\]
+	for all $z \in G$ with $\abs{z}$ sufficiently large.
+	Then $\abs{f(z)} \leq M$ for all $z \in G$.
+\end{corollary}
+
+\begin{marginfigure}
+	\mfincludegraphics[width=\textwidth]{figures/l12fig611a.tikz}
+	\caption{\label{cor611:fig} Sector $G$ of angle $\frac{\pi}{a}$.}
+\end{marginfigure}
+
+\begin{remark}\label{remark:cor6.11}
+	The corollary remains true if we replace $G$ by any sector $S$ of angle $\frac{\pi}{a}$.
+	To see this, consider
+	\[
+		\begin{tikzcd}
+			g \colon G \arrow[r, "e^{i\theta}"] & S \arrow[r, "f"] & \C,
+		\end{tikzcd}
+	\]
+	i.e., $g(z) = f(e^{i \theta} z)$.
+	Then $\sup \abs{g(z)} = \sup \abs{f(z)}$, and for a given $f$, we can choose $\theta$ such that $g$ is in the original sector $G$ of the same angle, and apply the corollary there.
+\end{remark}
+
+\begin{proof}
+	Let $b < c < a$, and define $\varphi(z) = \exp(-z^c)$ for $z \in G$.
+	Then $\varphi(z) \neq 0$ since it is an exponential function, and writing $z = r e^{i \theta} \in G$ with $\abs{\theta} < \frac{\pi}{2 a}$ we have
+	\[
+		\Re(z^c) = \Re(r^c e^{i c \theta}) = r^c \cos(c \theta).
+	\]
+	Since $0 < c < a$ and $\abs{\theta} < \frac{\pi}{2 a}$, we have $\abs{c \theta} < \frac{\pi}{2} \cdot \frac{c}{a} < \frac{\pi}{2}$, whence $\cos(c \theta) \geq \rho > 0$.
+	This means that
+	\[
+		\Re(- z^c) \leq -r^c \rho < 0,
+	\]
+	which further gives us
+	\[
+		\abs{\varphi(z)} = \exp(\Re(-z^c)) \leq 1.
+	\]
+	Hence for any $\eta > 0$, $z = r e^{i \theta} \in G$, we have
+	\[
+		\abs{f(z)} \abs{\varphi(z)}^\eta \leq p \exp(\abs{z}^b) \exp(-r^c \rho \eta) = p \exp(r^b - (\rho \eta) r^c).
+	\]
+	Since $c > b$ by choice, the second term in the exponential is dominant, so as $r \to \infty$ the inside goes to $-\infty$ and so the exponential as a whole goes to $0$.
+	Thus
+	\[
+		\limsup_{\abs{z} \to \infty} \abs{f(z)} \abs{\varphi(z)}^\eta = 0,
+	\]
+	and hence by the \nameref{thm6.10},
+	\[
+		\abs{f(z)} \leq \max\Set{M, 0} = M
+	\]
+	for all $z \in G$.
+\end{proof}
+
+\begin{remark}
+	In this corollary, for a sector of angle $\frac{\pi}{a}$, we assume $\abs{f(z)}$ is bounded by $\exp(\abs{z}^b)$, specifically with $b < a$.
+	If we take $b = a$, the corollary is still true, but the estimate needed is more subtle.
+
+	Looking at it, the key reason in our above proof where we use $b < a$ is to pick $b < c < a$, which in the end makes $r^c$ the dominant term in $\exp(r^b - (\rho \eta) r^c)$.
+	If $b = a\, (= c)$, by this argument we get $\exp((1 - \rho \eta) r^a)$, so for small $\eta$, this goes to infinity as $r \to \infty$.
+\end{remark}
+
+\begin{exercise}
+	Let $G = \Set{z \given \Re(z) > 0}$ and let $f \colon G \to \C$ be analytic such that $f(1) = 0$.
+	Suppose that
+	\[
+		\limsup_{z \to w} \abs{f(z)} \leq M
+	\]
+	for $w \in \partial G$, and suppose that for every $\delta > 0$ with $0 < \delta < 1$, there is a constant $P$ such that
+	\[
+		\abs{f(z)} \leq P \exp(\abs{z}^{1 - \delta})
+	\]
+	for all $z \in G$.
+	Prove that
+	\[
+		\abs{f(z)} \leq M \left ( \frac{(1 - x)^2 + y^2}{(1 + x)^2 + y^2} \right )^{1/2},
+	\]
+	for all $z = x + i y \in G$.
+\end{exercise}
+
+\begin{corollary}\label{cor6.12}
+	Let $G = \Set{z \given \abs{\arg z} < \frac{\pi}{2 a}}$ for $a \geq \frac{1}{2}$.
+	Suppose
+	\[
+		\limsup_{z \to w} \abs{f(z)} \leq M
+	\]
+	for all $w \in \partial G$.
+	Suppose for any $\delta > 0$ there exists a constant $p_\delta > 0$ such that
+	\[
+		\abs{f(z)} \leq p_\delta \exp(\delta \abs{z}^a)
+	\]
+	for all $z \in G$ with $\abs{z}$ sufficiently large.
+	Then $\abs{f(z)} \leq M$ for all $z \in G$.
+\end{corollary}
+
+\begin{proof}
+	For any $\varepsilon > 0$, consider $F \colon G \to \C$ defined by
+	\[
+		F(z) = f(z) \exp(-\varepsilon z^a).
+	\]
+	Choose $0 < \delta < \varepsilon$ and $p_\delta > 0$ so that $\abs{f(z)} \leq p_\delta \exp(\delta \abs{z}^a)$.
+	Then for any $x > 0$, $x \in \R$, we have
+	\[
+		\abs{F(x)} \leq p_\delta \exp((\delta - \varepsilon) x^a) \to 0
+	\]
+	as $x \to \infty$ since $\delta - \varepsilon < 0$.
+	The idea here is this: the original approach requires $\abs{f(z)} \leq p \exp(\abs{z}^b)$ with $b < a$, where the sector is of angle $\frac{\pi}{a}$, but we currently have $b = a$.
+	What we have just shown is that $F(z)$ is bounded on the positive real axis, so we can split our sector of angle $\frac{\pi}{a}$ into two sectors both of angle $\frac{\pi}{2 a}$---see \autoref{cor612:fig}---where now $b = a < 2 a$ permits us to use the previous result.
+
+	In other words, let $H_+ = \Set{z \given 0 < \arg z < \frac{\pi}{2 a}}$ and $H_- = \Set{ z \given -\frac{\pi}{2 a} < \arg z < 0}$, and let
+	\[
+		M_1 \coloneqq \sup_{0 < x < \infty} \abs{F(x)} < \infty
+	\]
+	since by the above discussion $F(x)$ is bounded at infinity, and define $M_2 = \max\Set{M_1, M}$.
+
+	\begin{marginfigure}
+		\mfincludegraphics[width=\textwidth]{figures/l12fig612b.tikz}
+		\caption{\label{cor612:fig} Splitting sector $G$ into halves of angle $\frac{\pi}{2 a}$.}
+	\end{marginfigure}
+
+	Then for $w \in \partial H_+$ or $w \in \partial H_-$ we have
+	\[
+		\limsup_{z \to w} \abs{F(z)} \leq M_2
+	\]
+	since it is bounded by $M$ on the original boundary and by $M_1$ on the real axis.
+	Hence by \autoref{cor6.11} and \autoref{remark:cor6.11} about how it works for any sector, $\abs{F(z)} \leq M_2$ for all $z \in H_+$ and $z \in H_-$, and hence $\abs{F(z)} \leq M_2$ for all $z \in G$.
+
+	Finally, we claim that $M_2 = M$, i.e., $M \geq M_1$.
+	To see this, suppose $M < M_1$.
+	Then there exists some $x \in \R$ such that $\abs{F(x)} \geq \abs{F(z)}$ for all $z \in G$, in other words $F(z)$ attains its maximum in the interior of $G$.
+	The \nameref{thm6.1} then implies $F(z)$ is constant, which is a contradiction.
+
+	Hence $\abs{F(z)} \leq M$ for all $z \in G$, and therefore $\abs{f(z)} \abs{\exp(-\varepsilon z^a)} \leq M$, implying in the end
+	\[
+		\abs{f(z)} \leq M \exp(\varepsilon z^a)
+	\]
+	which as $\varepsilon \to 0$ goes to $M$.
+\end{proof}

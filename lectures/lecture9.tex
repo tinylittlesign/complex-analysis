@@ -1,0 +1,247 @@
+%!TEX root = ../lectures.tex
+
+\lecture[September 17th, 2019]{The Argument Principle}
+
+\topic{Residue calculus}
+
+Residues offer a very powerful tool for evaluating real integrals, as it happens.
+
+\begin{example}
+	We have
+	\[
+		\int_{-\infty}^\infty \frac{x^2}{1 + x^4} \, d x = \frac{\pi}{\sqrt{2}}.
+	\]
+
+	Evaluating this as a real integral is very hard, but evaluating it as a carefully constructed complex integral is comparatively easy.
+	To this end, let $f(z) = \frac{z^2}{1 + z^4}$.
+	This function has poles where $z^4 = 1$, i.e., $z_i = e^{i \theta_i}$, for $\theta_1 = \frac{\pi}{4}$, $\theta_2 = \frac{3 \pi}{4}$, $\theta_3 = \frac{5 \pi}{4}$, and $\theta_4 = \frac{7 \pi}{4}$.
+
+	\begin{marginfigure}
+		\mfincludegraphics[width=\textwidth]{figures/l9figexa.tikz}
+
+		\caption{\label{l9fig:gamma} A positively oriented semicircle of radius $R$ enclosing two poles (labelled $*$) of $f$.}
+	\end{marginfigure}
+
+	Now consider integrating this over the semicircle $\gamma$ of radius $R > 1$ sitting on the real axis, so that the circular part is parametrised by $z = R e^{i \theta}$, $0 \leq \theta \leq \pi$, and $d z = R i e^{i \theta} \, d \theta$, see \autoref{l9fig:gamma}.
+	Then by \nameref{thm5.5}
+	\[
+		\frac{1}{2 \pi i} \int_\gamma f(z) \, d z = \Res_{z = z_1} f(z) + \Res_{z = z_2} f(z),
+	\]
+	since those are the only poles inside $\gamma$.
+	In particular
+	\begin{align*}
+		\Res_{z = z_1} f(z) &= \lim_{z \to z_1} (z - z_1) f(z) \\
+		&= \lim_{z \to z_1} \frac{z^2}{(z - z_2) (z - z_3) (z - z_4)} = \frac{1}{4} e^{- \frac{\pi}{4} i},
+	\end{align*}
+	and by completely analogous computations
+	\[
+		\Res_{z = z_2} f(z) = \frac{1}{4} e^{i \frac{3 \pi}{4} i}.
+	\]
+	Hence, after some calculation,
+	\[
+		\frac{1}{2 \pi i} \int_\gamma f(z) \, d z = - \frac{i}{2 \sqrt{2}}.
+	\]
+
+	Now on the other hand
+	\[
+		\frac{1}{2 \pi i} \int_\gamma f(z) \, d z = \frac{1}{2 \pi i} \int_{-R}^R \frac{x^2}{1 + x^4} \, d x + \frac{1}{2 \pi} \int_0^\pi \frac{R^2 e^{i 2 \theta}}{1 + R^4 e^{i 4 \theta}} R e^{i \theta} \, d \theta.
+	\]
+	Letting $R \to \infty$, this first integral converges to the real integral we are interested in, and the second integral goes to $0$:
+	\[
+		\abs*{\frac{1}{2 \pi} \int_0^\pi \frac{R^3 e^{i 3 \theta}}{1 + R^4 e^{i 4 \theta}} \, d \theta} \leq \frac{1}{2 \pi} \int_0^\pi \frac{R^3}{R^4 - 1} \, d \theta = \frac{1}{2} \frac{R^3}{R^4 - 1} \to 0
+	\]
+	as $R \to \infty$.
+	Hence
+	\[
+		- \frac{i}{2 \sqrt{2}} = \frac{1}{2 \pi i} \int_{-\infty}^\infty \frac{x^2}{1 + x^4} \, d x,
+	\]
+	which, when rearranged, yields
+	\[
+		\int_{-\infty}^\infty \frac{x^2}{1 + x^4} \, d x = \frac{\pi}{\sqrt{2}}. \qedhere
+	\]
+\end{example}
+
+\begin{exercise}
+	Show that:
+	\begin{parts}
+		\item $\displaystyle \int_0^\infty \frac{1}{(x^2 + a^2)^2} \, d z = \frac{\pi}{4 a^3}$ for $a > 0$,
+		\item $\displaystyle \int_{-\infty}^\infty \frac{e^{a x}}{1 + e^x} \, d x = \frac{\pi}{\sin(a \pi)}$ for $0 < a < 1$. \qedhere
+	\end{parts}
+\end{exercise}
+
+\topic{The argument principle}
+
+\begin{definition}[Meromorphic]
+	A function $f$ is said to be \keyword{meromorphic}\index{meromorphic function} on $G$ is $f$ is analytic on $G$ except for isolated poles.
+\end{definition}
+
+We know two things about these, from earlier:
+If $f$ has a zero of order or multiplicativity $m$ at $z = a$, then $f(z) = (z - a)^m g(z)$ where $g$ is analytic near $z = a$ and $g(a) \neq 0$.
+Therefore
+\[
+	\frac{f'(z)}{f(z)} = \frac{m}{z - a} + \frac{g'(z)}{g(z)},
+\]
+and so if $\gamma$ is a closed rectifiable curve around $a$, enclosing no other poles or zeros of $f$, then
+\[
+	\frac{1}{2 \pi i} \int_\gamma \frac{f'(z)}{f(z)} \, d z = m \cdot n(\gamma; a).
+\]
+
+Similarly, if $f$ has a pole of order $m$ at $z = a$, then $f(z) = \frac{g(z)}{(z - a)^m}$, where again $g(z)$ is analytic near $z = a$ and $g(a) \neq 0$.
+Then
+\[
+	\frac{f'(z)}{f(z)} = \frac{- m}{z - a} + \frac{g'(z)}{g(z)},
+\]
+so
+\[
+	\frac{1}{2 \pi i} \int_\gamma \frac{f'(z)}{f(z)} \, d z = - m \cdot n(\gamma; a).
+\]
+We can do this in general:
+
+\index{argument principle|(}
+\begin{theorem}[Argument principle]\label{thm5.7}
+	Let $f$ be meromorphic on $F$ with poles $p_1, p_2, \dots, p_m$ and zeros $z_1, z_2, \dots, z_n$, counted according to multiplicity/order.
+	Let $\gamma$ be a closed, rectifiable curve in $G$ with $\gamma \simeq 0$ and $p_j \not\in \Set{\gamma}$ and $z_i \not\in \Set{\gamma}$ for all $i$ and $j$.
+	Then
+	\[
+		\frac{1}{2 \pi i} \int_\gamma \frac{f'(z)}{f(z)} \, d z = \sum_{i = 1}^n n(\gamma; z_i) - \sum_{j = 1}^m n(\gamma; p_j).
+	\]
+\end{theorem}
+\index{argument principle|)}
+
+\begin{proof}
+	By the same considerations as above, we can write
+	\[
+		f(z) = \frac{(z - z_1) (z - z_2) \dotsm (z - z_n)}{(z - p_1) (z - p_2) \dotsm (z - p_m)} g(z),
+	\]
+	where $g$ is analytic inside $\gamma$, and $g(z) \neq 0$ for all $z$ inside $\gamma$.
+	Then
+	\[
+		\frac{f'(z)}{f(z)} = \sum_{i = 1}^n \frac{1}{z - z_i} - \sum_{j = 1}^m \frac{1}{z - p_j} + \frac{g'(z)}{g(z)}.
+	\]
+	Integrating this we get the above formula, since each term has only one simple pole inside $\gamma$.
+\end{proof}
+
+\begin{exercise}
+	Let $f$ be a meromorphic function on a neighbourhood of $\closure{B(a; R)}$ with no zeros or poles on $\gamma = \Set[\big]{z \given \abs{z - a} = R}$.
+	Let $z_1, z_2, \dots, z_n$ be the zeros of $f$ and $p_1, p_2, \dots, p_m$ be the poles of $f$ (counted according to multiplicity) in $B(a; R)$.
+	Show that
+	\[
+		\frac{1}{2 \pi i} \int_\gamma z \frac{f'}{f} = \sum_{i = 1}^n z_i - \sum_{j = 1}^m p_j. \qedhere
+	\]
+\end{exercise}
+
+A very natural question to now ask is why we call this `the argument principle'.
+To answer this, suppose for a moment we can define $\log f(z)$.
+Then
+\[
+	(\log f(z))' = \frac{f'(z)}{f(z)},
+\]
+so the integrand above has a primitive, meaning that for any closed, rectifiable $\gamma$,
+\[
+	\frac{1}{2 \pi i} \int_\gamma \frac{f'(z)}{f(z)} \, d z = \log f(z) \biggr\rvert_{z = a}^{z = a} = 0.
+\]
+However, we define $\log z \coloneqq \log\abs{z} + i \arg z$, and for this to make sense we need, apart from $z \neq 0$, to make a branch cut, i.e., pick an open interval of length $2 \pi$ for the argument.
+Hence $\log f(z)$ is defined if $f(z) \neq 0$ and $f(z)$ doesn't lie on the line removed by the branch cut.
+But we have zeros and poles, meaning that $f(z) = 0$ for some $z$ or $f(z) = \infty$ (in a manner of speaking) for some $z$, both of which like on any line removed by any branch cut.
+So if $f$ has any zeros or poles inside $\gamma$, $\log f(z)$ is not defined.
+
+But for $z$ on $\gamma$ itself there are no zeros or poles of $f$ (by hypothesis), so for any $a \in \gamma$, $\log f(z)$ is defined near $z = a$.
+
+In other words, if we call the little arc of $\gamma$ lying near $a$, say, $\gamma_1$, with starting point $z = b$ and endpoint $z = c$, then
+\[
+	\int_{\gamma_1} \frac{f'(z)}{f(z)} \, d z = \log f(z) \biggr\rvert_{z = b}^{z = c} = \log f(c) - \log f(b),
+\]
+and picking a branch this is
+\[
+	\log \abs{f(c)} - \log \abs{f(b)} + i (\arg f(c) - \arg f(b)),
+\]
+so the imaginary part of this integral measures the change of angles of $f(z)$ as $z$ moves from $z = b$ to $z = c$.
+
+For each $a \in \gamma$, $f(a) \neq 0$, so we can define $\log f(z)$ on $B(a, r_a)$ for some sufficiently small $r_a > 0$.
+This means that $\Set{B(a, r_a) \given a \in \gamma}$ is an open cover of $\gamma$, and $\gamma$ is compact, so there exists a finite subcover.
+Moreover, if we parametrise $\gamma$ over $t \in \interval{0}{1}$, then by Lebesgue's number lemma\index{Lebesgue's number lemma}, there exists some $\varepsilon > 0$ such that for any partition
+\[
+	0 = t_0 < t_1 < t_2 < \dots < t_{n - 1} < t_n = 1
+\]
+with $\abs{t_{j - 1} - t_j} < \varepsilon$, we have $\gamma(\interval{t_j}{t_{j - 1}}) \subset B(a, r_a)$ for some $a \in \gamma$.
+Now we want to define $\log f(z)$ on $B(a, r_a)$.
+So $\log f(z) \coloneqq \log \abs{f(z)} + i \arg_j f(z)$ on $\gamma(\interval{t_j}{t_{j + 1}})$ for $j = 0, 1, \dots, k - 1$.
+Now we choose the branches in such a way that $\arg_0 f(\gamma(t_1)) = \arg_1 f(\gamma(t_1))$, $\arg_1 f(\gamma(t_2)) = \arg_2 f(\gamma(t_2))$, and so on, so that at the transition from one ball to another the argument doesn't jump.
+
+Let $\gamma_j = \gamma(\interval{t_j}{t_{j + 1}})$.
+Then
+\[
+	\int_{\gamma_j} \frac{f'(z)}{f(z)} \, d z = \log \abs{f(\gamma(t_{j + 1}))} - \log \abs{f(\gamma(t_j))} + i \left ( \arg_j f(\gamma(t_{j + 1})) - \arg_j f(\gamma(t_j)) \right ).
+\]
+Hence
+\begin{align*}
+	\int_\gamma \frac{f'(z)}{f(z)} \, d z &= \sum_{j = 0}^{k - 1} \int_{\gamma_j} \frac{f'(z)}{f(z)} \, d z \\
+	&= \log\abs{f(1))} - \log\abs{f(\gamma(0))} + i \biggl ( \arg_{k - 1} f(\gamma(1)) - \arg_0 f(\gamma(0)) \biggr )
+\end{align*}
+since the resulting sum is telescoping.
+
+This means that if $\gamma$ is a closed curve, then of course
+\[
+	\int_\gamma \frac{f'(z)}{f(z)} \, d z = 2 \pi i \cdot k
+\]
+for some integer $k$, but $\gamma$ is not necessarily a closed curve.
+Suppose $\gamma$ is a curve from $z = a$ to $z = b$.
+Then
+\[
+	\Im \left ( \int_\gamma \frac{f'(z)}{f(z)} \, d z \right )
+\]
+measures precisely the continuous variation of the argument of $f$ along $\gamma$.
+This, then, is why we call it the argument principle\index{argument principle}.
+
+As a consequence of this discussion:
+
+\index{Rouché's theorem|(}
+\begin{theorem}[Rouché's theorem]\label{thm5.8}
+	Suppose $f$ and $g$ are meromorphic in a neighbourhood of $\closure{B(a, R)}$ and with no zeros or poles on the boundary $\gamma = \Set{z \given \abs{z - a} = R}$.
+	Let $Z(f)$, $Z(g)$, $P(f)$, and $P(g)$ denote the number of zeros of $f$ and $g$ and the number of poles of $f$ and $g$ inside $\gamma$, counted according to multiplicity or order.
+	Suppose
+	\[
+		\abs{f(z) + g(z)} < \abs{f(z)} + \abs{g(z)}
+	\]
+	on $\gamma$.
+	Then
+	\[
+		Z(f) - P(f) = Z(g) - P(g).
+	\]
+\end{theorem}
+
+\begin{remark}
+	In applications, we frequently care about the special case where the functions are analytic, making $P(f) = P(g) = 0$, and $\abs{f(z) + g(z)} < \abs{f(z)}$, then implying $f$ and $g$ have equally many zeros inside $\gamma$.
+\end{remark}
+
+\begin{proof}
+	By hypothesis $\abs{f(z) + g(z)} < \abs{f(z)} + \abs{g(z)}$ on $\gamma$.
+	Dividing by $g(z)$, which we can do since by assumptions $g$ has no zeros on $\gamma$, we get
+	\[
+		\abs*{\frac{f(z)}{g(z)} + 1} < \abs*{\frac{f(z)}{g(z)}} + 1
+	\]
+	on $\gamma$.
+	Let $\lambda = \frac{f(z)}{g(z)}$ for $z \in \gamma$.
+	If $\lambda \in \R_{\geq 0}$, then we get $\lambda + 1 < \lambda + 1$, which is impossible.
+	Hence $\lambda$ will never touch the nonnegative real axis, so we can take that as out branch cut and define
+	\[
+		\log \frac{f(z)}{g(z)} = \log \abs*{\frac{f(z)}{g(z)}} + i \arg \frac{f(z)}{g(z)}
+	\]
+	for $0 < \arg \frac{f(z)}{g(z)} < 2 \pi$.
+	Thus $\frac{(f / g)'}{(f / g)}$ has a primitive, and so
+	\[
+		\frac{1}{2 \pi i} \int_\gamma \frac{(f / g)'}{(f / g)}(z) \, d z = 0,
+	\]
+	but
+	\[
+		\biggl ( \frac{f(z)}{g(z)} \biggr )' = \frac{f'(z) g(z) - f(z) g'(z)}{g(z)^2},
+	\]
+	so
+	\[
+		\frac{(f / g)'}{(f / g)}(z) = \frac{f'(z) g(z) - f(z) g'(z)}{g(z)^2} \frac{g(z)}{f(z)} = \frac{f'(z)}{f(z)} - \frac{g'(z)}{g(z)},
+	\]
+	so the above integral is also
+	\[
+		0 = \frac{1}{2 \pi i} \int_\gamma \frac{f'(z)}{f(z)} - \frac{g'(z)}{g(z)} \, d z = \left ( Z(f) - P(f) \right ) - \left (Z(g) - P(g) \right ). \qedhere
+	\]
+\end{proof}

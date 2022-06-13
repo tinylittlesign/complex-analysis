@@ -1,0 +1,210 @@
+%!TEX root = ../lectures.tex
+
+\lecture[August 27th, 2019]{Power Series}
+
+\topic{Möbius transformations preserve lines and circles}
+
+Remember how lines in $\C$ are identified as circles through $\infty$ on the Riemann sphere.
+Similarly, circles in $\C$ are circles on $\C_\infty$.
+
+Let $S(z, z_2, z_3, z_4)$.
+Then $S^{-1}(\R_\infty) = \Set{z \in \C_\infty \given (z, z_2, z_3, z_4) \in \R_\infty}$, the image of $S^{-1}$ on $\R_\infty$.
+
+The proposition then follows from the claim that a Möbius transformation maps $\R_\infty$ to a circle in $\C_\infty$.
+
+\begin{proof}
+	Let $S(z) = \frac{a z + b}{c z + d}$, and take $z = x \in \R$, as well as $w = S^{-1}(x) \neq \infty$, i.e., $S(w) = x \in \R$.
+	Then
+	\[
+		\conjugate{S(w)} = \frac{\conjugate a \conjugate w + \conjugate b}{\conjugate c \conjugate w + \conjugate d} = \frac{a w + b}{c w + d} = S(w)
+	\]
+	since it is real.
+
+	Subtracting and doing some algebra then yields
+	\begin{equation}\label{lec3:eq:mobiusline}
+		(a \conjugate c - \conjugate a c) \abs{w}^2 + (a \conjugate d - \conjugate b c) w + (\conjugate a d - b \conjugate c) \conjugate w + (b \conjugate d - \conjugate b d) = 0.
+	\end{equation}
+
+	This is a essentially a quadratic polynomial in $w$, unless the leading coefficient is $0$, so there are two options.
+	First, if $a \conjugate c \in \R$, meaning that $a \conjugate c - \conjugate a c = 0$.
+	Then setting $\alpha = 2 (a \conjugate d - \conjugate b c)$ and $\beta = 2 b \conjugate d$, \autoref{lec3:eq:mobiusline} becomes
+	\[
+		\Im(\alpha w) i + \Im(\beta) i = 0,
+	\]
+	or in other words $\Im(\alpha w + \beta) = 0$.
+	This is a line in $\C$, and so a circle in $\C_\infty$ (through infinity).
+
+	On the other hand if $a \conjugate c \not\in \R$, then \autoref{lec3:eq:mobiusline} becomes
+	\[
+		\abs{w}^2 + \conjugate \gamma w + \gamma \conjugate w - \delta = 0
+	\]
+	where
+	\[
+		\gamma = \frac{\conjugate a d - b \conjugate c}{\conjugate a c - a \conjugate c} \qquad \text{and} \qquad \delta = \frac{b \conjugate d - \conjugate b d}{\conjugate a c - a \conjugate c}.
+	\]
+	We then get
+	\[
+		\abs{w + \gamma} = \abs*{\frac{a d - b c}{\conjugate a c - a \conjugate c}} > 0,
+	\]
+	so $w$ lies on a circle.
+\end{proof}
+
+\begin{theorem}\label{thm2.7}
+	A Möbius transformation maps circles to circles in $\C_\infty$.
+\end{theorem}
+
+\begin{proof}
+	Let $\Gamma$ be any circle in $\C_\infty$ and let $S$ be a Möbius transformation.
+	Let $z_2$, $z_3$, and $z_4$ be three distinct points in $\Gamma$, and set $w_j = S(z_j)$ for $j = 2, 3, 4$.
+	Then, being three distinct points, $w_2$, $w_3$, and $w_4$ determine some circle $\Gamma'$ in $\C_\infty$.
+
+	We need to show that any other point $z \in \Gamma$ then also has the property that $S(z)$ lies on the same circle $\Gamma'$, or in other words $S(\Gamma) = \Gamma'$.
+
+	But we have, since Möbius transformations preserve cross ratios, that
+	\[
+		(z, z_2, z_3, z_4) = (S(z), S(z_2), S(z_3), S(z_4)) = (S(z), w_2, w_3, w_4).
+	\]
+	By \autoref{prop2.6}, we have $z \in \Gamma$ if and only if $(z, z_2, z_3, z_4) \in \R$, if and only if $(S(z), w_2, w_3, w_4) \in \R$, if and only if $S(z) \in \Gamma'$.
+\end{proof}
+
+\topic{Power series representation of analytic functions}
+
+We will make use of the following calculus result.
+
+\begin{proposition}\label{prop3.1}
+	Let $\varphi \colon \interval{a}{b} \times \interval{c}{d} \to \C$ be continuous.
+	Define $g \colon \interval{c}{d} \to \C$ by
+	\[
+		g(t) = \int_a^b \varphi(s, t) \, d s.
+	\]
+	Then $g$ is continuous, and moreover if $\frac{\partial \varphi}{\partial t}$ exists and is continuous, then $g \in C^1(\interval{c}{d})$, and
+	\[
+		g'(t) = \int_a^b \frac{\partial \varphi}{\partial t} (s, t) \, d s.
+	\]
+\end{proposition}
+
+\begin{lemma}\label{lem3.2}
+	For $\abs{z} < 1$ we have
+	\[
+		\int_0^{2 \pi} \frac{e^{i s}}{e^{i s} - z} \, d s = 2 \pi.
+	\]
+\end{lemma}
+
+\begin{proof}
+	Let $\varphi(s, t) = \frac{e^{i s}}{e^{i s} - t z}$ for $0 \leq t \leq 1$ and $0 \leq s \leq 2 \pi$.
+	Then, because of the size of $\abs{z}$ and the choice of range of $t$, we are avoiding singularity and have $\varphi \in C^1(\interval{0}{2 \pi} \times \interval{0}{1})$.
+	Set
+	\[
+		g(t) = \int_0^{2 \pi} \varphi(s, t) \, d s,
+	\]
+	so that our goal is to show that $g(1) = 2 \pi$.
+
+	To this end, first note how $g(0) = 2 \pi$, being the integral from $0$ to $2 \pi$ of $1$.
+
+	We claim that $g'(t)$ is identically $0$, which would imply $g(t)$ is constant, and so $g(1) = g(0) = 2 \pi$.
+	Fortunately this is easy:
+	\begin{align*}
+		g'(t) &= \int_0^{2 \pi} \frac{e^{i s}}{(e^{i s} - t z)^2} (-1) (-z) \, d s = \int_0^{2 \pi} \frac{z e^{i s}}{(e^{i s} - t z)^2} \, d s \\
+		&= \frac{- z}{i(e^{i s} - t z)} \biggr\rvert_{s = 0}^{s = 2 \pi} = 0. \qedhere
+	\end{align*}
+\end{proof}
+
+\index{Cauchy's theorem|(}
+\begin{proposition}[Simple version of Cauchy's theorem]\label{prop3.3}
+	Let $G$ be an open set in $\C$ and let $f \colon G \to \C$ be analytic.
+	Suppose $\closure{B(a, r)} \subset G$ with $r > 0$, and let $\gamma(t) = a + r e^{i t}$ for $0 \leq t \leq 2 \pi$.
+	Then
+	\[
+		f(z) = \frac{1}{2 \pi i} \int_\gamma \frac{f(w)}{w - z} \, d w
+	\]
+	for $\abs{z - a} < r$.
+\end{proposition}
+\index{Cauchy's theorem|)}
+
+\begin{proof}
+	Without loss of generality we may assume $a = 0$ and $r = 1$ (else study $g(z) = f(a + r z)$).
+	Fix $z$ with $\abs{z} < 1$.
+	We need to show that
+	\[
+		f(z) = \frac{1}{2 \pi i} \int_\gamma \frac{f(w)}{w - z} \, d w = \frac{1}{2 \pi} \int_0^{2 \pi} \frac{f(e^{i s}) e^{i s}}{e^{i s} - z} \, d s,
+	\]
+	where in the last integral we have parametrised by $w = 1 \cdot e^{i s}$ and $d w = i e^{i s} \, d s$.
+
+	Subtracting $f(z)$, this is equivalent to
+	\[
+		\int_0^{2 \pi} \Bigl ( \frac{f(e^{i s}) e^{i s}}{e^{i s} - z} - f(z) \Bigr ) \, d s = 0.
+	\]
+
+	In view of our previous proposition, let
+	\[
+		\varphi(s, t) = \frac{f(z + t(e^{i s} - z)) e^{i s}}{e^{i s} - z} - f(z)
+	\]
+	for $0 \leq t \leq 1$ and $0 \leq s \leq 2 \pi$.
+	Again it is the case $t = 1$ we are interested in.
+
+	Note that since $\abs{z} < 1$, $\abs{z + t(e^{i s} - z)} = \abs{(1 - t) z + t e^{i s}} \leq 1$, meaning that $\varphi \in C^1(\interval{0}{2 \pi} \times \interval{0}{1})$.
+	Again let
+	\[
+		g(t) = \int_0^{2 \pi} \varphi(s, t) \, d s,
+	\]
+	and notice how
+	\[
+		g(0) = \int_0^{2 \pi} \Bigr ( \frac{f(z) e^{i s}}{e^{i s} - z} - f(z) \Bigr ) \, d s = f(z) \int_0^{2 \pi} \frac{e^{i s}}{e^{i s} - z} \, d s - 2 \pi f(z) = 0
+	\]
+	by the Lemma.
+
+	We claim that $g'(t) = 0$ for all $0 \leq t \leq 1$, and again it is a quick computation:
+	\begin{align*}
+		g'(t) &= \int_0^{2 \pi} \frac{\partial \varphi}{\partial t} (s, t) \, d s = \int_0^{2 \pi} f'(z + t(e^{i s} - z)) (e^{i s} - z) \frac{e^{i s}}{e^{i s} - z} - 0 \, d s \\
+		&= \frac{f(z + t(e^{i s} - z))}{i t} \biggr\rvert_{s = 0}^{s = 2 \pi} = 0.
+	\end{align*}
+	Hence $g(t)$ is constant, and so $g(1) = g(0) = 0$, as desired.
+\end{proof}
+
+\begin{exercise}
+	Evaluate $\displaystyle \int_\gamma \frac{e^{i z}}{z^2} \, d z$, where $\gamma(t) = e^{i t}$, $0 \leq t \leq 2 \pi$.
+\end{exercise}
+
+\begin{exercise}
+	Evaluate $\displaystyle \int_\gamma \frac{z^2 + 1}{z(z^2 + 4)} \, d z$, where $\gamma(t) = r e^{i t}$, $0 \leq t \leq 2 \pi$, for all possible values of $0 < r < 2$ and $2 < r < \infty$.
+\end{exercise}
+
+\begin{theorem}[Power series representation of analytic functions]\label{thm3.4}\index{power series}
+	Let $f$ be analytic in $B(a, R)$, $R > 0$.
+	Then
+	\[
+		f(z) = \sum_{n = 0}^\infty a_n (z - a)^n
+	\]
+	for $\abs{z - a} < R$, where
+	\[
+		a_n = \frac{f^{(n)}(a)}{n!}.
+	\]
+\end{theorem}
+
+\begin{proof}
+	Let $0 < r < R$, and set $\gamma(t) = a + r e^{i t}$, $0 \leq r \leq 2 \pi$.
+	For $w \in \gamma$ and $\abs{z - a} < r$, we have, for $M = \max\limits_{w \in \gamma} \abs{f(w)}$ (which exists since $\gamma$ is a compact set)
+	\[
+		\frac{\abs{f(w)} \abs{z - a}^n}{\abs{w - a}^{n + 1}} \leq \frac{M \abs{z - a}^n}{r^{n + 1}} = \frac{M}{r} \left ( \frac{\abs{z - a}}{r} \right )^n,
+	\]
+	where the parenthesis at the end is less than $1$ and so term goes to $0$ exponentially.
+	Hence
+	\[
+		\sum_{n = 0}^\infty \frac{f(w) (z - a)^n}{(w - a)^{n + 1}}
+	\]
+	converges uniformly for $w \in \gamma$, $\abs{z - a} < r$.
+
+	But on the other hand, this sum is a geometric series in $n$, specifically
+	\[
+		\sum_{n = 0}^\infty \frac{f(w) (z - a)^n}{(w - a)^{n + 1}} = \frac{f(w)}{w - a} \frac{1}{1 - \frac{z - a}{w - a}} = \frac{f(w)}{w - z}.
+	\]
+	By Cauchy's formula, we then have
+	\[
+		f(z) = \frac{1}{2 \pi i} \int_\gamma \frac{f(w)}{w - z} \, d w = \frac{1}{2 \pi i} \int_\gamma \sum_{n = 0}^\infty \frac{f(w) (z - a)^n}{(w - a)^{n + 1}} \, d w.
+	\]
+	Since the series is uniformly continuous, we can switch the order of summation and integration, giving us
+	\[
+		f(z) = \sum_{n = 0}^\infty \biggl ( \frac{1}{2 \pi i} \int_\gamma \frac{f(w)}{w - a}^{n + 1} \, d w \biggr ) (z - a)^n,
+	\]
+	meaning that $f(z)$ has a power series representation.
+\end{proof}

@@ -1,0 +1,260 @@
+%!TEX root = ../lectures.tex
+
+\lecture[December 3rd, 2019]{Analytic Continuation}
+
+\topic{Analytic continuation}
+
+\begin{definition}[Analytic continuation]
+	Let $G_1 \subset G$ be regions.
+	Let $f \colon G_1 \to \C$ be analytic.
+	A function $g \colon G \to \C$ is an \keyword{analytic continuation}\index{analytic continuation} of $f$ to $G$ if $g$ is analytic and $g \big\rvert_{G_1} = f$.
+\end{definition}
+
+\begin{marginfigure}
+	\mfincludegraphics[width=\textwidth]{figures/l29figa.tikz}
+
+	\caption{\label{l29:figa} Two regions $G$ and $\conjugate{G}$ meeting on the real axis.}
+\end{marginfigure}
+
+Recall from \autoref{hw1.3} how if $G$ is a region and $\conjugate{G} = \Set{z \given \conjugate{z} \in G}$, then if $f \colon G \to \C$ is analytic, so is $f^\star \colon \conjugate{G} \to \C$ defined by $f^\star(z) = \conjugate{f(\conjugate{z})}$.
+
+Suppose, as a special case, that $G$ and $\conjugate{G}$ touch (meaning they meet, at least, somewhere on the real axis).
+Then $f^\star(z) = \conjugate{f(\conjugate{z})} = f(z)$ on the real line.
+But on the real line $\conjugate{z} = z$, so $\conjugate{f(z)} = f(z)$, meaning that $f(z)$ is real on the real line.
+
+This idea gives rise to the following:
+
+\index{Schwarz reflection principle|(}
+\begin{theorem}[Schwarz reflection principle]\label{thm11.1}
+	Let $G$ be a region such that $G = \conjugate{G}$.\footnote{That is, $G$ is symmetric under reflection across the real axis.}
+	Let $G_+ = \Set{z \in G \given \Im(z)> 0}$, $G_0 = \Set{z \in G \given \Im(z) = 0}$, and $G_- = \Set{z \in G \given \Im(z) < 0}$.
+
+	Let $f \colon G_+ \cup G_0 \to \C$ be a continuous function which is analytic on $G_+$.
+	Suppose $f(z)$ is real on $G_0$.
+
+	Then there exists an analytic function $g \colon G \to \C$ such that $g(z) = f(z)$ for all $z \in G_+ \cup G_0$.
+\end{theorem}
+\index{Schwarz reflection principle|)}
+
+\begin{marginfigure}
+	\mfincludegraphics[width=\textwidth]{figures/l29fig11.1a.tikz}
+
+	\caption{\label{l29:fig11.1a} A schematic of $G_+$, $G_-$, and $G_0$.
+	Note how $G$ does not need to be simply connected.}
+\end{marginfigure}
+
+\begin{proof}
+	The discussion above gives us an outline of the proof, in that the natural $g$ is the correct one:
+	\[
+		g(z) = \begin{cases}
+			f(z), & \text{if $z \in G_+ \cup G_0$} \\
+			\conjugate{f(\conjugate{z})}, & \text{if $z \in G_-$}.
+		\end{cases}
+	\]
+	Since $f$ is analytic on $G_+$ and $\conjugate{f(\conjugate{z})}$ is analytic on $\conjugate{G_+} = G_-$ (by \autoref{hw1.3}), $g$ is continuous on those, and by hypothesis $g$ is also continuous on $G_0$.
+	Hence $g$ is continuous on all of $G$, and analytic on $G_+$ and $G_-$.
+
+	We want to show that $g$ is analytic on $G$, so it remains to consider $G_0$.
+
+	By \nameref{thm4.5}, it suffices to show that
+	\[
+		\int_T g(z) \, d z = 0
+	\]
+	for any triangular path $T \subset G$.
+	Now since $g$ is analytic on $G_+$ and $G_-$, we know already that if $T \subset G_+$ or $T \subset G_-$ then the above integral is indeed zero, so we only need to consider the case when the triangle crosses the real axis.
+
+	Now importantly, analyticity is a local property, so to show that $g$ is analytic on $G$, it suffices to show that it is analytic on any ball contained in $G$.
+	The reason we make this distinction is that, were we not to do that, it is possible $G$ has holes in it, and we would have to consider triangular paths around these holes.
+	So instead consider only triangular paths $T$ such that the region they enclose is in $G$.
+
+\begin{marginfigure}
+	\centering
+	\mfincludegraphics[width=\textwidth]{figures/l29fig11.1b.tikz}
+
+	becomes
+
+	\mfincludegraphics[width=\textwidth]{figures/l29fig11.1c.tikz}
+
+	\caption{\label{l29:fig11.1b} Partitioning a triangular path crossing the real axis.}
+\end{marginfigure}
+
+	Given any such triangle $T$, we partition it by cutting the triangle horizontally close to the real axis, resulting in a piece in $G_+$ (call it $T_+$), a piece in $G_-$ (say $T_-$), and a piece (of small height) in both (call it $T_\varepsilon$), as illustrated in \autoref{l29:fig11.1b}.
+	(Note how, strictly speaking there is another case to consider, namely where one or more of the vertices are on the real axis---these can be done similarly as to what follows.)
+
+	Then
+	\[
+		\int_T g(z) \, d z = \int_{T_+} g(z) \, d z + \int_{T_-} g(z) \, d z + \int_{T_\varepsilon} g(z) \, d z = \int_{T_\varepsilon} g(z) \, d z.
+	\]
+
+	Since $g$ is continuous on $G$ it is uniformly continuous on compact subsets of $G$, and so in particular it is uniformly continuous on the closure of the region enclosed by $T$, call it $R$.
+	So given any $\varepsilon > 0$ there exists some $\delta > 0$ such that for any $z_1, z_2 \in R$, if $\abs{z_1 - z_2} < \delta$ we have $\abs{g(z_1) - g(z_2)} < \varepsilon$.
+
+	Now let us specify where we cut the triangle $T$ to get $T_\varepsilon$.
+	In particular, let $a\alpha, a, \beta, b \in \Set{T}$ be the corners of $T_\varepsilon$ such that $\abs{\alpha - a} < \frac{\delta}{2}$ and $\abs{\beta - b} < \frac{\delta}{2}$.
+
+	Parametrising the two horizontal lines, call them $\gamma_1$ and $\gamma_2$, we have for $0 \leq t \leq 1$
+	\[
+		\abs{(t \beta + (1 - t) \alpha) - (t b + (1 - t) a)} \leq t \abs{\beta - b} + (1 - t) \abs{\alpha - a} < \frac{\delta}{2}.
+	\]
+	Then
+	\begin{align*}
+		&\abs[\Big]{\int_{\gamma_1} g(z) \, d z + \int_{\gamma_2} g(z) \, d z} = \\
+		&\qquad\qquad\qquad = \abs[\Big]{\int_0^1 g(t \beta + (1 - t) \alpha) (\beta - \alpha) \, d t - \int_0^1 g(t b + (1 - t) a) (b - a) \, d t},
+	\end{align*}
+	where we subtract the second integral because we parametrised $\gamma_2$ in the opposite direction we wish to integrate it.
+	We bound this by
+	\begin{align*}
+		\abs[\Big]{\int_{\gamma_1} g(z) \, d z + \int_{\gamma_2} g(z) \, d z} &\leq \abs{\beta - \alpha} \int_0^1 \abs{g(t \beta + (1 -t)\alpha) - g(t b + (1 - t) a)} \, d t + {} \\
+		& \qquad\qquad\int_0^1 \abs{g(t b + (1 - t) a) ((\beta - \alpha) - (b - a))} \, d t.
+	\end{align*}
+	The integrand of the first integral is bounded by $\varepsilon$ by our uniform continuity, and we can get rid of the constant at the end of the second integral since
+	\[
+		\abs{(\beta - \alpha) - (b - a)} = \abs{(\beta - b) - (a - \alpha)} \leq \frac{\delta}{2} + \frac{\delta}{2} = \delta.
+	\]
+	Finally let
+	\[
+		M = \max_{z \in T} \abs{g(z)}
+	\]
+	so that we can bound away the integrand in the second integral, finally yielding
+	\[
+		\abs[\Big]{\int_{\gamma_1} g(z) \, d z + \int_{\gamma_2} g(z) \, d z} \leq \abs{\beta - \alpha} \cdot \varepsilon + \delta \cdot M.
+	\]
+	This goes to $0$ as $\varepsilon \to 0$, taking $\delta \to 0$ at the same time.
+
+	This takes care of the integral over $\gamma_1$ and $\gamma_2$, leaving the other two parts of $T_\varepsilon$.
+	This is easier:
+	\[
+		\abs[\Big]{\int_{\interval{\alpha}{a}} g(z) \, d z + \int_{\interval{b}{\beta}} g(z) \, d z} \leq \abs{\alpha - a} \cdot M + \abs{b - \beta} \cdot M \leq \delta M,
+	\]
+	which also goes to $0$ as $\delta \to 0$.
+
+	Hence the integral over any triangular path is $0$, so by \nameref{thm4.5} $g$ is analytic.
+\end{proof}
+
+\topic{Dirichlet series}
+
+\begin{definition}[Dirichlet series]
+	A series of the form
+	\[
+		D(s) = \sum_{n = 1}^\infty \frac{a_n}{n^s}
+	\]
+	with $s \in \C$ and $\Set{a_n} \subset \C$ is called a \keyword{Dirichlet series}\index{Dirichlet series}.
+\end{definition}
+
+\begin{example}
+	The prototypical example of a Dirichlet series is the \keyword{Riemann zeta function}\index{Riemann zeta function}
+	\[
+		\zeta(s) = \sum_{n = 1}^\infty \frac{1}{n^s}.
+	\]
+\end{example}
+
+An important, and natural, question to ask about these series is this: for what $s \in \C$ do they converge, and converge in what sense?
+For instance, $\zeta(s)$ converges absolutely for $\Re(s) > 1$.
+
+\begin{proposition}\label{prop12.1}
+	Suppose
+	\[
+		D(s) = \sum_{n = 1}^\infty
+	\]
+	converges absolutely at $s_0 = \sigma_0 + i t_0$.
+	Then $D(s)$ converges absolutely and uniformly on $\Re(s) \geq \sigma_0$.
+\end{proposition}
+
+\begin{proof}
+	This is a straight-forward computation.
+	For $\Re(s) \geq \sigma_0$ we have
+	\[
+		\sum_{n = 1}^\infty \abs[\Big]{\frac{a_n}{n^s}} = \sum_{n = 1}^\infty \frac{\abs{a_n}}{n^{\Re(s)}} \leq \sum_{n = 1}^\infty \frac{\abs{a_n}}{n^{\sigma_0}} < \infty.
+	\]
+	Since the convergence of this last sum does not depend on $s$, the convergence is uniform.
+\end{proof}
+
+\begin{remark}
+	\begin{items}
+		\item Because of this proposition, the region of absolute convergence of a Dirichlet series is always a half-plane.
+		\item There exists a unique $\sigma_{ac} \in \interval{-\infty}{\infty}$ such that $D(s)$ is absolutely convergent for $\Re(s) > \sigma_{ac}$ and is not absolutely convergent for $\Re(s) < \sigma_{ac}$.
+		Such a $\sigma_{ac}$ is called the \keyword{abscissa of absolute convergence}\index{abscissa of absolute convergence} of $D(s)$.
+
+		This means the series converges absolutely to the right of the vertical line $\Re(s) = \sigma_{ac}$, and does not converge absolutely to the left of the line.
+		What happens on the line is a mystery, and the behaviour of a given Dirichlet series can vary for points on this line.
+	\end{items}
+\end{remark}
+
+If we only know about convergence, not absolute convergence, at a point, we need much more delicate calculations:
+
+\begin{proposition}\label{prop12.2}
+	Suppose
+	\[
+		D(s) = \sum_{n = 1}^\infty \frac{a_n}{n^s}
+	\]
+	converges (not necessarily absolutely) at $s_0 = \sigma_0 + i t_0$.
+	Then $D(s)$ converges uniformly for $\abs{\arg(s - s_0)} \leq \frac{1}{2} \pi - \delta$ where $0 < \delta < \frac{1}{2} \pi$.
+	Hence $D(s)$ converges uniformly on any compact subset $K \subset \Set{s \given \Re(s) > \sigma_0}$.
+\end{proposition}
+
+\begin{marginfigure}
+	\centering
+	\mfincludegraphics[width=\textwidth]{figures/l29fig12.2a.tikz}
+
+	\caption{\label{l29:fig12.2a} The sector in the setup.}
+\end{marginfigure}
+
+\begin{proof}
+	Without loss of generality we may assume $s_0 = 0$ (else shift).
+	Then
+	\[
+		D(0) = \sum_{n = 1}^\infty a_n
+	\]
+	converges.
+	Let
+	\[
+		r_n = \sum_{k = n + 1}^\infty a_k
+	\]
+	be the tail of this sum.
+	Since $D(0)$ converges, this means $r_n \to 0$ as $n \to \infty$.
+
+	For $N > M$, consider the partial sum
+	\[
+		\sum_{n = M}^N \frac{a_n}{n^s} = \sum_{n = M}^N \frac{r_{n - 1} - r_n}.
+	\]
+	By partial summation (really just the discrete version of integration by parts, see e.g., \cite[Chapter~3]{tomapostol2010}) this is equal to
+	\begin{equation}\label{l29:abelsum}
+		\sum_{n = M}^N r_n \Bigl( \frac{1}{(n + 1)^s} - \frac{1}{n^s} \Bigr) + \frac{r_{M - 1}}{M^s} - \frac{r_n}{(N + 1)^s}.
+	\end{equation}
+	Note how
+	\begin{align*}
+		\abs[\Big]{\frac{1}{(n + 1)^s} - \frac{1}{n^s}} &= \abs[\Big]{s \int_n^{n + 1} \frac{1}{u^{s + 1}} \, d u} \\
+		&\leq \abs{s} \int_{n}^{n + 1} \frac{1}{u^{\sigma + 1}} \, d u = \frac{\abs{s}}{\sigma} \Bigl( \frac{1}{n^\sigma} - \frac{1}{(n + 1)^\sigma} \Bigr),
+	\end{align*}
+	where $\Re(s) = \sigma$.
+
+	Since $r_n \to 0$, for any $\varepsilon > 0$ there exists some $N_0 \in \N$ such that for $n > N_0$, $\abs{r_n} < \varepsilon$, and so for $s = \sigma + i t$ with $\sigma > 0$ and $N > M > N_0$, we have, looking back at \autoref{l29:abelsum},
+	\[
+		\abs[\Big]{\sum_{n = M}^N \frac{a_n}{n^s}} \leq \frac{\abs{s} \varepsilon}{\sigma} \sum_{n = M}^N \abs[\Big]{\frac{1}{n^\sigma} - \frac{1}{(n + 1)^\sigma}} + \frac{\varepsilon}{M^\sigma} + \frac{\varepsilon}{(N + 1)^\sigma}.
+	\]
+	In the sum on the right-hand side we can replace the absolute values with parentheses, since the $\frac{1}{n^\sigma} \geq \frac{1}{(n + 1)^\sigma}$ are real, and so we get a telescoping sum, meaning that
+	\[
+		\abs[\Big]{\sum_{n = M}^N \frac{a_n}{n^s}} \leq \frac{\varepsilon \abs{s}}{\sigma} \Bigl( \frac{1}{M^\sigma} - \frac{1}{(N + 1)^\sigma} \Bigr) + 2 \varepsilon \leq 2 \varepsilon \frac{\abs{s}}{\sigma} + 2 \varepsilon
+	\]
+	by bounding the fractions by $1$.
+
+	\begin{marginfigure}
+		\centering
+		\mfincludegraphics[width=\textwidth]{figures/l29fig12.2b.tikz}
+
+		\caption{\label{l29:fig12.2b} The trigonometry of $\frac{\abs{s}}{\sigma}$.}
+	\end{marginfigure}
+
+	It remains to study $\frac{\abs{s}}{\sigma}$.
+	With a bit of trigonometry (as laid out in \autoref{l29:fig12.2b}), if $\abs{\arg(s)} \leq \frac{1}{2} \pi - \delta$, then $\frac{t}{\sigma} \leq \tan(\frac{1}{2} \pi - \delta)$, so
+	\[
+		\frac{s}{\sigma} = \frac{\sqrt{\sigma^2 + t^2}}{\sigma} = \sqrt{1 + \Bigl( \frac{t}{\sigma} \Bigr)^2} \leq \sqrt{1 + \tan\Bigl( \frac{1}{2} \pi - \delta \Bigr)}.
+	\]
+	This bounds $\frac{\abs{s}}{\sigma}$ uniformly in the sector, so letting $\varepsilon \to 0$, this means
+	\[
+		\abs[\Big]{\sum_{n = M}^N \frac{a_n}{n^s}}
+	\]
+	goes to $0$ uniformly in $N > M$, giving us the convergence we are after.
+
+	That this implies uniform convergence on compact subsets is simply a consequence of any compact subset being contained in some sector of this form.
+\end{proof}

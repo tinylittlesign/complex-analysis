@@ -1,0 +1,285 @@
+%!TEX root = ../lectures.tex
+
+\lecture[November 21st, 2019]{Mittag-Leffler's Theorem}
+
+\topic{Runge's theorem}
+
+We will prove \nameref{thm10.4}, outlined above, in three steps.
+
+\begin{marginfigure}
+	\mfincludegraphics[width=\textwidth]{figures/l28fig101a.tikz}
+
+	\caption{\label{prop101:figa} A square grid covering $K$.}
+\end{marginfigure}
+
+\begin{proposition}\label{prop10.1}
+	Let $G$ be a region and let $K \subset G$ be compact.
+	Then there exists finitely many segments $\gamma_1, \gamma_2, \dots, \gamma_n$ in $G \setminus K$ (depending only on $G$ and $K$) such that for any $f \in H(G)$,
+	\[
+		f(z) = \sum_{k = 1}^n \frac{1}{2 \pi i} \int_{\gamma_k} \frac{f(z)}{w - z} \, d w
+	\]
+	for all $z \in K$.
+\end{proposition}
+
+\begin{proof}
+	Let $\delta \coloneqq c \cdot d(K, G\setminus K) > 0$ with $0 < c < \frac{1}{2}$.
+	Consider a grid of squares with sides parallel to the axes and of side lengths $\delta$.
+
+	Let $\mathcal{R} = \Set{R_1, R_2, \dots, R_m}$ denote the squares intersection $K$---there are only finitely many such squares since $K$ is compact.
+
+	Let $\gamma_1, \gamma_2, \dots, \gamma_n$ denote the sides of squares in $\mathcal{R}$ that do not belong to any adjacent squares in $\mathcal{R}$.
+	This has two implications: first, by the choice of $\delta$, $\Set{\gamma_k} \subset G$, since the distance from any point on $\gamma_k$ to $K$ is less than $\delta$; and second, $\gamma_k \cap K = \varnothing$, since otherwise $\gamma_k$ belongs to two squares intersecting $K$.
+
+	\begin{marginfigure}
+		\mfincludegraphics[width=\textwidth]{figures/l28fig101b.tikz}
+
+		\caption{\label{prop101:figb} Constructing the $\gamma_k$ from the square grid.}
+	\end{marginfigure}
+
+	Finally, assign each square in $\mathcal{R}$ positive orientation, so that integration over adjacent squares cancels on the common side.
+
+	Now for each $z \in K$ that is not on the boundary of $R_j$, $1 \leq j \leq m$, there exists some $j_0$ such that $z \in R_{j_0}$.
+	By \nameref{thm4.2} this means
+	\[
+		\frac{1}{2 \pi i} \int_{\partial R_j} \frac{f(w)}{w - z} \, d w = \begin{cases}
+			f(z), & \text{if}\ j = j_0, \\
+			0, & \text{if}\, j \neq j_0.
+		\end{cases}
+	\]
+	If $R_i$ and $F_j$ are adjacent, then as discussed the integral over their common side is cancelled, so
+	\[
+		f(z) = \sum_{k = 1}^m \frac{1}{2 \pi i} \int_{\partial R_k} \frac{f(w)}{w - z} \, d w = \sum_{k = 1}^n \frac{1}{2 \pi i} \int_{\gamma_k} \frac{f(w)}{w - z} \, d w
+	\]
+	for $z \in K \setminus ( \bigcup\limits_{k = 1}^m \partial R_k )$.
+	Bot the above expression is holomorphic on (a neighbourhood) of $K$ since all poles are in $\gamma_k$, which are outside $K$, and the equation holds on a dense subset of $K$, so it holds everywhere in $K$.
+\end{proof}
+
+Our goal is to approximate $f \in H(G)$ by a rational function on $K$.
+The expression we end up at above,
+\[
+	f(z) = \sum_{k = 1}^n \frac{1}{2 \pi i} \int_{\gamma_k} \frac{f(w)}{w - z} \, d w,
+\]
+is close to a rational function: it is the integral of a rational function in $z$.
+The idea is to write this as a Riemann sum:
+
+\begin{lemma}\label{lem10.2}
+	Let $G$ be a region and $K \subset G$ compact.
+	Let $\gamma$ be a line segment in $G \setminus K$.
+	Then for any $\varepsilon > 0$, there exists a rational function $R(z)$ with all poles on $\gamma$ such that
+	\[
+		\abs[\Big]{\int_\gamma \frac{f(w)}{w -z} \, d w - R(z)} < \varepsilon
+	\]
+	for all $z \in K$.
+\end{lemma}
+
+\begin{proof}
+	We parametrise $\gamma \colon \interval{0}{1} \to \C$.
+	Then
+	\[
+		\int_\gamma \frac{f(w)}{w - z} \, d w = \int_0^1 \frac{f(\gamma(t))}{\gamma(t) - z} \gamma'(t) \, d t.
+	\]
+	Define $F \colon K \times \interval{0}{1} \to \C$ by
+	\[
+		F(z, t) = \frac{f(\gamma(t))}{\gamma(t) - z} \gamma'(t).
+	\]
+	Note that since $\gamma \in G \setminus K$, $\gamma(t) \neq z$ for $z \in K$, so $F$ is continuous.
+	Now since $K \times \interval{0}{1}$ is compact, $F$ is moreover uniformly continuous on $K \times \interval{0}{1}$.
+	So for any $\varepsilon > 0$ there exists some $\delta > 0$ such that if $\abs{s - t} < \delta$, then
+	\[
+		\abs{F(z, s) - F(z, t)} < \varepsilon.
+	\]
+
+	Now approximate the integral we are interested in---the integral of $F(z, t)$---by Riemann sums.
+
+	Choose a partition
+	\[
+		0 = t_0 < t_1 < t_2 < \dots < t_n = 1
+	\]
+	with $t_{i - 1} - t_i < \delta$ for all $i = 0, 1, \dots, n - 1$.
+	Define
+	\[
+		R(z) = \sum_{i = 0}^{n - 1} F(z, t_i) (t_{i + 1} - t_i) = \sum_{i = 1}^{n - 1} \frac{f(\gamma(t_i)}{\gamma(t_i) - z} \gamma'(t_i) (t_{i + 1} - t_i),
+	\]
+	the left Riemann sum of the integral at hand.
+	This is a finite sum of rational functions in $z$, so it is rational with all poles on $\gamma$.
+
+	Moreover
+	\[
+		\abs[\Big]{\int_\gamma \frac{f(w)}{w - z} \, d w - R(z)} = \abs[\Big]{\sum_{n = 0}^{n - 1} \int_{t_i}^{t_{i + 1}} \Bigl ( \frac{f(\gamma(t))}{\gamma(t) - z} \gamma'(t) - \frac{f(\gamma(t_i))}{\gamma(t_i) - z} \gamma'(t_i) \Bigr) \, d t},
+	\]
+	where the length in the Riemann sum has been absorbed by the integral.
+	The integrand above is really just $F(z, t) - F(z, t_i)$, and $\abs{t - t_i} < \delta$, so it is bounded by $\varepsilon$, whence
+	\[
+		\abs[\Big]{\int_\gamma \frac{f(w)}{w - z} \, d w - R(z)} \leq \sum_{i = 0}^{n - 1} \int_{t_i}^{t_{i + 1}} \varepsilon \, d t = \varepsilon. \qedhere
+	\]
+\end{proof}
+
+Hence this finishes the first part of \nameref{thm10.4}: every holomorphic function $f$ can be approximated by rational functions on $K$ with poles outside $K$.
+
+If $\C \setminus K$ we want to push the poles of $\infty$, since we can think of a polynomial as a rational function with poles at $\infty$.
+
+\begin{lemma}\label{lem10.3}
+	Let $G$ be a region and $K \subset G$ compact such that $\C \setminus K$ is connected.
+	Let $a \in G \in K$.
+	Then $\frac{1}{z - a}$ can be approximated uniformly by polynomials on $K$.
+	(That is, for any $\varepsilon > 0$ there exists a polynomial $P(z)$ such that $\abs{\frac{1}{z - a} - P(z)} < \varepsilon$ for all $z \in K$.)
+\end{lemma}
+
+\begin{proof}
+	Since $K$ is compact, and hence bounded, there exists some $M > 0$ such that $\abs{z} < M$ for every $z \in K$.
+
+	For any $b \in \C$ with $\abs{b} > M$ and $z \in K$, we have, since $\abs{\frac{z}{b}} < 1$,
+	\[
+		\frac{1}{z - b} = - \frac{1}{b} \frac{1}{1 - \frac{z}{b}} = - \frac{1}{b} \sum_{n = 0}^\infty \Bigl( \frac{z}{b} \Bigr)^n
+	\]
+	converges uniformly on $K$.
+
+	Taking partial sums we then see that $\frac{1}{z - b}$ can be approximated uniformly by polynomials.
+
+	The strategy now is to approximate $\frac{1}{z - a}$, where $a \in G \setminus K$ is arbitrary, uniformly on $K$ by polynomials in $\frac{1}{z - b}$.
+
+	Since $\C \setminus K$ is connected, there exists a path $\gamma$ in $\C \setminus K$ from $a$ to $b$.
+	Let $\delta = \frac{1}{2} d(K, \gamma)$.
+
+	\begin{marginfigure}
+		\mfincludegraphics[width=\textwidth]{figures/l28fig103a.tikz}
+
+		\caption{\label{lem103:fig} Connecting $a$ and $b$ avoiding $K$.}
+	\end{marginfigure}
+
+	Choose a partition $a = z_0, z_1, z_2, \dots, z_n = b \in \Set{\gamma}$ such that $\abs{z_i - z_{i + 1}} < \delta$ for all $i = 0, 1, \dots, n - 1$.
+	Then for $z \in K$ we have
+	\[
+		\frac{1}{z - a} = \frac{1}{z - z_0} = \frac{1}{z - z_1} \frac{1}{1 - \frac{z_0 - z_1}{z - z_1}}.
+	\]
+	By construction and choice of $\delta$,
+	\[
+		\abs[\Big]{\frac{z_0 - z_1}{z - z_1}} \leq \frac{\delta}{d(z, K)} \leq \frac{1}{2},
+	\]
+	so that
+	\[
+		\frac{1}{z - a} = \frac{1}{z - z_1} \sum_{n = 0}^\infty \Bigl( \frac{z_0 - z_1}{z - z_1} \Bigr)^n
+	\]
+	converges uniformly on $K$.
+	Taking partial sums, this means we can approximate $\frac{1}{z - a}$ uniformly in $K$ by polynomials in $\frac{1}{z - z_1}$.
+	Repeating this argument with $z_1$ in place of $z_0 = a$, we can approximate $\frac{1}{z - z_1}$ uniformly on $K$ by polynomials in $\frac{1}{z - z_2}$, and so on.
+
+	In the end, we can approximate $\frac{1}{z - a}$ uniformly on $K$ by polynomials in $\frac{1}{z - b}$, and as discussed $\frac{1}{z - b}$ can be approximated uniformly on $K$ by polynomials, so we are done.
+\end{proof}
+
+This proposition and the two lemmata together finishes the proof of
+
+\index{Runge's theorem|(}
+\begin{theorem}[Runge's theorem]\label{thm10.4}
+	Let $G$ be a region and $K \subset G$ be compact.
+	Let $f \in H(G)$.
+	\begin{items}
+		\item For any $\varepsilon > 0$, there exists a rational function $R(z)$ with all poles in $G \setminus K$ such that $\abs{f(z) - R(z)} < \varepsilon$ for all $z \in K$.
+		\item Suppose $\C \setminus K$ is connected.
+		Then for any $\varepsilon > 0$ there exists a polynomial $P(z)$ such that $\abs{f(z) - P(z)} < \varepsilon$ for all $z \in K$.
+	\end{items}
+\end{theorem}
+\index{Runge's theorem|)}
+
+\topic{Mittag-Leffler's theorem}
+
+\nameref{thm8.8}, along with \autoref{thm8.9}, tell us that there exist holomorphic functions with a prescribed set of zeros.
+
+We want to answer a related question: does there exist a meromorphic function with a prescribed set of poles or, more specifically, does there exist a meromorphic function with prescribed \keyword{singular part}\index{singular part}?\footnote{Meaning the negative powers in the Laurent expansion.}
+
+The answer is the affirmative:
+
+\index{Mittag-Leffler's theorem|(}
+\begin{theorem}[Mittag-Leffler's theorem]\label{thm10.5}
+	Let $G$ be a region and let $\Set{a_k} \subset G$ be a sequence of distinct points such that $\Set{a_k}$ has no limit points.
+	For each $k \in \N$, let
+	\[
+		S_k(z) = \sum_{j = 1}^{m_k} \frac{A_{j_k}}{(z - a_k)^j}
+	\]
+	where $m_k \in \N$ and $A_{j_k} \in \C$.
+	Then there exists $f \in M(G)$ whose poles are exactly $\Set{a_k}$ and the singular part of $f$ at $z = a_k$ is $S_k(z)$.
+\end{theorem}
+\index{Mittag-Leffler's theorem|)}
+
+\begin{proof}
+	Note that, ideally, we simply want to sum $S_k(z)$ over $k$, however this sum might be divergent, so we need to be a little bit more delicate.
+
+	Write
+	\[
+		G = \bigcup_{n = 1}^\infty K_n,
+	\]
+	where all $K_n$ are compact and $K_n \subset \interior(K_{n + 1})$, so that the $K_n$ are growing.
+	Note how since $\Set{a_k}$ has no limit points and $K_n$ is compact, $\Set{a_k} \cap K_n$ is a finite set.
+
+	Define $I_1 = \Set{k \given a_k \in K_1}$, $I_2 = \Set{k \given a_k \in K_2 \setminus K_1}$, and so on, with $I_n = \Set{k \given a_k \in K_n \setminus K_{n - 1}}$ in general.
+
+	With this, define
+	\[
+		f_n(z) = \sum_{k \in I_n} S_k(z).
+	\]
+	By convention we take $f_n = 0$ if $I_n = \varnothing$.
+	Then $f_n(z)$ is a rational function with poles exactly at $\Set{a_k \given k \in I_n} \subset K_n \setminus K_{n - 1}$.
+
+	Since $f_n$ has no poles in $K_{n - 1}$, $f_n$ is analytic on a neighbourhood of $K_{n - 1}$, so by \nameref{thm10.4} there exists a rational function $R_n(z)$ with poles in $\C \setminus G$ such that
+	\[
+		\abs{f_n(z) - R_n(z)} < \frac{1}{2^n}
+	\]
+	for all $z \in K_{n - 1}$.
+	(Note how originally \nameref{thm10.4} only says the poles are in $\C \setminus K$, but since $\C \setminus K$ is larger than $\C \setminus G$, we can push the poles further to specifically lie in $\C \setminus G$ by the same argument as used in the proof of \autoref{lem10.3}.)
+
+	Now define
+	\[
+		f(z) = f_1(z) + \sum_{n = 2}^\infty (f_n(z) - R_n(z))
+	\]
+	for $z \in G$.
+	We claim that $f$ is analytic on $G \setminus \Set{a_k}$.
+
+	To see this, let $K \subset (G \setminus \Set{a_k})$ be compact.
+	Then $K \subset K_N$ for some sufficiently large $N$, whereby for $n \geq N$ we have
+	\[
+		\abs{f_n(z) - R_n(z)} < \frac{1}{2^n}
+	\]
+	for all $z \in K$.
+	Therefore
+	\[
+		\sum_{n = N}^\infty (f_n(z) - R_n(z))
+	\]
+	is uniformly convergent on $K$, and hence analytic on $K$.
+
+	Since $K \cap \Set{a_k} = \varnothing$, $f_1(z), f_2(z), \dots, f_{N - 1}(z)$ are analytic on $K$ ($K$ doesn't touch any of their poles).
+	Hence $f$ is analytic on $K$, and $K \subset (G \setminus \Set{a_k})$ is arbitrary, so $f$ is analytic on $G \setminus \Set{a_k}$.
+
+	Finally, we claim that each $a_k$ is a pole of $f$ with singular part exactly $S_k(z)$.
+	To show this, fix $a_k$.
+	Then there exists some $R > 0$ such that $a_k \not\in B(a_k, R)$ for $j \neq k$.
+	Write, for $z \in B(a_k, R)$,
+	\[
+		f(z) = S_k(z) + g(z),
+	\]
+	with $g$ analytic, since $f$ has no other poles in $B(a_k, R)$.
+	Then this is a Laurent expansion about $z = a_k$, which by uniqueness means that $S_k(z)$ is the singular part of $f$ at $z = a_k$, finishing the proof.
+\end{proof}
+
+\begin{exercise}
+	Let $\Set{a_n} \subset \C$ be a sequence of distinct points such that $\abs{a_n} \to \infty$ as $n \to \infty$.
+	Let $\Set{b_n} \subset \C$ and $\Set{k_n} \subset \Z$.
+	Suppose that
+	\[
+		\sum_{n = 1}^\infty \Bigl( \frac{r}{a_n} \Bigr)^{k_n} \frac{b_n}{a_n}
+	\]
+	converges absolutely for all $r > 0$.
+
+	Show that
+	\[
+		\sum_{n = 1}^\infty \Bigl ( \frac{z}{a_n} \Bigr)^{k_n} \frac{b_n}{z - a_n}
+	\]
+	converges in $M(\C)$ to a function $f$ with poles at each point $z = a_n$.
+\end{exercise}
+
+\begin{exercise}
+	Find a meromorphic function $f$ with poles of order $2$ at $\sqrt{n}$, ($n = 1, 2, \dots$), such that the residue at each pole is $2$ and
+	\[
+		\lim_{z \to \sqrt{n}} (z - \sqrt{n})^2 f(z) = 1
+	\]
+	for all $n$.
+\end{exercise}

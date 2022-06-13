@@ -1,0 +1,45 @@
+%!TEX root = ../lectures.tex
+
+\lecture[November 12th, 2019]{Toward the Little Picard Theorem}
+
+\topic{Another lemma}
+
+As a consequence of \autoref{lem9.8} we have the following related result:
+
+\begin{lemma}\label{lem9.9}
+	Let $G$ be a simply connected region.
+	Let $f \colon G \to \C$ be analytic.
+	Suppose $f$ does not assume the values $0$ or $1$.
+	(In other words, $G$, $f$, and $g$ as in \autoref{lem9.8}.)
+
+	Then $g(G)$ contains no disk of radius $1$.
+\end{lemma}
+
+\begin{proof}
+	First, let us show that $g(z)$ does not assume any values of
+	\[
+		A = \Set[\Big]{\pm \log(\sqrt{n} + \sqrt{n - 1}) + \frac{1}{2} i m \pi \given \Z \ni n \geq 1,\ m = 0, \pm 1, \pm 2, \dots}.
+	\]
+
+	This is a simple computation.
+	If $g(z) = \pm \log(\sqrt{n} + \sqrt{n - 1}) + \frac{1}{2} i m \pi$ for some $z \in G$, then
+	\begin{align*}
+		2 \cosh(2 g(z)) &= e^{2 g(z)} + e^{- 2g(z)} \\
+		&= e^{i m \pi} (\sqrt{n} + \sqrt{n - 1})^{\pm 2} + e^{- i m \pi} (\sqrt{n} + \sqrt{n - 1})^{\mp 2} \\
+		&= (-1)^m \left ( (\sqrt{n} + \sqrt{n - 1})^2 + (\sqrt{n} - \sqrt{n - 1})^2 \right ) \\
+		&= (-1)^m (2 \cdot (2 n - 1)).
+	\end{align*}
+	Hence $f(z) = -\exp(\pi i (-1)^m (2 n - 1)) = 1$, which contradicts \autoref{lem9.8}.
+
+	Now the points in $A$ form the vertices of a grid of rectangles in the plane with width
+	\[
+		\log(\sqrt{n + 1} + \sqrt{n}) - \log(\sqrt{n} + \sqrt{n - 1}) < 1
+	\]
+	since it is a decreasing function in $n$ and at $n = 1$ it is $\log(\sqrt{2} + 1) \approx 0.88 < 1$.
+
+	The height of the rectangles are $\frac{1}{2} \pi$, so the diameter of the rectangles is bounded by
+	\[
+		\sqrt{1^2 + \Bigl( \frac{1}{2} \pi \Bigr)^2} \approx 1.86 < 2,
+	\]
+	so any disk of radius $1$ or bigger (hence diameter $2$ or bigger) must contain at least one of the points in $A$, and hence $f(G)$ cannot contain any such disk.
+\end{proof}

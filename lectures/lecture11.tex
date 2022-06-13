@@ -1,0 +1,118 @@
+%!TEX root = ../lectures.tex
+
+\lecture[September 24th, 2019]{Hadamard Three-Lines Theorem}
+
+\topic{Generalising the maximum modulus principle}
+
+In order to prove the Hadamard three-lines theorem stated at the end of last lecture, we first need the following lemma:
+
+\begin{lemma}\label{lem6.7}
+	Let $f$ and $G$ be as in the \nameref{thm6.6}.
+	Suppose $\abs{f(z)} \leq 1$ on $\partial G$ (not including $\infty$).
+	Then $\abs{f(z)} \leq 1$ for all $z \in G$.
+\end{lemma}
+
+In other words, this is essentially the \nameref{thm6.1} except on a (special kind of) unbounded domain.
+
+\begin{proof}
+	For any $\varepsilon > 0$, define the function $g_\varepsilon(z) = \frac{1}{1 + \varepsilon(z - a)}$ for all $z \in \closure{G}$.
+	Then $g_\varepsilon$ is analytic in $G$, since the denominator is never $0$ there.
+	For any $z = x + i y \in \closure{G}$, since the magnitude of a complex number is bounded below by the magnitude its real value,
+	\[
+		\abs{g_\varepsilon(z)} \leq \frac{1}{\abs{\Re(1 + \varepsilon(z - a))}} = \frac{1}{1 + \varepsilon(x - a)} \leq 1
+	\]
+	since $0 \leq x - a$.
+	This means that since $\abs{f(z)} \leq 1$ on $\partial G$, we also have $\abs{f(z) g_\varepsilon(z)} \leq 1$ on $z \in \partial G$.
+
+	The idea is that as the imaginary part of $z$ is big, $g_\varepsilon(z)$ is very small, so for large heights we can `dampen' whatever $f$ is doing in the product.
+	More precisely, by assumption $f$ is bounded in $G$, say $\abs{f(z)} \leq B$ for all $z \in G$, and so
+	\[
+		\abs{f(z) g_\varepsilon(z)} \leq \frac{B}{\abs{1 + \varepsilon(z - a)}} \leq \frac{B}{\varepsilon \abs{\Im z}}
+	\]
+	for $\abs{\Im z} > 0$, since the magnitude of a complex number is also bounded below by the magnitude of its imaginary part.
+	Hence if we take $z$ to have imaginary part larger than $\frac{B}{\varepsilon}$, the product is bounded by $1$ in this strip, as we want, and in what remains we can use the ordinary \nameref{thm6.1}.
+
+	\begin{marginfigure}
+		\mfincludegraphics[width=\textwidth]{figures/l11fig67a.tikz}
+
+		\caption{\label{lem67:fig} Split strip into bounded and unbounded portions.}
+	\end{marginfigure}
+
+	All by way of saying: for $z = x + i y \in G$, with $\abs{y} \geq \frac{B}{\varepsilon}$, we therefore have $\abs{f(z) g_\varepsilon(z)} \leq 1$.
+
+	In the remaining rectangle $R = \Set{x + i y \given a \leq x \leq b, ~ \abs{y} \leq \frac{B}{\varepsilon}}$, we have by the above discussion that $\abs{f(z) g_\varepsilon(z)} \leq 1$ on $\partial R$, and so by the \nameref{thm6.1} $\abs{f(z) g_\varepsilon(z)} \leq 1$ also on $R$, and hence, combining the two parts, on $G$.
+
+	Thus
+	\[
+		\abs{f(z)} \leq \frac{1}{\abs{g_\varepsilon(z)}} = \abs{1 + \varepsilon(z - a)},
+	\]
+	which goes to $1$ as $\varepsilon$ goes to $0$.
+	Hence finally $\abs{f(z)} \leq 1$ on $G$ as desired.
+\end{proof}
+
+With this we are equipped to prove the \nameref{thm6.6}:
+
+\begin{proof}
+	Note first how the statement we are to prove is equivalent to
+	\[
+		M(u) \leq M(x)^{\frac{y - u}{y - x}} M(y)^{\frac{u - x}{y - x}}
+	\]
+	since the exponential function is increasing.
+	Defining, therefore,
+	\[
+		g(z) = M(x)^{\frac{y - z}{y - x}} M(y)^{\frac{z - x}{y - x}}
+	\]
+	for $z \in \C$, we have an entire function.
+	To see that this is the case, note first that $M(x) \geq 0$ by definition, being the supremum of magnitudes.
+	Moreover, $M(x) = 0$ would imply $f(z) = 0$ on a vertical line, and so $f$ would have a limit points of zeros, and hence be zero everywhere, but we assumed $f$ not identically zero.
+	Moreover $g(z) \neq 0$ for $z \in \C$.
+
+	Hence for $z = u + i v$,
+	\[
+		\abs{g(z)} = M(x)^{\frac{y - u}{y - x}} M(y)^{\frac{u - x}{y - x}},
+	\]
+	which is the bound we are looking for.
+	Now the right-hand side above is a continuous function in $u$ from $\interval{a}{b}$ to $\R_{> 0}$, and continuous functions send compact sets to compact sets, so the image must be a compact set in $\R_{> 0}$, and hence the image cannot touch $0$.
+	Therefore $\frac{1}{\abs{g(z)}}$ is bounded in $\closure{G}$, and so in turn $\frac{f(z)}{g(z)}$ is bounded in $\closure{G}$.
+
+	So for $z = x + i v$,
+	\[
+		\frac{\abs{f(z)}}{\abs{g(z)}} = \frac{\abs{f(x + i v)}}{M(x)} \leq 1,
+	\]
+	since the bottom by definition is the supremum of the top, and similarly for $z = y + i v$,
+	\[
+		\frac{\abs{f(z)}}{\abs{g(z)}} = \frac{\abs{f(y + i v)}}{M(y)} \leq 1.
+	\]
+	Hence by \autoref{lem6.7} $\frac{\abs{f(z)}}{\abs{g(z)}} \leq 1$ for $x < \Re z < y$, and so $\abs{f(z)} \leq \abs{g(z)}$ for all $z = u + i v$ with $x \leq u \leq y$.
+	In other words
+	\[
+		\abs{f(u + i v)} \leq M(x)^{\frac{y - u}{y - x}} M(y)^{\frac{u - x}{y - x}}
+	\]
+	and therefore
+	\[
+		M(u) = \sup_{-\infty < v < \infty} \abs{f(u + i v)} \leq M(x)^{\frac{y - u}{y - x}} M(y)^{\frac{u - x}{y - x}}. \qedhere
+	\]
+\end{proof}
+
+We showed, in the lemma, that if $f$ is bounded by $1$ on the boundary of $G$, then it is bounded by $1$ inside $G$.
+The same sort of thing is true in more generality:
+
+\begin{corollary}\label{cor6.8}
+	Let $f$ and $G$ be as in the \nameref{thm6.6}.
+	Then
+	\[
+		\abs{f(z)} \leq \sup_{w \in \partial G} \abs{f(w)}.
+	\]
+\end{corollary}
+
+\begin{proof}
+	Let
+	\[
+		M(x) = \sup_{-\infty < y < \infty} \abs{f(x + i y)}.
+	\]
+	By the \nameref{thm6.6}, $\log M(x)$ is convex, and the maximum of a convex function occurs on the boundary, so
+	\[
+		\log M(x) \leq \max\Set{\log M(a), \log M(b)},
+	\]
+	and taking exponentials $M(x) \leq \max\Set{M(a), M(b)}$.
+\end{proof}

@@ -1,0 +1,103 @@
+%!TEX root = ../lectures.tex
+
+\lecture[October 15th, 2019]{Compactness in $M(G)$, continued}
+
+\topic{Compactness in the space of meromorphic functions, finalised}
+
+\begin{proof}[Proof, continued]
+	The goal, as mentioned, is to establish that $d(f(z), f(z'))$ is well approximated by $\mu(f)(z) \abs{z - z'}$, so that $\mu(f)$ being uniformly bounded on compact subsets gives us that $f$ is uniformly Lipschitz.
+
+	With the polygonal as set up above, let $\beta_k = (1 + \abs{f(w_{k - 1})}^2)^{1/2} (1 + \abs{f(w_k)}^2)^{1/2}$, and study the aforementioned distance.
+	By the triangle inequality,
+	\[
+		d(f(z), f(z')) \leq \sum_{k = 1}^n d(f(w_{k - 1}), f(w_k)) = \sum_{k = 1}^n \frac{2 \abs{f(w_{k - 1}) - f(w_k)}}{\beta_k}
+	\]
+	by the definition of $d$ (see \autopageref{ddefi}) since neither the polygonal path never touches a pole in this case.
+	By the triangle inequality again, adding and subtracting $f'(w_k) (w_k - w_{k - 1})$,
+	\begin{gather*}
+		d(f(z), f(z')) \leq \sum_{k = 1}^n \frac{2}{\beta_k} \abs[\Big]{\frac{f(w_{k - 1}) - f(w_k)}{w_k - w_{k - 1}} - f'(w_k)} \abs{w_k - w_{k - 1}} \\ + \sum_{k = 1}^n \frac{2}{\beta_k} \abs{f'(w_k)} \abs{w_k - w_{k - 1}}.
+	\end{gather*}
+	Recall from \ref{ddefi},
+	\[
+		\mu(f)(z) = \frac{2 \abs{f'(z)}}{1 + \abs{f(z)}^2}
+	\]
+	if $z$ is not a pole of $f$, so $2 \abs{f'(w_k)} \leq M(1 + \abs{f(w_k)}^2)$.
+	Hence by this and \ref{l16pfiv},
+	\[
+		d(f(z), f(z')) < 2 \alpha \sum_{k = 1}^n \frac{\abs{w_k - w_{k - 1}}}{\beta_k} + M \sum_{k = 1}^n \frac{1 + \abs{f(w_k)}^2}{\beta_k} \abs{w_k - w_{k - 1}}.
+	\]
+	Notice how by construction $\beta_k \geq 1$, and so $\frac{1}{\beta_k} \leq 1$, and by the triangle inequality
+	\[
+		\abs[\Big]{\frac{1 + \abs{f(w_k)}^2}{\beta_k}} \leq \abs[\Big]{\frac{1 + \abs{f(w_k)}^2}{\beta_k} - 1} + 1,
+	\]
+	so
+	\begin{align*}
+		d(f(z), f(z')) &< 2 \alpha \cdot 2 \abs{z - z'} + M \sum_{k = 1}^n \left ( \alpha \abs{w_k - w_{k - 1}} + 1 \cdot \abs{w_k - w_{k - 1}} \right ) \\
+		&\leq (2 \alpha + \alpha M + M) \cdot 2 \abs{z - z'},
+	\end{align*}
+	by applying \ref{l16pfiii} and \ref{l16pfii}.
+	Since $\alpha > 0$ is arbitrary, let $\alpha \to 0$, whence
+	\[
+		d(f(z), f(z')) \leq 2 M \abs{z - z'},
+	\]
+	so $f$ is Lipschitz if we avoid poles.
+
+	For the second case, suppose $z'$ is a pole of $f$ but $z$ is not, and take $w \in K$ not a pole of $f$.
+	Then
+	\[
+		d(f(z), f(z')) = d(f(z), \infty) \leq d(f(z), f(w)) + d(f(w), \infty)
+	\]
+	since $f(z') = \infty$.
+	From the first case $d(f(z), f(w)) < 2 M \abs{z - w}$, so
+	\[
+		d(f(z), f(z')) < 2 M \abs{z - w} + d(f(w), \infty).
+	\]
+	Now let $w \to z'$, in which case the first term goes to $2 m \abs{z - z'}$, and the second term goes to $0$ since $f$ is continuous.
+	Hence again
+	\[
+		d(f(z), f(z')) \leq 2 M \abs{z - z'}.
+	\]
+
+	Finally consider the case where both $z$ and $z'$ are poles of $f$.
+	Then trivially $d(f(z), f(z')) = d(\infty, \infty) = 0$, which is of course bounded by $2 M \abs{z - z'}$.
+
+	So in any case, $d(f(z), f(z')) \leq 2 M \abs{z - z'}$, $\mathcal{F}$ is uniformly Lipschitz, meaning $\mathcal{F}$ is equicontinuous on $K$.
+	This in term implies $\mathcal{F}$ is equicontinuous on all of $G$ by the usual compactness argument of \autoref{prop7.1}, and so $\closure{\mathcal{F}}$ is equicontinuous on $G$.
+\end{proof}
+
+The main application of this is:
+
+\topic{Riemann mapping theorem}
+
+\begin{definition}[Conformal equivalence]
+	A region $G_1$ is said to be \keyword{conformally equivalent}\index{conformal equivalence} to another region $G_2$ if there exists an analytic $f \colon G_1 \to G_2$ such that $f$ is one-to-one and onto (i.e., $f(G_1) = G_2$).
+\end{definition}
+
+\begin{remark}
+	By \autoref{hw3.1}, $f$ being one-to-one and analytic implies $f'(z) \neq 0$ for all $z \in G$, which implies $f$ is conformal, hence the term conformally equivalent.
+
+	By \autoref{hw4.2}, $f^{-1}$ is also analytic.
+
+	We have not proved, but it is also true that a conformal mapping must be analytic.
+	Together these three remarks mean that there exist a number of equivalent definitions of conformal equivalence.
+\end{remark}
+
+\index{Riemann mapping theorem|(}
+\begin{theorem}[Riemann mapping theorem]\label{thm7.17}
+	Let $G$ be a simply connected region and $G \neq \C$.
+	Let $a \in G$.
+	Then there exists a unique analytic function $f \colon G \to \C$ satisfying
+	\begin{items}
+		\item\label{rmti} $f(a) = 0$, $f'(a) \in \R$, and $f'(a) > 0$;
+		\item\label{rmtii} $f$ is one-to-one; and
+		\item\label{rmtiii} $f(G) = D \coloneqq \Set{z \in \C \given \abs{z} < 1}$.
+	\end{items}
+\end{theorem}
+\index{Riemann mapping theorem|)}
+
+\begin{remark}
+	Parts \ref{rmtii} and \ref{rmtiii} mean that $G$ is conformally equivalent to $D$.
+\end{remark}
+
+Note that $\C$ is not conformally equivalent to any bounded region.
+If it were, i.e., we had an analytic function $f \colon \C \to G$, $G$ a bounded region, then being analytic in $\C$, $f$ is entire, so by \nameref{thm3.9} $f$ must be constant, having a bounded image.

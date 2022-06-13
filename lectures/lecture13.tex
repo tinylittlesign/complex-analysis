@@ -1,0 +1,107 @@
+%!TEX root = ../lectures.tex
+
+\lecture[October 1st, 2019]{The Space of Analytic Functions}
+
+\topic{The topology of $C(G, \C)$}
+
+For the proceeding discussion we need some results analysis.
+
+\begin{proposition}\label{prop7.1}
+	Let $G \subset \C$ be open.
+	Then there exists a sequence $\Set{K_n}$ of compact subsets of $G$ such that $G = \bigcup\limits_{n = 1}^\infty K_n$ satisfying
+	\begin{items}
+		\item $K_n \subset \interior(K_{n + 1})$;
+		\item if $K \subset G$ is compact, then $K \subset K_n$ for some $n$; and
+		\item every component of $\C_\infty \setminus K_n$ contains a component of $\C_\infty \setminus G$.
+	\end{items}
+\end{proposition}
+
+\begin{proof}[Sketch of proof]
+	Since $G$ is open, we can define $K_n$ to be the set of all points in $G$ at least $1/n$ away from the boundary of boundary of $G$.
+	That is,
+	\[
+		K_n = \Set*{z \in G \given \abs{z - w} \geq \frac{1}{n} \text{ for all } w \in \C \setminus G}.
+	\]
+	This construction satisfies all of these conditions.
+\end{proof}
+
+\begin{definition}[Continuous functions]
+	Let $\Omega$ be $\C$ or $\C_\infty$.
+	We define
+	\[
+		C(G, \Omega) = \Set{f \colon G \to \Omega \given f \text{ is continuous on } G},
+	\]
+	the set of \keyword{continuous}\index{continuous functions} from $G$ to $\Omega$.
+\end{definition}
+
+\begin{remark}
+	Note that in principle this only requires $G$ and $\Omega$ to be metric spaces---we are specifying for the purpose of doing complex analysis.
+\end{remark}
+
+Denote the metric on $\Omega$ by $d$ (so if $\Omega = \C$, then $d(z_1, z_2) = \abs{z_1 - z_2}$.
+The metric on the Riemann sphere $\C_\infty$ we will talk more about later).
+
+If $G$ is an open set, then by \autoref{prop7.1} we can write $G = \bigcup\limits_{n = 1}^\infty K_n$ for a sequence of compact sets $K_n$.
+For $f$ and $g$ in $C(G, \Omega)$ we define
+\[
+	\rho_n(f, g) = \sup_{z \in K_n} d(f(z), g(z))
+\]
+for all $n \in \N$, and further define
+\[
+	\rho(f, g) = \sum_{n = 1}^\infty \left ( \frac{1}{2} \right )^n \frac{\rho_n(f, g)}{1 + \rho_n(f, g)}.
+\]
+Then $(C(G, \Omega), \rho)$ is a metric space.
+(That $\rho$ is a metric follows from $\frac{d(x, y)}{1 + d(x, y)}$ being a metric for any metric $d$, and since this is bounded above by $1$, the series above is bounded above by a convergent geometric series.)
+
+\begin{lemma}\label{lem7.2}
+	\begin{items}
+		\item Given $\varepsilon > 0$, there exists $\delta > 0$ and a compact set $K \subset G$ such that for $f, g \in C(G, \Omega)$,
+		\[
+			\sup_{z \in K} d(f(z), g(z)) < \delta
+		\]
+		implies $\rho(f, g) < \varepsilon$.
+
+		\item Given a $\delta > 0$ and compact set $K \subset G$, there exists $\varepsilon > 0$ such that for $f, g \in C(G, \Omega)$, $\rho(f, g) < \varepsilon$ implies
+		\[
+			\sup_{z \in K} d(f(z), g(z)) < \delta.
+		\]
+	\end{items}
+\end{lemma}
+
+In other words, if $f$ and $g$ are close in some compact set $K$ (or $K_n$ in particular), then they are close in the sense of $\rho$, and vice versa.
+
+\begin{remark}
+	This lemma says that $f_n \to f$ in $(C(G, \Omega), \rho)$ if and only if $f_n \to f$ is uniformly convergent (because of the supremum) on every compact subset $K$ of $G$.
+\end{remark}
+
+\begin{proposition}\label{prop7.3}
+	The space $(C(G, \Omega), \rho)$ is a complete metric space.
+\end{proposition}
+
+\begin{proof}
+	A sequence of continuous functions converging uniformly must have a continuous limit.
+	This is a consequence of this fact.
+\end{proof}
+
+\topic{The space of analytic functions}
+
+In particular we are interested not just in the continuous functions from $G$ to $\C$, but the continuous and differentiable ones, i.e., the analytic functions from $G$ to $\C$.
+
+That is to say, let $G \subset \C$ be open, and let
+\[
+	H(G) \coloneqq \Set{f \colon G \to \C \given f \text{ is analytic on } G}.
+\]
+Then $H(G) \subset C(G, \C)$ can be endowed with the subspace topology.\footnote{We call this space $H$ for \keyword{holomorphic}\index{holomorphic functions}, which in the case of complex functions is equivalent to being analytic.}
+
+\begin{theorem}\label{thm7.4}
+	Let $\Set{f_n} \subset H(G)$.
+	Suppose $f_n \to f$ for some $f \in C(G, \C)$.
+	Then $f \in H(G)$ and $f_n^{(k)} \to f^{(k)}$ for all $k \geq 1$.
+
+	In other words, $H(G)$ is a closed subset of $C(G, \C)$.
+\end{theorem}
+
+\begin{remark}
+	This result does not hold in the real case.
+	For example, if $f_n(x) = \frac{1}{n} x^n$ on $x \in \interval{0}{1}$, then $f_n \to f = 0$ uniformly in $\interval{0}{1}$, but $f_n'(x) = x^{n - 1}$ does not converge at all in the space of continuous functions (the pointwise limit exists, but is not continuous).
+\end{remark}

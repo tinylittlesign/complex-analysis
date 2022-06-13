@@ -1,0 +1,128 @@
+%!TEX root = lectures.tex
+
+% Make \autoref when used on equations display parens around label
+\def\equationautorefname~#1\null{Equation~(#1)\null}
+
+% Start indexing
+\makeindex[options={-s lectures}]
+
+% Make headings
+\pagestyle{headings}
+
+% Remove the section number from the section name in headers.
+\renewcommand{\sectionmark}[1]{\uppercase{\markboth{#1}{#1}}}
+
+% Shorthand for problem parts; detect whether `parts` is used in problems of solutions.
+\newbool{inSolution}
+\AtBeginEnvironment{solution}{\booltrue{inSolution}}
+\AtBeginEnvironment{proof}{\booltrue{inSolution}}
+
+\newenvironment{parts}%
+{\ifbool{inSolution}% If used in solutions, set paragraphs as one ordinarily would.
+	{\begin{enumerate}[label = \textup{(\emph{\alph*})}, wide, labelwidth = !,%
+	                   labelindent = 0pt, itemsep = 5pt]}%
+	{\begin{enumerate}[label = \textup{(\emph{\alph*})}]}}%
+{\end{enumerate}}
+
+% Likewise `items`, which contrary to `parts` are enumerated with roman numerals.
+\newenvironment{items}%
+{\ifbool{inSolution}%
+	{\begin{enumerate}[label = \textup{(\emph{\roman*})}, wide, labelwidth = !,%
+	                   labelindent = 0pt, itemsep = 5pt]}%
+	{\begin{enumerate}[label = \textup{(\emph{\roman*})}]}}%
+{\end{enumerate}}
+
+
+% Label sections as 'lecture 1', etc.
+\titleformat{\section}{\normalfont\Large\bfseries}{Lecture \thesection}{0.65em}{}
+
+% Same in table of contents.
+\renewcommand{\cftsecpresnum}{Lecture\space}
+\newlength\lecturelength
+\settowidth\lecturelength{\cftsecpresnum\space\space}
+\addtolength\cftsecnumwidth{\lecturelength}
+
+\setlength\intextsep{0pt}
+
+% Change name of table of contents
+\renewcommand{\contentsname}{Table of Contents}
+
+% Remove the Abstract title from the abstract.
+\renewcommand{\abstractname}{}    % Clear the title
+\renewcommand{\absnamepos}{empty} % Originally centre
+
+% Number all equations and figures within subsections.
+\numberwithin{equation}{subsection}
+\numberwithin{figure}{subsection}
+
+% Define a fake (i) label macro, because I use it a lot and get tired of \labeling and \refing.
+\newcommand{\fakeitem}[1]{% \fakeitem{<n>}
+	{\upshape(\emph{\romannumeral 0#1})}}
+
+% Make text both bold and emphasised, for keywords in definitions and similar.
+\newcommand{\keyword}[1]{% \keyword{text}
+	{\textbf{\emph{#1}}}}
+
+% Roman numerals
+\makeatletter
+\newcommand*{\rom}[1]{\expandafter\@slowromancap\romannumeral #1@}
+\makeatother
+
+
+% Alias for \section with optional footnote for date.
+\newcommand{\lecture}[2][]{% \lecture[Date]{Title}
+	\section[#2]{#2\ifblank{#1}{}{\blfootnote{Date: #1.}}}%
+	%\section{#2}%
+}
+
+% Alias for \subsection that is more semantic.
+\newcommand{\topic}{\subsection}
+
+% Aliases for enumerate with certain label settings preapplied.
+\newenvironment{romanlist}{\begin{enumerate}[label = \textup{(\emph{\roman*})}]}{\end{enumerate}}
+\newenvironment{alphalist}{\begin{enumerate}[label = \textup{(\alph*)}]}{\end{enumerate}}
+
+% Define a footnote macro that doesn't leave a mark.
+\newcommand{\blfootnote}[1]{{\renewcommand{\thefootnote}{\roman{footnote}}\footnotetext[0]{#1}}}
+
+% Define a sane \includegraphics for margins.
+\newcounter{mfig}
+\newcommand{\mfincludegraphics}[2][]{%
+  \refstepcounter{mfig}\label{\themfig}%
+  \makebox[\textwidth][\ifodd\getpagerefnumber{\themfig}l\else r\fi]{%
+    \includegraphics[#1]{#2}%
+  }%
+}
+
+% Format List of Theorems (really Exercises) similar to Table of Contents.
+% 
+% \makeatletter
+% \patchcmd\thmtlo@sectionvspacehack
+%   {\addtocontents{loe}{\protect\addvspace{10\p@}}}
+%   {\addtocontents{loe}{\protect\thmlopatch@endsection\protect\thmlopatch@section{\thesection}}}
+%   {}{}
+% \AtEndDocument{\addtocontents{loe}{\protect\thmlopatch@endsection}}
+% \long\def\thmlopatch@section#1#2\thmlopatch@endsection{%
+%   \setbox\z@=\vbox{#2}%
+%   \ifdim\ht\z@>\z@
+%     \hbox{\bfseries\sectionname\ #1}\nobreak
+%     #2
+%     \addvspace{10\p@}
+%   \fi
+% }
+% \def\thmlopatch@endsection{}
+%
+% \def\ll@exercise{%
+%    \protect\thmtopatch@numbernametext
+%      \ifx\@empty\thmt@shortoptarg\else[\thmt@shortoptarg]\fi
+%      {\csname the\thmt@envname\endcsname}%
+%      {\thmt@thmname}%
+% }
+%
+% \newcommand\thmtopatch@numbernametext[3][]{%
+%   #3 #2%
+%   \if\relax\detokenize{#1}\relax\else\space #1\fi
+% }
+% \makeatother
+%
+% \renewcommand{\listtheoremname}{List of exercises}

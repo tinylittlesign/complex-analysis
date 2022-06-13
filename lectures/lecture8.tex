@@ -1,0 +1,262 @@
+%!TEX root = ../lectures.tex
+
+\lecture[September 12th, 2019]{Laurent Expansion}
+
+\topic{Laurent expansion around isolated singularity}
+
+\begin{theorem}[Laurent expansion]\label{thm5.3}\index{Laurent expansion}
+	Let $f$ be analytic in the annulus $R_1 < \abs{z - a} < R_2$.
+	Then
+	\[
+		f(z) = \sum_{n = -\infty}^\infty a_n (z - a)^n
+	\]
+	where the convergence is absolute, and uniform in compact subsets $r_1 \leq \abs{z - a} \leq r_2$, $R_1 < r_1 < r_2 < R_2$.
+	Moreover
+	\[
+		a_n = \frac{1}{2 \pi i} \int_\gamma \frac{f(z)}{(z - a)^{n + 1}} \, d z
+	\]
+	where $\gamma$ is a circle $\abs{z - a} = r$ with $R_1 < r < R_2$.
+	Finally, this series representation is unique.
+\end{theorem}
+
+We call this kind of series representation of $f$ its \keyword{Laurent expansion}\index{Laurent expansion} around $z = a$.
+
+\begin{remark}
+	When we say that a series $\sum\limits_{n = -\infty}^\infty b_n$ converges (absolutely) we mean that both $\sum\limits_{n = 0}^\infty b_n$ and $\sum\limits_{n = 1}^\infty b_{- n}$ converge (absolutely) separately.
+
+	Importantly, this is different from the maybe more intuitive interpretation that
+	\[
+		\lim_{M \to \infty} \sum_{n = -M}^M b_n
+	\]
+	should converge, which would allow for cancellation between the negative and positive indices (for instance $b_n = \frac{1}{n}$ and $b_0 = 0$ would be $0$ in this sense, but not converge at all in the first sense).
+\end{remark}
+
+\begin{proof}
+	Without loss of generality we may assume $a = 0$, else just shift.
+	Let $\gamma_1(t) = r_1 e^{2 \pi i t}$ and $\gamma_2(t) = r_2 e^{2 \pi i t}$, both for $0 \leq t \leq 1$, and $R_1 < r_1 < r_2 < R_2$.
+
+	Define a function
+	\[
+		g(w) = \begin{cases}
+			\frac{f(w) - f(z)}{w - z}, & \text{if}~ w \neq z \\
+			f'(z), & \text{if}~ w = z.
+		\end{cases}
+	\]
+	This is analytic in $R_1 < \abs{w} < R_2$.
+	If we join the two concentric circles $\gamma_1$ and $\gamma_2$ by a line segment $L$ and its opposite $-L$, and let $\gamma = \gamma_2 + L - L - \gamma_1$, a closed curve.
+
+	\begin{marginfigure}
+		\mfincludegraphics[width=\textwidth]{figures/l8fig53a.tikz}
+		\caption{\label{thm53:fig} Joining $-\gamma_1$ and $\gamma$ by a line and its opposite.
+		Note the reverse orientation on $-\gamma_1$.}
+	\end{marginfigure}
+
+	Now take $z$ to be inside $\gamma$, in other words between the two circles $\gamma_1$ and $\gamma_2$ (and not on the connecting line $L$, but we can move that line to never touch $z$).
+	By \nameref{cor4.4},
+	\[
+		\int_\gamma g(w) \, d w = 0,
+	\]
+	meaning that
+	\[
+		\int_{\gamma_2 - \gamma_1} \frac{f(w) - f(z)}{w - z} \, d w = 0,
+	\]
+	since the integral along $L$ and $-L$ cancel.
+	Splitting this apart we see that
+	\begin{equation}\label{l7eq1}
+		\int_{\gamma_2 - \gamma_1} \frac{f(w)}{w - z} \, d w = \int_{\gamma_2 -\gamma_1} \frac{f(z)}{w - z} \, d w.
+	\end{equation}
+	The second integral is easy to compute piece by piece.
+	On $\gamma_2$, since $z$ lies inside it,
+	\[
+		\int_{\gamma_2} \frac{f(z)}{w - z} \, d z = f(z) \int_{\gamma_2} \frac{1}{w - z} \, d w = 2 \pi i f(z),
+	\]
+	strictly times the winding number $n(\gamma_2; z)$, but that is $1$ in this case.
+	Similarly, since $z$ lies outside of $\gamma_1$,
+	\[
+		\int_{\gamma_1} \frac{f(z)}{w - z} \, d w = f(z) \int_{\gamma_1} \frac{1}{w - z} \, d w = 0.
+	\]
+	So the right-hand side integral in \autoref{l7eq1} above is $2 \pi i f(z)$.
+
+	Next we wish to compute the left-hand side of same.
+	Note that on $\gamma_2$, $\abs{w} > \abs{z}$ since $z$ lies inside the circle, so we can factor $\frac{1}{w - z}$ as a geometric series,
+	\[
+		\frac{1}{w - z} = \frac{1}{w} \frac{1}{1 -\frac{z}{w}} = \frac{1}{w} \Bigl ( 1 + \frac{z}{w} + \frac{z^2}{w^2} + \dots \Bigr ) = \frac{1}{w} + \frac{z}{w^2} + \frac{z^2}{w^3} + \dots.
+	\]
+	Therefore
+	\[
+		\int_{\gamma_2} \frac{f(w)}{w - z} \, d w = \int_{\gamma_2} f(w) \sum_{n = 0}^\infty \frac{z^n}{w^{n + 1}} \, d w = \sum_{n = 0}^\infty \biggl ( \int_{\gamma_2} \frac{f(w)}{w^{n + 1}} \, d w \biggr ) z^n
+	\]
+	since the geometric series converges absolutely.
+
+	On the other hand, on $\gamma_1$, $\abs{w} < \abs{z}$, so this time
+	\[
+		\frac{1}{w - z} = \frac{1}{z} \frac{1}{\frac{w}{z} - 1} = - \frac{1}{z} \frac{1}{1 - \frac{w}{z}},
+	\]
+	which as a geometric series becomes
+	\[
+		- \Bigl ( \frac{1}{z} + \frac{w}{z^2} + \frac{w^2}{z^3} + \dots \Bigr ),
+	\]
+	meaning that
+	\[
+		\int_{\gamma_1} \frac{f(w)}{w - z} \, d w = - \int_{\gamma_1} f(w) \sum_{n = -1}^{-\infty} \frac{z^n}{w^{n + 1}} \, d w = - \sum_{n = -\infty}^{-1} \biggl ( \int_{\gamma_1} \frac{f(w)}{w^{n + 1}} \, d w \biggr ) z^n.
+	\]
+	Now in order to get the kind of series we want we would like to simply combine these two expressions, taking care of the minus sign, and be done, but currently the integrals are over different paths $\gamma_1$ and $\gamma_2$.
+	The good news though is that $\gamma_1 \simeq \gamma_2 \simeq \gamma$ for any closed, rectifiable $\gamma$ with winding number $1$ in the annulus $R_1 < \abs{z - a} < R_2$, and the function $g(w)$ we started integrating is analytic there, so we can change the paths to be equal.
+
+	Hence finally, remembering that the right-hand side of \autoref{l7eq1} is $2 \pi i f(z)$, we get
+	\[
+		f(z) = \sum_{n = -\infty}^\infty \biggl ( \frac{1}{2 \pi i} \int_\gamma \frac{f(w)}{w^{n + 1}} \, d w \biggr ) z^n,
+	\]
+	so we have the series representation we need and we call the coefficients given by the integral $a_n$.
+
+	It remains to show uniqueness.
+	To this end, suppose
+	\[
+		f(z) = \sum_{n = -\infty}^\infty a_n z^n.
+	\]
+	Then
+	\[
+		\int_\gamma \frac{f(z)}{z^{k + 1}} \, d z = \sum_{n = -\infty}^{\infty} a_n \int_\gamma z^{n - k - 1} \, d z.
+	\]
+	Now if $n \geq k + 1$, so that the power of the integrand is nonnegative, this integral is zero since the integrand is analytic.
+	Similarly if $n < k$, so that the power is $-2$ or smaller, the integrand has a primitive, so again is analytic.
+	The only outstanding option is if $n = k$, so that the integrand is $z^{-1}$.
+	In that case by \nameref{cor4.4} the integral is $2 \pi i$, so the above sum picks up the $n = k$ term and equals
+	\[
+		\int_\gamma \frac{f(z)}{z^{k + 1}} \, d z = 2 \pi i a_k.
+	\]
+	But then we see that
+	\[
+		a_k = \frac{1}{2 \pi i} \int_\gamma \frac{f(z)}{z^{k + 1}} \, d z,
+	\]
+	which is the same coefficient we claimed was unique.
+\end{proof}
+
+In summary, then:
+Let
+\[
+	f(z) = \sum_{n = -\infty}^\infty a_n (z - a)^n
+\]
+be the Laurent expansion of $f$ about an isolated singularity $z = a$.
+Then
+\begin{items}
+	\item if $f$ has a removable singularity at $z = a$, then $a_{-n} = 0$ for all $n \geq 1$;
+	\item if $f$ has a pole of order $m$ at $z = a$, then $a_{-m} \neq 0$ and $a_{-n} = 0$ for all $n > m$;
+	\item if $f$ has an essential singularity at $z = a$, then there are infinitely many $a_{-n} \neq 0$, $n \geq 1$.
+\end{items}
+
+\begin{exercise}
+	Find the Laurent expansion for
+	\begin{parts}
+		\item $\displaystyle \frac{1}{z^4 + z^2}$ about $z = 0$,
+		\item $\displaystyle \frac{1}{z^2 - 4}$ about $z = 2$. \qedhere
+	\end{parts}
+\end{exercise}
+
+In much the same way as analytic functions have isolated zeros, so are poles of these creatures:
+\begin{exercise}
+	Let $G$ be an open subset of $\C$.
+	Suppose $f \colon G \to \C$ is analytic except for poles.
+	Show that the poles of $f$ can not have a limit point in $G$.
+\end{exercise}
+
+Since a function doesn't have a nice limit at an essential singularity, we might expect it to behave strangely there, and indeed this is the case:
+
+\index{Casorati--Weierstrass theorem|(}
+\begin{theorem}[Casorati--Weierstrass theorem]\label{thm5.4}
+	If $f$ has an essential singularity at $z = a$, then for any $\delta > 0$, $\closure{f(A_\delta)} = \C$ where $A_\delta = \Set{z \in \C \given 0 < \abs{z - a} < \delta}$.
+\end{theorem}
+\index{Casorati--Weierstrass theorem|)}
+
+\begin{proof}
+	Suppose the theorem is false, i.e., there exists some $c \in \C$ and $\varepsilon > 0$ such that $\abs{f(z) - c} > \varepsilon$ for every $z \in A_\delta$ and every $\delta > 0$.
+	Then
+	\[
+		\lim_{z \to a} \frac{\abs{f(z) - c}}{\abs{z - a}} = \infty,
+	\]
+	so $\frac{f(z) - c}{z - a}$ has a pole at $z = a$.
+	Let $m$ be the order of this pole, so
+	\[
+		\frac{f(z) - c}{z - a} = \frac{g(z)}{(z - a)^m}
+	\]
+	where $g(a) \neq 0$ and $g$ is analytic.
+	Hence
+	\[
+		f(z) = \frac{g(z)}{(z - a)^{m - 1}} + c,
+	\]
+	for $z \neq a$.
+	Note that the constant $c$ is analytic, so if $m = 1$, then $f(z)$ has a removable singularity at $z = a$, a contradiction, and if $m \geq 2$, then $f(z)$ has a pole of order $m - 1$ at $z = a$, also a contradiction.
+\end{proof}
+
+\topic{Residues}
+
+\begin{definition}[Residue]
+	Let $z = a$ be an isolated singularity of $f$ and
+	\[
+		f(z) = \sum_{n = -\infty}^\infty a_n (z - a)^n
+	\]
+	be the Laurent expansion of $f$ about $z = a$.
+	The \keyword{residue}\index{residue} of $z = a$ is the coefficient $a_{-1}$, denoted by
+	\[
+		\Res(f; a) \qquad \text{or} \qquad \Res_{z = a} f(z).
+	\]
+\end{definition}
+
+We know by \nameref{cor4.4} that if a function is analytic in $0 < \abs{z - a} < R$, then for $\gamma(t) = a + r e^{i t}$, $0 \leq t \leq 2 \pi$, we have
+\[
+	a_{-1} = \frac{1}{2 \pi i} \int_\gamma f(z) \, d z,
+\]
+and so we should expect this to hold in some kind of generality:
+
+\index{Cauchy's residue theorem|(}
+\begin{theorem}[Cauchy's residue theorem]\label{thm5.5}
+	Let $f$ be analytic in a region $G$ except for isolated singularities $b_1, b_2, \dots, b_m$.
+	Let $\gamma$ be a closed rectifiable curve in $G$ such that $b_k \not\in \Set{\gamma}$ for $k = 1, 2, \dots, m$.
+	Suppose $\gamma \simeq 0$ in $G$.
+	Then
+	\[
+		\frac{1}{2 \pi i} \int_\gamma f(z) \, d z = \sum_{k = 1}^m n(\gamma; b_k) \Res(f; b_k).
+	\]
+\end{theorem}
+
+\begin{proof}[Sketch of proof]
+	Suppose $\gamma$ encloses only one isolated singularity, $b_1$, and let
+	\[
+		f(z) = \sum_{n = -\infty}^\infty a_n (z - b_1)^n
+	\]
+	be the Laurent expansion of $f$ around $z = b_1$.
+	Then, by the same calculations as previously,
+	\[
+		\frac{1}{2 \pi i} \int_\gamma f(z) \, d z = \frac{1}{2 \pi i} \int_\gamma \frac{a_{-1}}{z - b_1} \, d z = a_{-1} n(\gamma; b_1),
+	\]
+	where $a_{-1} = \Res(f; b_1)$.
+
+	If $\gamma$ encloses more poles, then by adding and subtracting paths cutting them off from one another, and for each resulting smaller curve around one isolated singularity expanding $f$ as a Laurent series around that singularity, we get the full result.
+\end{proof}
+
+In practice it is often useful to have an easier way to compute residues than this integral:
+
+\begin{proposition}\label{prop5.5}
+	Suppose $f$ has a pole of order $m$ at $z = a$.
+	Let $g(z) = (z - a)^m f(z)$.
+	Then
+	\[
+		\Res(f; a) = \frac{1}{(m - 1)!} g^{(m - 1)}(a).
+	\]
+\end{proposition}
+
+\begin{proof}
+	By the discussion at the end of last lecture, the Laurent expansion of $f$ around $z = a$ looks like
+	\[
+		f(z) = \frac{b_{-m}}{(z - a)^m} + \frac{b_{-(m - 1)}}{(z - a)^{m - 1}} + \dots + \frac{b_{-1}}{z - a} + b_0 + b_1 (z - a) + b_2 (z - a)^2 + \dots.
+	\]
+	Our goal is to extract $b_{-1}$, so
+	\[
+		g(z) = (z - a)^m f(z) = b_{-m} + b_{-(m - 1)} (z - a) + \dots + b_{-1} (z - a)^{m - 1} + b_0 (z - a)^m + \dots,
+	\]
+	and hence the $(m - 1)$st derivative is
+	\[
+		g^{(m - 1)}(z) = (m - 1)! b_{-1} + m(m - 1) \dots 3 \cdot 2 b_0 (z - a) + \dots,
+	\]
+	and evaluating this at $z = a$, all but the constant term vanish, so $g^{(m - 1)}(a) = (m - 1)! b_{-1}$.
+\end{proof}

@@ -1,0 +1,283 @@
+%!TEX root = ../lectures.tex
+
+\lecture[November 7th, 2019]{Bloch's and Landau's Constants}
+
+\topic{Proof of Bloch's theorem}
+
+\begin{proof}
+	The broad strategy is this: we want a new function with derivative as large as possible at some point $a$, so that we can apply \autoref{lem9.3}, and moreover we want its derivative and the upper bound of the function to be of similar size, so that in \autoref{lem9.2} we get a constant.
+
+	To this end, let
+	\[
+		K(r) = \max_{\abs{z} = r} \abs{f'(z)}
+	\]
+	and let $h(r) = (1 - r) K(r)$.
+	Then $h \colon \interval{0}{1} \to \R$ is continuous, $h(0) = 1$ and $h(1) = 0$, by construction.
+	Let $r_0 = \sup\Set{r \given h(r) = 1}$.
+
+	Notice three things: first, since $h$ is continuous, $h(r_0) = 1$.
+	Second, $0 \leq r_0 < 1$ since $h(1) = 0 \neq 1$, and third, for any $r > r_0$, $h(r) < 1$ because of the supremum.
+
+	Now take $a \in D$ with $\abs{a} = r_0$ such that $K(r_0) = \abs{f'(a)}$.
+	This must be possible since the supremum on $\abs{z} = r_0$, which is compact, must be attained.
+	Then
+	\[
+		1 = h(r_0) = (1 - r_0) K(r_0) = (1 - r_0) \abs{f'(a)},
+	\]
+	or in other words
+	\[
+		\abs{f'(a)} = \frac{1}{1 - r_0}.
+	\]
+	Our goal is to apply \autoref{lem9.3} near $z = a$, so consider a ball $B(a, \rho_0)$ where $\rho_0 \coloneqq \frac{1}{2} (1 - r_0)$.
+	Notice how this by construction means
+	\begin{equation}\label{lec24:fparho0}
+		\abs{f'(a)} = \frac{1}{2 \rho_0}.
+	\end{equation}
+	Then for $\abs{z - a} < \rho_0$, we have
+	\[
+		\abs{z} < \abs{a} + \frac{1}{2} (1 - r_0) = r_0 + \frac{1}{2} (1 - r_0) = \frac{1}{2} (1 + r_0).
+	\]
+	Notice how $r_0 < \frac{1}{2}(1 + r_0)$ since $r_0 < 1$, and how therefore $h(\frac{1}{2} (1 + r_0)) < 1$.
+	Hence for $\abs{z - a} < \rho_0$,
+	\[
+		\abs{f'(z)} \leq K\Bigl( \frac{1}{2}(1 + r_0)\Bigr) = \frac{h(\frac{1}{2} (1 + r_0))}{1 - \frac{1}{2} (1 + r_0)},
+	\]
+	where the inequality in the first step is the \nameref{thm6.1}, and the second step is the definition of $K(r)$.
+	Now since $h(\frac{1}{2}(1 + r_0)) < 1$, this is bounded by
+	\[
+		\abs{f'(z)} < \frac{1}{\frac{1}{2} (1 - r_0)} = \frac{1}{\rho_0}
+	\]
+	for all $\abs{z - a} < \rho_0$.
+
+	To apply \autoref{lem9.3} we want $\abs{f'(z) - f'(a)} < \abs{f'(a)}$, so let us compute the former: for $\abs{z - a} < \rho_0$,
+	\[
+		\abs{f'(z) - f'(a)} \leq \abs{f'(z)} + \abs{f'(a)} < \frac{1}{\rho_0} + \frac{1}{2 \rho_0} = \frac{3}{2 \rho_0}.
+	\]
+	Unfortunately this is clearly not less than $\abs{f'(a)} = \frac{1}{2 \rho_0}$---the disk is too large---so we need to shrink $\rho_0$.
+
+	Toward this, consider
+	\[
+		\Psi(z) = \frac{2 \rho_0}{3} (f'(\rho_0 z + a) - f'(a)),
+	\]
+	so that $\Psi \colon D \to \C$.
+	Now $\Psi(0) = 0$ and
+	\[
+		\abs{\Psi(z)} \leq \frac{2 \rho_0}{3} \frac{3}{2 \rho_0} = 1
+	\]
+	by the above calculations, so we can apply \nameref{thm6.2}, which tells us that $\abs{\Psi(z)} \leq \abs{z}$ for all $\abs{z} \leq 1$.
+	Consequently
+	\[
+		\abs{f'(\rho_0 z + a) - f'(a)} \leq \frac{3}{2 \rho_0} \abs{z},
+	\]
+	and making the change of variables $w = \rho_0 z + a \in B(a, \rho_0)$, so $z = \frac{w - a}{\rho_0}$, we get
+	\[
+		\abs{f'(w) - f'(a)} \leq \frac{3 \abs{w - a}}{2 \rho_0^2}
+	\]
+	for $w \in B(a, \rho_0)$.
+	We want this to be less than $\abs{f'(a)} = \frac{1}{2 \rho_0}$, so
+	\[
+		\frac{3 \abs{w - a}}{2 \rho_0^2} < \frac{1}{2 \rho_0}
+	\]
+	means
+	\[
+		\abs{w - a} < \frac{1}{3} \rho_0.
+	\]
+
+	Therefore we take $z \in S = B(a, \frac{1}{3} \rho_0)$ and there we get
+	\[
+		\abs{f'(z) - f'(a)} < \frac{3}{2 \rho_0} \frac{1}{3} \rho_0 = \frac{1}{2 \rho_0} = \abs{f'(a)},
+	\]
+	so we can apply \autoref{lem9.3}, guaranteeing that $f$ is one-to-one on $S$.
+
+	It remains to show that $f(S)$ contains a disk of radius $\frac{1}{72}$.
+	To accomplish this we want to apply \autoref{lem9.2}, meaning that we need a function $g$ with $g(0) = 0$, and we need information about its derivative at $0$ and a bound for it on a ball.
+
+	Let $g \colon B(0, \frac{1}{3} \rho_0) \to \C$ be defined by $g(z) = f(z + a) - f(a)$, so that $g(0) = 0$ and $\abs{g'(0)} = \abs{f'(a)} = \frac{1}{2 \rho_0}$.
+
+	To get a bound on $\abs{g(z)}$ we need use the Fundamental theorem of calculus, since this way we can leverage our knowledge of the derivative.
+	Consider the line segment $\gamma = \interval{a}{z + a} \subset S = B(a, \frac{1}{3} \rho_0) \subset B(a, \rho_0)$, for which
+	\[
+		\abs{g(z)} = \abs[\Big]{\int_\gamma g'(w) \, d w} \leq \int_\gamma \abs{g'(w)} \, d w.
+	\]
+	By definition $g'(w) = f'(w + a)$, and we know that $\abs{f'(z)} < \frac{1}{\rho_0}$ for all $\abs{z - a} < \rho_0$, and hence also $\abs{f'(w + a)} < \frac{1}{\rho_0}$, so that
+	\[
+		\abs{g(z)} \leq \frac{1}{\rho_0} \abs{z} < \frac{1}{\rho_0} \frac{1}{3} \rho_0 = \frac{1}{3}.
+	\]
+	Therefore by \autoref{lem9.2}, $g(B(0, \frac{1}{3} \rho_0)) \supset B(0, \sigma)$ with
+	\[
+		\sigma = \frac{(\frac{1}{3} \rho_0)^2 (\frac{1}{2 \rho_0})^2}{6 \cdot \frac{1}{3}} = \frac{\frac{1}{9} \cdot \frac{1}{4}}{2} = \frac{1}{72}.
+	\]
+	Shifting back to $f$, this means
+	\[
+		f(S) \supset B\Bigl( f(a), \frac{1}{72} \Bigr),
+	\]
+	finishing the proof.
+\end{proof}
+
+We can readily translate this to other disks centred at $z = 0$:
+
+\begin{corollary}\label{cor9.5}
+	Let $f$ be an analytic function on a neighbourhood of $\closure{B(0, R)}$.
+	Then $f(B(0, R))$ contains a disk of radius $\frac{1}{72} R \abs{f'(0)}$.
+\end{corollary}
+
+\begin{proof}
+	If $f'(0) = 0$, then the result is trivially true, so assume $f'(0) \neq 0$.
+	Consider the function
+	\[
+		g(z) = \frac{f(R z) - f(0)}{R f'(0)},
+	\]
+	where $R z$ serves to move us from $B(0, R)$ to $D$, subtracting $f(0)$ is to make $g(0) = 0$, and dividing by $R f'(0)$ makes $g'(0) = 1$.
+
+	Hence we can apply \nameref{thm9.4} on $g$, so that $g(D)$ contains a disk of radius $\frac{1}{72}$, and so $f(B(0, R))$ contains a disk of radius $\frac{1}{72} R \abs{f'(0)}$.
+\end{proof}
+
+The constant $\frac{1}{72}$ in \nameref{thm9.4} is not best possible.
+
+\begin{definition}[Bloch's constant]
+	Let $\mathcal{F}$ be the set of all functions $f$ that are analytic on a neighbourhood of $D = \Set{z \given \abs{z} < 1}$, with $f(0) = 0$ and $f'(0) = 1$.
+
+	For each $f \in \mathcal{F}$, let $\beta(f)$ denote the supremum of all $r$ such that there exists a disk $S \subset D$ where $f$ is one-to-one on $S$ and $f(S)$ contains a disk of radius $r$.
+
+	\keyword{Bloch's constant}\index{Bloch's constant} is the number $B$ defined by
+	\[
+		B = \inf_{f \in \mathcal{F}} \Set{\beta(f)}.
+	\]
+\end{definition}
+
+\begin{remark}
+	Notice how\nameref{thm9.4} implies that $B \geq \frac{1}{72}$.
+	On the other hand, considering the function $f(z) = z$, we see that $\beta(f) = 1$, so $B \leq 1$.
+
+	The state of the art is
+	\[
+		0.4332\approx\frac{\sqrt{3}}{4}+3\times10^{-4}\leq B\leq \sqrt{\frac{\sqrt{3}-1}{2}} \cdot \frac{\Gamma(\frac{1}{3})\Gamma(\frac{11}{12})}{\Gamma(\frac{1}{4})}\approx 0.4719,
+	\]
+	the lower bound due to Chen and Gauthier in \cite{Chen1996} and then marginally improved by Xiong in \cite{Xiong1998}, and the upper bound is due to Ahlfors and Grunsky in \cite{Ahlfors1937}.
+
+	It is further conjectured in the Ahlfors and Grunsky paper is the true value of $B$.
+\end{remark}
+
+We can ask a related, but slightly relaxed question:
+
+\begin{definition}[Landau's constant]
+	For each $f \in \mathcal{F}$, define $\lambda(f)$ to be the supremum of all $r$ such that $f(D)$ contains a disk of radius $r$.
+	\keyword{Landau's constant}\index{Landau's constant} $L$ is defined by
+	\[
+		L = \inf_{f \in \mathcal{F}} \Set{\lambda(f)}.
+	\]
+\end{definition}
+
+\begin{remark}
+	Naturally $\lambda(f) \geq \beta(f)$ since $\lambda$ drops the requirement of $f$ being one-to-one on the disk in question.
+	Hence since $\lambda(f) \geq \beta(f)$ for all $f \in \mathcal{F}$ we must have $B \geq L$, and as before, taking $f(z) = z$, $L \geq 1$.
+
+	The best known bounds for $L$ are
+	\[
+		0.5 < L \leq \frac{\Gamma(\frac{1}{3}) \Gamma(\frac{5}{6})}{\Gamma(\frac{1}{6})} \approx 0.5433
+	\]
+	Note that in particular this tells us that $B < L$, so the equality is ruled out.
+\end{remark}
+
+Notice how, being defined by an infimum, it is possible, in principle, no function ever attains $L$ exactly.
+As it happens, this is not actually the case:
+
+\begin{proposition}\label{prop9.6}
+	Let $f$ be analytic on a neighbourhood of $\closure{D}$ with $f(0) = 0$ and $f'(0) = 1$.
+	Then $f(D)$ contains a disk of radius $L$.
+\end{proposition}
+
+\begin{proof}
+	We will show something slightly stronger, namely that $f(D)$ contains a disk of radius $\lambda = \lambda(f)$, and since $\lambda(f) \geq L$, this implies the proposition.
+
+	By the definition of $\lambda(f)$, in terms of a supremum, we have that for each $n \in \N$ there exists some $\alpha_n \in f(D)$ such that $f(D) \supset B(\alpha_n, \lambda - \frac{1}{n})$.
+
+	Notice now how $\Set{\alpha_n} \subset f(D) \subset f(\closure{D})$.
+	Crucially, $\closure{D}$ is compact, and $f$ is continuous, whence maps compact sets to compact sets, so $f(\closure{D})$ is compact.
+	Therefore $\Set{\alpha_n}$ has a limit point.
+
+	For instance, take a subsequence $\Set{\alpha_{n_k}}$ such that $\alpha_{n_k} \to \alpha \in f(\closure{D})$.
+	Then we claim that $f(D) \supset B(\alpha, \lambda)$.
+
+	This is an exercise in the triangle inequality: for $w \in B(0, \lambda)$, choose $M$ large enough so that $\abs{w - a} < \lambda - \frac{1}{M}$.
+
+	\begin{marginfigure}
+		\mfincludegraphics[width=\textwidth]{figures/l24fig96.tikz}
+
+		\caption{\label{prop96:fig} The setup of $\alpha$, $w$, and $\alpha_{n_k}$.}
+	\end{marginfigure}
+
+	Since $\alpha_{n_k} \to \alpha$, there must exist some $N \in \N$ large enough so that $N > 2 M$ and for $n_k > N$, $\abs{\alpha_{n_k} - \alpha} < \frac{1}{2 M}$.
+	Then
+	\[
+		\abs{w - \alpha_{n_k}} \leq \abs{w - \alpha} + \abs{\alpha -\alpha_{n_k}} < \lambda - \frac{1}{M} + \frac{1}{2 M} = \lambda - \frac{1}{2 M} < \lambda - \frac{1}{n_k}
+	\]
+	since $2 M < N < n_k$.
+	Hence $w \in B(\alpha_{n_k}, \lambda - \frac{1}{n_k}) \subset f(D)$, so $B(\alpha, \lambda) \subset f(D)$.
+\end{proof}
+
+Again we can translate this to arbitrary disks centred on $z = 0$ (by exactly the same method \autoref{cor9.5}):
+
+\begin{corollary}\label{cor9.7}
+	Let $f$ be analytic on a neighbourhood of $\closure{B(0, R)}$.
+	Then $f(B(0, R))$ contains a disk of radius $\abs{f'(0)} R L$.
+\end{corollary}
+
+\begin{proof}
+	As in \autoref{cor9.5}, $f'(0) = 0$ is trivial, so assume $f'(0) \neq 0$ and consider
+	\[
+		g(z) = \frac{f(R z) -f(0)}{R f'(0)},
+	\]
+	applying the \autoref{prop9.6}.
+\end{proof}
+
+\topic{The Little Picard theorem}
+
+We showed, as a consequence of \nameref{thm8.15}, a \nameref{thm8.16}, saying that a non-constant entire function of finite order can miss at most one point in $\C$.
+Our next goal is to show that the assumption of finite order is not necessary.
+
+To accomplish this we need the following small calculation:
+
+\begin{lemma}\label{lem9.8}
+	Let $G$ be a simply connected region.
+	Let $f \colon G \to \C$ be analytic.
+	Suppose $f$ does not assume the values $0$ or $1$.
+	Then there exists an analytic function $g \colon G \to \C$ such that
+	\[
+		f(z) = - \exp\left(\pi i \cosh(2 g(z))\right)
+	\]
+	for all $z \in G$.
+\end{lemma}
+
+It is worth recalling here that
+\[
+	\cosh(z) \coloneqq \frac{e^z + e^{-z}}{2}.
+\]
+
+\begin{proof}
+	The proof essentially boils down to solving the expression for $f(z)$ above for $g(z)$, then working backwards.
+
+	Since $f$ does not vanish on $G$, which is simply connected, we can take logarithms.
+	By way of saying, there exists some analytic $h \colon G \to \C$ such that $f(z) = \exp(h(z))$.
+
+	Let $F(z) = \frac{1}{2 \pi i} h(z)$, and notice how for any $n \in \Z$, we have $F(z) \neq n$ for all $z \in G$.
+	If not, $h(z) = 2 \pi i n$, implying that $f(z) = \exp(h(z)) = 1$, which is a contradiction.
+
+	In particular, $F(z)$ does not assume $0$ or $1$, so both $F(z)$ and $F(z) - 1$ have analytic square roots, so we can define
+	\[
+		H(z) = \sqrt{F(z)} - \sqrt{F(z) - 1},
+	\]
+	analytic on $G$.
+	Moreover $H(z) \neq 0$ for all $z \in G$, since otherwise we would have $0 = \sqrt{F(z)} - \sqrt{F(z) - 1}$, which rearranged and squared gives us $0 = 1$.
+
+	So there exists, finally, an analytic $g \colon G \to \C$ such that $H(z) = \exp(g(z))$, and therefore, retracing our steps,
+	\begin{align*}
+		\cosh(2 g(z)) + 1 &= \frac{e^{2 g(z)} + e^{-2 g(z)}}{2} + 1 = \frac{(e^{g(z)} + e^{-g(z)})^2}{2} \\
+		&= \frac{(H(z) + \frac{1}{H(z)})^2}{2} = 2 F(z) = \frac{1}{\pi i} h(z).
+	\end{align*}
+	Hence
+	\[
+		f(z) = \exp(h(z)) = \exp(\pi i (\cosh(2 g(z)) + 1)) = - \exp\left(\pi i \cosh(2 g(z))\right)
+	\]
+	by pulling out the factor of $\exp(\pi i) = -1$.
+\end{proof}

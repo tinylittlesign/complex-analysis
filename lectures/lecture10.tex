@@ -1,0 +1,307 @@
+%!TEX root = ../lectures.tex
+
+\lecture[September 19th, 2019]{Bounds of Analytic Functions}
+
+\topic{Simple bounds}
+
+The first bound of analytic functions that is of very frequent use we have already met (see \autopageref{thm3.16}):
+
+\index{maximum modulus principle|(}
+\begin{theorem}[Maximum modulus principle]\label{thm6.1}
+	Let $G$ be a region and let $f \colon G \to \C$ be an analytic function.
+	Suppose there exists some $a \in G$ such that $\abs{f(a)} \geq \abs{f(z)}$ for all $z \in G$.
+	Then $f$ is a constant function.
+\end{theorem}
+
+An equivalent statement that we make frequent use of is
+\begin{corollary}\label{cor6.2}
+	Let $G$ be a region and let $f \colon G \to \C$ be an analytic function.
+	Suppose
+	\[
+		\limsup_{z \to a} \abs{f(z)} \leq M
+	\]
+	for all $a \in \partial_\infty G$ for some $M > 0$.\footnote{By $\partial_\infty G$ we mean $\partial G \cup \Set{\infty}$ in the case where $G$ is unbounded.}
+	Then
+	\[
+		\abs{f(z)} \leq M
+	\]
+	for all $z \in G$.
+\end{corollary}
+\index{maximum modulus principle|)}
+In other words, the maximum of an analytic function on the interior of a closed set must occur at the boundary of the set.
+
+%TODO: Prove equivalence?
+
+\index{Schwarz lemma|(}
+\begin{theorem}[Schwarz lemma]\label{thm6.2}
+	Let $D = \Set{z \given \abs{z} < 1}$ be the unit disk.
+	Suppose $f \colon D \to \C$ be an analytic function such that
+	\begin{items}
+		\item $\abs{f(z)} \leq 1$ for all $z \in D$ (i.e., $f \colon D \to \closure{D}$), and
+		\item $f(0) = 0$.
+	\end{items}
+	Then $\abs{f'(0)} \leq 1$ and $\abs{f(z)} \leq \abs{z}$ for every $z \in D$ (so the image can only shrink or remain the same size, not grow).
+	Moreover, if $\abs{f'(0)} = 1$ or if $\abs{f(z)} = \abs{z}$ for some $z \in D$, then there exists a $c \in \C$ with $\abs{c} = 1$ such that $f(z) = c z$ for all $z \in D$.
+\end{theorem}
+\index{Schwarz lemma|)}
+
+\begin{proof}
+	Define $g \colon D \to \C$ by
+	\[
+		g(z) = \begin{cases}
+			\frac{f(z)}{z}, & \text{if}~ z \neq 0 \\
+			f'(0), & \text{if}~ z = 0.
+		\end{cases}
+	\]
+	Then $g(z)$ is analytic in $D$.
+	On $\abs{z} = r$ for $0 < r < 1$,
+	\[
+		\abs{g(z)} = \frac{\abs{f(z)}}{\abs{z}} \leq \frac{1}{r},
+	\]
+	and letting $r \to 1$ we see by the \nameref{thm6.1} that $\abs{g(z)} \leq 1$ for all $z \in D$.
+
+	This implies in particular that $\abs{g(0)} = \abs{f'(0)} \leq 1$, and $\abs{\frac{f(z)}{z}} \leq 1$, so $\abs{f(z)} \leq \abs{z}$.
+
+	The two special cases now follow quite readily: if $f'(0) = 1$, then from the first one $\abs{g(z)}$ attains its maximum in $D$, so by the \nameref{thm6.1} $g(z) = c = g(0) = f'(0)$ for some $\abs{c} = 1$, so $f(z) = c z$.
+
+	For the second one, if $\abs{\frac{f(z_0)}{z_0}} = 1$ for some $z_0 \in D$, then again $\abs{g(z)}$ attains its maximum in $D$, so $g(z) = z$, and $f(z) = c z$, where $\abs{c} = \abs{\frac{f(z_0)}{z_0}} = 1$.
+\end{proof}
+
+\topic{Automorphisms of the unit disk}\label{automorphismsunitdisk}
+
+An interesting consequence of this lemma is that it lets us characterise the automorphisms of the unit disk.
+
+\begin{definition}[Automorphism]
+	A one-to-one, bi-analytic mapping of a region $G$ onto $G$ is called an \keyword{automorphism}\index{automorphism} of $G$.
+
+	In other words, $f \colon G \to G$ is injective, surjective, analytic, and its inverse is also analytic.
+
+	We will denote by $\Aut(G)$ the set of all automorphisms of $G$.
+\end{definition}
+
+Note that, being analytic and one-to-one, an automorphism is also necessarily conformal.
+
+\begin{remark}
+	The bi-analytic condition in this definition is strictly speaking superfluous: a function that is one-to-one, onto, and analytic necessarily has analytic inverse.
+\end{remark}
+
+\begin{exercise}\label{hw4.2}
+	Let $f$ be an analytic function on a neighbourhood of $\closure{B(a; R)}$.
+	Suppose that $f$ is one-to-one on $B(a; R)$.
+	Let $\Omega \coloneqq f(B(a; R))$ and $\gamma = \Set[\big]{z \given \abs{z - a} = R}$.
+	Show that
+	\[
+		f^{-1}(w) = \frac{1}{2 \pi i} \int_\gamma \frac{z f'(z)}{f(z) - w} \, d z
+	\]
+	for all $w \in \Omega$.
+\end{exercise}
+
+Let $D = \Set{z \in G \given \abs{z} < 1}$ denote the unit disk in the proceeding discussion.
+Let $a \in \C$ with $\abs{a} < 1$, and define the Möbius transformation
+\[
+	\varphi_a(z) = \frac{z - a}{1 - \conjugate{a} z}.
+\]
+Notice how $\varphi_a$ is analytic for $\abs{z} < \frac{1}{\abs{a}}$, but $\frac{1}{\abs{a}} > 1$, so $\varphi_a$ is analytic on a neighbourhood of $\closure{D}$.
+
+By straight-forward calculation
+\[
+	\varphi_a(\varphi_{-a}(z)) = \varphi_a \Bigl ( \frac{z + a}{1 + \conjugate{a} z} \Bigr ) = \frac{\frac{z + a}{1 + \conjugate{a} z} - a}{1 - \conjugate{a} \frac{z + a}{1 + \conjugate{a} z}} = \frac{z + a - a - \abs{a}^2 z}{1 + \conjugate{a} z - \conjugate{a} z - \abs{a}^2} = z,
+\]
+and for exactly the same reason
+\[
+	\varphi_{-a} ( \varphi_a(z)) = z,
+\]
+so $\varphi_a \colon D \to D$ so a one-to-one and onto analytic mapping, and its inverse $\varphi_{-a}$ is as well, so $\varphi_a$ is an automorphism of $D$.
+
+We strictly speaking already know it, being one-to-one and analytic, but in this case it is also easy to verify that
+\[
+	\varphi_a'(z) = \frac{1 - \abs{a}^2}{(a - \conjugate{a} z)^2} \neq 0
+\]
+for all $z \in D$, so $\varphi_a$ is also conformal.
+
+On the unit circle $\partial D = \Set{z \given \abs{z} = 1}$, i.e., $z = e^{i \theta}$ for $\theta \in \R$,
+\[
+	\abs{\varphi_a(e^{i \theta})} = \abs[\Big]{\frac{e^{i \theta} - a}{1 - \conjugate{a} e^{i \theta}}} = \abs[\Big]{\frac{1}{e^{i \theta}}\frac{e^{i \theta} - a}{e^{- \theta} - \conjugate{a}}} = 1
+\]
+since the second fraction is a quotient of complex conjugates.
+In other words $\varphi_a(\partial D) = \partial D$.
+
+So in summary, if we let $\abs{a} < 1$ and define $\varphi_a \colon D \to D$ by
+\[
+	\varphi_a(z) = \frac{z - a}{1 - \conjugate{a} z}.
+\]
+Then $\varphi_a$ is one-to-one, onto, with its inverse being $\varphi_{-a}$; $\varphi_a(\partial D) = \partial D$; and $\varphi_a(a) = 0$, $\varphi_a'(0) = 1 - \abs{a}^2$, and $\varphi_a'(a) = \frac{1}{1 - \abs{a}^2}$.
+
+\begin{exercise}
+	\begin{parts}
+		\item Let $D = \Set[\big]{z \given \abs{z} < 1}$.
+		Let $f \colon D \to \C$ be an analytic function.
+		Suppose that $\abs{f(z)} \leq 1$ for all $z \in D$ and $f(a) = \alpha$.
+		Show that
+		\[
+			\abs{f'(a)} \leq \frac{1 - \abs{\alpha}^2}{1 - \abs{a}^2}.
+		\]
+		\item Does there exist an analytic function $f \colon D \to D$ with $f(\frac{1}{2}) = \frac{3}{4}$ and $f'(\frac{1}{2}) = \frac{2}{3}$? \qedhere
+	\end{parts}
+\end{exercise}
+
+\begin{exercise}
+	Let $f \colon D \to \C$ be a non-constant analytic function such that $\abs{f(z)} \leq 1$ for all $z \in D$.
+	Show that
+	\[
+		\frac{\abs{f(0)} - \abs{z}}{1 + \abs{f(0)} \abs{z}} \leq \abs{f(z)} \leq \frac{\abs{f(0)} + \abs{z}}{1 - \abs{f(0)} \abs{z}}. \qedhere
+	\]
+\end{exercise}
+
+\begin{exercise}[Borel--Carathéodory's inequality]\index{Borel--Carathéodory's inequality}
+	Let $f$ be analytic on the closed disk $\closure{B(a; R)}$ and let
+	\[
+		M(r) = \max\Set[\big]{ \abs{f(z)} \given \abs{z} = r}, \quad A(r) = \max\Set[\big]{\Re f(z) \given \abs{z} = r}.
+	\]
+	\begin{parts}
+		\item Show that $A(r)$ is a monotone increasing function.
+		\item Show that for $0 < r < R$,
+		\[
+			M(r) \leq \frac{2 r}{R - r} A(R) + \frac{R + r}{R - r} \abs{f(0)}. \qedhere
+		\]
+	\end{parts}
+\end{exercise}
+
+Not only are these automorphisms of $D$, but, up to rotations, all automorphisms of $D$ are one of these:
+
+\index{Schwarz--Pick theorem|(}
+\begin{theorem}[Schwarz--Pick theorem]\label{thm6.4}
+	Let $f \colon D \to D$ be a one-to-one, onto, analytic map.
+	Suppose $f(a) = 0$.
+	Then there exists $c \in \C$ such that $f(z) = c \varphi_a(z)$ (i.e., a rotation of a Möbius map).
+	Hence
+	\[
+		\Aut(D) = \Set{c \varphi_a \given a \in \C,~ \abs{a} < 1,~ c \in \C,~ \abs{c} = 1}.
+	\]
+\end{theorem}
+\index{Schwarz--Pick theorem|)}
+
+\begin{proof}
+	Let $g(z) = f(\varphi_{-a}(z)) \colon D \to D$.
+	Then since $f(a) = 0$ by assumption and $\varphi_a(a) = 0$, meaning that $\varphi_{-a}(0) = a$, we have
+	\[
+		\begin{tikzcd}
+			D \arrow[r, "\varphi_{-a}"']\arrow[rr, "g", bend left=35] & D \arrow[r, "f"'] & D \\[-15pt]
+			0 \arrow[r, mapsto] & a \arrow[r, mapsto] & 0,
+		\end{tikzcd}
+	\]
+	so $g(0) = f(f_{-a}(0)) = f(a) = 0$.
+	Both of these maps are one-to-one and onto, so they have inverses, and hence $g^{-1}$ exists.
+	Moreover $\abs{g(z)} \leq 1$ for all $z \in D$ (simply since $g \colon D \to D$), so by Schwarz lemma $\abs{g(z)} \leq \abs{z}$ for all $\abs{z} < 1$.
+
+	But the inverse map satisfies the exact same conditions, so $\abs{g^{-1}(z)} \leq \abs{z}$ for all $\abs{z} < 1$, so
+	\[
+		\abs{g(z)} \leq \abs{z} = \abs{g^{-1}(g(z))} \leq \abs{g(z)},
+	\]
+	meaning that $\abs{g(z)} = \abs{z}$.
+	Hence by the second part of Schwarz lemma, $g(z) = c z$ for some $\abs{c} = 1$, so $f(\varphi_{-a}(z)) = c z$.
+	Replacing $z$ by $\varphi_a(z)$, this becomes $f(z) = c \varphi_a(z)$ for all $\abs{z} < 1$.
+\end{proof}
+
+\topic{Automorphisms of the upper half-plane}
+
+An analogous (and as we will see very much related) statement is about characterising the automorphisms of the complex \keyword{upper half-plane}\index{upper half-plane} $\HH = \Set{x + i y \in \C \given y > 0}$.
+
+\begin{example}
+	One example of such an automorphism is the \keyword{Cayley transform}\index{Cayley transform}
+	\[
+		\psi(z) = \frac{z - i}{z + i},
+	\]
+	which is evidently a Möbius transformation.
+	We see that $\psi(\R_\infty) = \partial D$ since for real $x$,
+	\[
+		\abs{\psi(x)} = \abs[\Big]{\frac{x - i}{x + i}} = 1
+	\]
+	since, as once earlier, this is a quotient of complex conjugates.
+	Note moreover how $\psi(i) = 0$, and since $\psi$ is analytic, it is continuous, and a continuous function maps connected sets to connected sets, so the upper half-plane must map to the unit disk $D$, since the boundary of the upper half-plane, that is $\R_\infty$, maps to the boundary of the unit disk.
+
+	More generally, letting
+	\[
+		\varphi_\alpha (z) = \frac{z - \alpha}{z - \conjugate{\alpha}}
+	\]
+	for $\Im(\alpha) > 0$, then $\varphi_\alpha(\R_\infty) = \partial D$, $\varphi_\alpha(\alpha) = 0$, and then $\varphi_\alpha \colon \HH \to D$ is a one-to-one, onto, and conformal mapping (where in particular of course $\psi = \psi_i$).
+\end{example}
+
+\begin{theorem}\label{thm6.5}
+	We have
+	\[
+		\Aut(\HH) = \Set*{f(z) = \frac{a z + b}{c z + d} \given a, b, c, d \in \R,~ a d - b c > 0}.
+	\]
+\end{theorem}
+
+\begin{proof}
+	For $f(z) = \frac{a z + b}{c z + d}$, $a, b, c, d \in \R$ and $a d - b c > 0$, we naturally have $f(\R_\infty) = \R_\infty$.
+	Moreover
+	\[
+		\Im(f(i)) = \frac{a d - b c}{c^2 + d^2} > 0,
+	\]
+	so by the same connected set argument as above $f \colon \HH \to \HH$, and so $f \in \Aut(\HH)$.
+
+	Next let $f \in \Aut(\HH)$, and suppose $f(i) = \alpha$ with $\Im(\alpha) > 0$.
+	The strategy is to leverage what we already know about automorphisms of $D$, so in order to carry this situation over to $D$, consider the diagram
+	\[
+		\begin{tikzcd}
+		i \arrow[rrr, maps to] \arrow[ddd, maps to] &[-28pt] & &[-28pt] 0 \\[-20pt]
+    & \HH \arrow[r, "\psi"] \arrow[d, "f"'] & D \arrow[d, "g", dotted] &   \\
+    & \HH \arrow[r, "\psi_\alpha"']          & D                        &   \\[-20pt]
+		\alpha \arrow[rrr, maps to]  &   &     & 0.
+		\end{tikzcd}
+	\]
+	In other words, let $\psi(z) = \frac{z - i}{z + i}$ be the Cayley transform and $\psi_\alpha(z) = \frac{z - \alpha}{z - \conjugate{a}}$, and define $g \colon D \to D$ by $g = \psi_\alpha \circ f \circ \psi^{-1}$.
+	Then
+	\[
+		g(0) = \varphi_\alpha \circ f \circ \psi^{-1}(0) = \varphi_\alpha ( f(i) ) = \varphi_\alpha (\alpha) = 0.
+	\]
+	Moreover $g \in \Aut(D)$ since it is one-to-one, onto, and analytic, so by the \nameref{thm6.4} $g(z) = c z$ for some $\abs{c} = 1$.
+	Then, solving the diagram above for $f$,
+	\[
+		f(z) = \psi_\alpha^{-1} \circ g \circ \psi(z) = \psi_\alpha^{-1}(g(\psi(z))) = \psi_\alpha^{-1} (c \psi(z)).
+	\]
+	Here $c \psi_\alpha(z) = \frac{c z + c \alpha}{c z - c \conjugate{\alpha}}$ is a Möbius transformation, and so is $\psi_\alpha^{-1}$, so their composition is too.
+	Hence $f$ is a Möbius transformation.
+
+	Now $f \in \Aut(\HH)$, so $f(\R_\infty) = \R_\infty$, and a Möbius transformation mapping the real line to itself can be written as $f(z) = \frac{a z + b}{c z + d}$ with $a, b, c, d \in \R$.
+	Moreover $\Im(f(i)) = \Im(\alpha) > 0$ by assumption, so
+	\[
+		\Im(f(i)) = \frac{a d - b c}{c^2 + d^2} > 0,
+	\]
+	meaning that $a d - b c > 0$.
+\end{proof}
+
+As we have discussed before, Möbius transformations are invariant under multiplying the numerator and denominator by a constant, so we can always normalise in such a way that $\Aut(\HH)$ is identified by
+\[
+	\begin{pmatrix}
+		a & b \\
+		c & d
+	\end{pmatrix}
+	\in \SL_2(\R) = \Set*{\begin{pmatrix} a & b \\ c & d \end{pmatrix} \given a, b, c, d \in \R,~ a d - b c = 1}.
+\]
+Making a brief detour into measure theory, this set of matrices has a group structure, and so $\Aut(\HH)$ inherits this group structure, and in fact it is a Lie group\index{Lie group}.
+(Indeed a theorem by Henri Cartan guarantees that any automorphism group of a region is a Lie group.)
+Being a Lie group there exists a unique measure invariant under the group action, known as the Haar measure\index{Haar measure}, and this provides a corresponding measure on $\HH$, namely the hyperbolic measure\index{hyperbolic measure}
+\[
+	d \mu(z) = \frac{d x \, d y}{y^2},
+\]
+which then is invariant under group action by $\Aut(\HH)$.
+
+\index{Hadamard three-lines theorem|(}
+\begin{theorem}[Hadamard three-lines theorem]\label{thm6.6}
+	Let $G$ be the vertical strip $\Set{x + i y \in \C \given a < x < b}$.
+	Suppose $f \colon \closure{G} \to \C$ is continuous, not identical to $0$, and bounded.
+	Suppose $f$ is analytic in $\C$.
+
+	Define $M \colon \interval{a}{b} \to \R$ by
+	\[
+		M(x) \coloneqq \sup_{-\infty < y < \infty} \abs{f(x + i y)}.
+	\]
+	Then $\log M(x)$ is a convex function, i.e., for $a \leq x < u < y \leq b$,
+	\[
+		\log M(u) \leq \frac{y - u}{y - x} \log M(x) + \frac{u - x}{y - x} \log M(y).
+	\]
+\end{theorem}
+\index{Hadamard three-lines theorem|)}

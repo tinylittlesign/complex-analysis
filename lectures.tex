@@ -1,0 +1,107 @@
+\documentclass[english, a4paper, twoside, leqno]{article}
+
+\usepackage[utf8]{inputenc}   % Use Unicode.
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+\usepackage{amsmath}          % AMS-TEX because of course.
+\usepackage{amssymb, amsthm}
+\usepackage{mathtools}        % Load for, amongst other things, paired delimiters.
+\usepackage{etoolbox}         % Load to be able to perform conditional tests in macros.
+\usepackage{thmtools}         % Load to enable end-of-example marks.
+\usepackage{siunitx}          % We sometimes want nicely formatted large numbers and SI units.
+\usepackage{polynom}          % Package to help with polynomial long division.
+\usepackage{interval}         % Semantic intervals.
+\usepackage{bm}               % We want bold, italicised maths for vectors
+\usepackage{stmaryrd}         % Some symbols
+\usepackage{mathrsfs}
+% Import mathematics settings.
+\input{preamble_maths}
+
+
+\usepackage{pgfplots}         % Used for producing pretty graphs of functions.
+\usepackage{tikz-3dplot}      % Make fancy 3d plots.
+\usepackage{wrapfig}          % Used for producing figures in within the text.
+\usepackage{float}            % Force Here placement of floats.
+\usepackage{subcaption}       % Used for subfigures.
+\usepackage{tikz-cd}          % We need commutative diagrams!
+\usepackage{sidenotes}        % For putting figures in margins.
+\usepackage{tikzscale}
+\usepackage[auto]{contour}
+% Import figure specifics.
+\input{preamble_tikz}
+
+
+\usepackage{enumitem}         % Load for more customisable enumerate environments. Specifically better labels.
+\usepackage{imakeidx}         % We want a pretty index to keep track of all the ideas.
+\usepackage{tocbibind}        % Include index and bibliography in table of contents.
+\usepackage{abstract}         % Load in order to more easily manipulate the appearance of abstracts.
+\usepackage{fancyhdr}         % Use to customise the headings to include useful navigation information.
+\usepackage[
+	unbalanced,
+	totoc
+]{idxlayout}                  % Make the index respect fancyhdr.
+\usepackage{titlesec}         % Use to add 'Lecture' in front of section headings.
+\usepackage[titles]{tocloft}  % Use to add same in front of sections in the table of contents.
+\usepackage{adjustbox}        % Help us center very wide tables.
+\usepackage{refcount}
+\usepackage{filecontents}
+\usepackage[
+	hyperfootnotes=true,
+	hyperindex=true,
+	pdfusetitle,
+	pdfauthor={Jakob Streipel},
+	pagebackref,
+]{hyperref}         % Make the table of contents easier to navigate with hyperlinks.
+\usepackage{ellipsis}          % Fix broken ellipsis spacing.
+\usepackage{tocbibind}
+% Set lecture presets.
+\input{preamble_lecture.tex}
+
+\usepackage{pgffor}           % Used to loop through lecture files.
+
+
+\title{Lecture Notes in Complex Analysis}
+\author{Based on lectures by Dr Sheng-Chi Liu}
+\date{}
+
+\begin{document}
+% Use Roman numerals for page numbers for frontmatter.
+\pagenumbering{roman}
+
+\maketitle
+
+\begin{abstract}
+	\noindent
+	Throughout these notes, $\qed$ signifies end proof, $\blacktriangle$ signifies end of example, and $\blacksquare$ marks the end of exercise.
+	The exposition in these notes is based in part on \cite{johnbconway1978}.
+	This is also where most exercises are from, and is a good source of further exercises for the intrepid reader.\blfootnote{Notes by \href{mailto:jakob.streipel@wsu.edu}{Jakob Streipel}. Last updated \today.}
+\end{abstract}
+
+\tableofcontents
+
+% Begin mainmatter, and therefore use Arabic page numbering.
+\cleardoublepage
+\pagenumbering{arabic}
+
+
+% Include the lecture files.
+\foreach \i in {0, 1, ..., 40} {%
+  \edef\FileName{lectures/lecture\i}%
+  \IfFileExists{\FileName}{%
+    \input{\FileName}%
+  }
+}
+
+\phantomsection % Make sure the table of contents (both in the document and the hyperref generated PDF toc) aren't confused.
+\bibliography{references}
+\bibliographystyle{alpha}
+
+% Make a pretty index.
+\clearpage
+\phantomsection % Make sure the table of contents (both in the document and the hyperref generated PDF toc) aren't confused.
+\printindex
+
+% \listoftheorems[numwidth=4em, ignoreall, show={exercise}]
+
+\end{document}

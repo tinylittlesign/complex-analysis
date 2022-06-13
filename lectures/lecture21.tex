@@ -1,0 +1,316 @@
+%!TEX root = ../lectures.tex
+
+\lecture[October 29th, 2019]{Rank and Genus}
+
+\topic{Jensen's formula}
+
+Suppose $f(z)$ is an entire function.
+By \nameref{thm8.8} we can write
+\[
+	f(z) = z^m \exp(g(z)) \prod_{n = 1}^\infty E_{p_n}\Bigl(\frac{z}{a_n}\Bigr).
+\]
+The choice of $p_n$ depends on how fast $\abs{a_n} \to \infty$, because we need
+\[
+	\sum_{n = 1}^\infty \Bigl( \frac{r}{\abs{a_n}} \Bigr)^{p_n + 1} < \infty.
+\]
+So if $\abs{a_n} \to \infty$ very fast, we can pick $p_n$ quite small.
+That is to say, we want to control the growth rate of zeros of $b$, and we will show that the growth rate of zeros of $f$ in $B(0, r)$, as $r \to \infty$, is related to the growth rate of
+\[
+	M(r) = \sup_{0 \leq \theta \leq 2 \pi} \abs{f(r e^{i \theta})}.
+\]
+
+The setup for this is not too complicated: let $f$ be an analytic function in a neighbourhood of $\closure{B(0, r)}$, and suppose $f$ does not vanish on $\closure{B(0, r)}$.
+Then we can define the logarithm of $f(z)$, and it is analytic on $B(0, r)$ (that is to say, there exists an analytic function $g(z)$ such that $f(z) = e^{g(z)}$).
+
+The mean value property of analytic functions, this means
+\[
+	\log f(0) = \frac{1}{2 \pi} \int_0^{2 \pi} \log f(r e^{i \theta}) \, d \theta.
+\]
+Taking real parts, this becomes
+\[
+	\log \abs{f(0)} = \frac{1}{2 \pi} \int_0^{2 \pi} \log \abs{f(r e^{i \theta})} \, d \theta,
+\]
+if $f$ is non-vanishing.
+The crucial insight here is that the left-hand side is fixed, and the integrand in the right-hand side is bounded by $M(r)$.
+
+If $f$ does have zeros, one's first thought is to divide them away and study a new, non-vanishing function.
+This is essentially the right idea, except dividing by $z - a_n$ directly does not give us any control of the size of those factors.
+To remedy this, we instead divide by carefully chosen Möbius transformations, the growth of which we have very good control over.
+This gives rise to:
+
+\index{Jensen's formula|(}
+\begin{theorem}[Jensen's formula]\label{thm8.11}
+	Let $f(z)$ be an analytic function on a neighbourhood of $\closure{B(0, r)}$.
+	Let $a_1, a_2, \dots, a_n$ be the zeros of $f$ in $B(0, r)$, repeated according to multiplicity.\footnote{There are only finitely many zeros on $B(0, r)$, since otherwise they we would have an infinite bounded sequence of zeros, so they would have a limit point, forcing $f$ to be identically zero.}
+	Suppose $f(0) \neq 0$ and $f(z) \neq 0$ for all $\abs{z} = r$.
+	Then
+	\[
+		\log \abs{f(0)} = - \sum_{k = 1}^n \log \Bigl(\frac{r}{\abs{a_n}} \Bigr) + \frac{1}{2 \pi} \int_0^{2 \pi} \log \abs{f(r e^{i \theta})} \, d \theta.
+	\]
+\end{theorem}
+\index{Jensen's formula|)}
+
+\begin{proof}
+	Recall how for $\abs{\alpha} < 1$, the Möbius transformation
+	\[
+		\varphi_\alpha(z) = \frac{z - \alpha}{1 - \conjugate{\alpha} z}
+	\]
+	maps the unit disk $D$ to $D$, and the unit circle $\partial D$ to $\partial D$, and moreover $\varphi_\alpha(\alpha) = 0$.
+	We want to use this on $B(0, r)$, so consider the diagram
+	\[
+		\begin{tikzcd}
+			D \arrow[r, "\varphi_\alpha"] & D \\
+			B(0, r). \arrow[u] \arrow[ur, dashed, "\Psi_a"']
+		\end{tikzcd}
+	\]
+	The natural way to move from $B(0, r)$ to $D$ is to divide by $r$, so we define
+	\begin{align*}
+		\Psi_a(z) &\coloneqq \varphi_\alpha\Bigl(\frac{z}{r}\Bigr) = \frac{\frac{z}{r} - \alpha}{1 - \conjugate{\alpha} \frac{z}{r}} \\
+		&= \frac{z - \alpha r}{r - \conjugate{\alpha} z} = \frac{r(z - a)}{r^2 - \conjugate{a} z},
+	\end{align*}
+	where we have relabelled $\alpha r = a$, so that $a \in B(0, r)$.
+	Then $\Psi_a(z) \colon B(0, r) \to D$, and it maps $\partial B(0, r)$ to $\partial D$.
+	This is useful, because it means the magnitude of $\Psi_a(z)$ for $\abs{z} = r$ is exactly $1$.
+
+	Now define
+	\[
+		F(z) = f(z) \prod_{k = 1}^n \frac{r^2 - \conjugate{a_k} z}{r(z - a_k)}.
+	\]
+	This has removable singularities at $z = a_k$, so just let $F(z)$ represent the analytic function on $B(0, r)$ we get by removing those singularities.
+	Moreover $F(z) \neq 0$ in $\closure{B(0, r)}$, by construction, and therefore
+	\[
+		\log \abs{F(0)} = \frac{1}{2 \pi} \int_0^{2 \pi} \log \abs{F(r e^{i \theta})} \, d \theta.
+	\]
+	Replacing $F(z)$ per above, this yields
+	\[
+		\log \abs[\Big]{f(0) \prod_{k = 1}^n - \Bigl( \frac{r}{a_k} \Bigr)} = \frac{1}{2 \pi} \int_0^{2 \pi} \log \abs[\Big]{f(r e^{i \theta}) \prod_{k = 1}^n \Psi_{a_k}(r e^{i \theta}) } \, d \theta.
+	\]
+	By the discussion above, $\abs{\Psi_{a_k}(r e^{i \theta})} = 1$; the product on the left-hand side becomes a sum when taken out of the logarithm, so
+	\[
+		\log \abs{f(0)} + \sum_{k = 1}^n \log \abs[\Big]{\frac{r}{a_k}} = \frac{1}{2 \pi} \int_0^{2 \pi} \log\abs{f(r e^{i \theta})} \, d \theta.
+	\]
+	Moving the sum to the other side completes the proof.
+\end{proof}
+
+\begin{exercise}
+	In the hypothesis of \nameref{thm8.11}, do \emph{not} suppose that $f(0) \neq 0$.
+	Show that if $f$ has a zero at $z = 0$ of multiplicity $m$, then
+	\[
+		\log\abs[\Big]{\frac{f^{(m)}(0)}{m!}} + m \log r = - \sum_{k = 1}^n \log \Bigl ( \frac{r}{\abs{a_k}} \Bigr) + \frac{1}{2 \pi} \int_0^{2 \pi} \log \abs{f(r e^{i \theta})} \, d \theta. \qedhere
+	\]
+\end{exercise}
+
+\begin{exercise}\label{hw8.2}
+	Let $f$ be an entire function with $f(0) \neq 0$, and let
+	\[
+		M(r) = \sup_{0 \leq \theta \leq 2 \pi} \abs{f(r e^{i \theta})}.
+	\]
+	Let $n(r)$ denote the number of zeros of $f$ in $B(0, r)$, counted according to multiplicities.
+	Suppose $f(0) = 1$ (else normalise, since $f(0) \neq 0$).
+	Then
+	\[
+		n(r) \log 2 \leq \log M(2 r). \qedhere
+	\]
+\end{exercise}
+
+\topic{The genus and rank of entire functions}
+
+Suppose $f$ is entire.
+Again by \nameref{thm8.8}, we can write
+\[
+	f(z) = z^m \exp(g(z)) \prod_{n = 1}^\infty E_{p_n}\Bigl( \frac{z}{a_n} \Bigr),
+\]
+where $g(z)$ is an entire function.
+
+Let us consider, in some sense, the simplest form this can take (without becoming trivial).
+The first nontrivial entire functions are polynomials, so we are interested in the case where $g(z)$ is a polynomial.
+
+Similarly, the simplest form $p_n$ can take is constant---so $p_n = p$ for all $n$.
+This is equivalent to
+\[
+	\sum_{n = 1}^\infty \frac{1}{\abs{a_n}^{p + 1}} < \infty,
+\]
+since in the original condition of \nameref{thm8.8} we have
+\[
+	\sum_{n = 1}^\infty \Bigl( \frac{r}{\abs{a_n}} \Bigr)^{p_n + 1} < \infty,
+\]
+but with $p_n = p$ a constant, $r^{p + 1}$ is a constant, so we can take that out of the sum.
+
+\begin{definition}[Rank]
+	Let $f \in H(\C)$ with nonzero zeros $\Set{a_1, a_2, \dots}$, repeated according to multiplicities, and arranged such that $0 < \abs{a_1} \leq \abs{a_2} < \dots$.
+	We say that $f$ is of \keyword{finite rank}\index{rank!finite} if there exists $p \in \N \cup \Set{0}$ such that
+	\[
+		\sum_{n = 1}^\infty \frac{1}{\abs{a_n}^{p + 1}} < \infty.
+	\]
+	If $p$ is the smallest nonnegative integer such that this condition holds, then we say that $f$ is of \keyword{rank $p$}\index{rank}.
+\end{definition}
+
+\begin{remark}
+	\begin{items}
+		\item If $f$ has only finitely many zeros, then the sum above always converges, and in particular converges for $p = 0$, so we say that $f$ has rank $0$.
+
+		\item We say that $f$ is of \keyword{infinite rank}\index{rank!infinite} if it is not of finite rank.
+		In other words, it is not of rank $p$ for any $p$.
+	\end{items}
+\end{remark}
+
+\begin{remark}
+	Suppose $f$ is of finite rank $p$.
+	Then
+	\[
+		f(z) = z^m \exp(g(z)) \prod_{n = 1}^\infty E_p\Bigl( \frac{z}{a_n} \Bigr).
+	\]
+	Here $m$ is the order of vanishing of $f$ at $z = 0$, so $m$ is unique.
+	Similarly, the $E_p$ terms are now uniquely determined, since we have chosen $p$ as small as possible.
+	Finally, $\exp(g(z))$ is also unique, meaning that the entire expression is unique except $g(z)$ may be replaced by $g(z) + 2 \pi i k$ for $k \in \Z$.
+
+	Finally, we call
+	\[
+		P(z) = \prod_{n = 1}^\infty E_p\Bigl( \frac{z}{a_n} \Bigr)
+	\]
+	the \keyword{standard form}\index{standard form} of $f$.
+\end{remark}
+
+\begin{definition}[Genus]
+	An entire function $f$ has \keyword{finite genus}\index{genus!finite} if $f$ has finite rank and $g(z)$ is a polynomial, where $f(z) = z^m \exp(g(z)) P(z)$ and $P(z)$ is the standard form of $f$.
+
+	Let $p$ be the rank of $f$ and $q$ be the degree of $g(z)$.
+	Then $\mu \coloneqq \max\Set{p, q}$ is called the \keyword{genus}\index{genus} of $f$.
+\end{definition}
+
+Looking at this definition, this tells us that the genus of an entire function controls the factorisation.
+As it turns out, the genus also controls the growth of the function:
+
+\begin{theorem}\label{thm8.12}
+	Let $f$ be an entire function of finite genus $\mu$.
+	Then for any $\varepsilon > 0$,
+	\[
+		f(z) \ll_{\varepsilon, f} \exp(\abs{z}^{\mu + 1 + \varepsilon}).
+	\]
+	In particular, we have for some $M > 0$
+	\[
+		\log \abs{E_\mu(z)} \leq M \abs{z}^{\mu + 1}
+	\]
+	as well as
+	\[
+		\log \abs{E_\mu(z)} \leq M \abs{z}^{\mu}
+	\]
+	for all $z \in \C$.
+\end{theorem}
+
+\begin{remark}
+	By the notation $f \ll g$ we mean that there exists some $c > 0$ such that $\abs{f(z)} \leq c \abs{g(z)}$ for all $z \in \C$, known as \keyword{Vinogradov notation}\index{Vinogradov notation}.
+
+	Note that, in the case of smooth $f$ and $g$, this means we only need to consider $\abs{z}$ large, since on bounded sets $f$ and $g$ are both bounded, so we can always find a $c$ sufficiently large.
+\end{remark}
+
+\begin{remark}
+	Which one of the bounds on $\log \abs{E_\mu(z)}$ from the theorem one wants to use depends on $\abs{z}$---if $\abs{z} < 1$ we would prefer a bigger power, since that results a smaller bound, and conversely for $\abs{z} \geq 1$ we would want a smaller power.
+\end{remark}
+
+% \begin{remark}
+% 	It is instructive to note that when dealing with with logarithms and exponentials in this sense, it sometimes serves to be a little big careful.
+% 	By definition,
+% \end{remark}
+
+\begin{proof}
+	Since $f(z)$ is of finite genus $\mu$,
+	\[
+		f(z) = z^m \exp(g(z)) \prod_{n = 1}^\infty E_\mu\Bigl( \frac{z}{a_n} \Bigr),
+	\]
+	where $g(z)$ is a polynomial of degree at most $\mu$.
+	Taking logarithms, for $z \not\in \Set{a_n} \cup \Set{0}$,
+	\[
+		\log \abs{f(z)} = m \log \abs{z} + \Re g(z) + \sum_{n = 1}^\infty \log \abs[\Big]{E_\mu \Bigl( \frac{z}{a_n} \Bigr)}.
+	\]
+	We proceed to bound these three parts one at a time.
+
+	First, $\log \abs{z} \leq M_1 \abs{z}^{\varepsilon}$ for any $\varepsilon > 0$, so definitely $\log \abs{z} \leq M_1 \abs{z}^{\mu + 1}$ for some $M_1 > 0$ and $\abs{z}$ large.
+
+	Second, $\abs{\Re g(z)} \leq \abs{g(z)} \leq M_2 \abs{z}^\mu$ since $g(z)$ is a polynomial of degree at most $\mu$, so in addition $\abs{\Re g(z)} \leq M_2 \abs{z}^{\mu + 1}$ for some $M_2 > 0$ and $\abs{z}$ large.
+
+	Third, and most important, we study $\log \abs{E_\mu(z)}$ as set out in the statement of the theorem.
+	First, let $\abs{z} < \frac{1}{2}$.
+	Here since $\abs{z}$ is small, we have the power series expansion
+	\[
+		\log(1 - z) = - \Bigl( z + \frac{z^2}{2} + \dots + \frac{z^\mu}{\mu} + \dots \Bigr),
+	\]
+	and so since
+	\[
+		E_\mu(z) = (1 - z) \exp\Bigl( z + \frac{z^2}{2} + \dots + \frac{z^\mu}{\mu} \Bigr)
+	\]
+	we get
+	\begin{align*}
+		\log \abs{E_\mu(z)} &= \log\abs{1 - z} + \Re\Bigl( z + \frac{z^2}{2} + \dots + \frac{z^\mu}{\mu}\Bigr) \\
+		&= -\Re\Bigl( \frac{z^{\mu + 1}}{\mu + 1} + \frac{z^{\mu + 2}}{\mu + 2} + \dots \Bigr) \\
+		&= \abs{z}^{\mu + 1} ( 1 + \abs{z} + \abs{z}^2 + \dots )
+	\end{align*}
+	where we have bounded the real part by the modulus, and noted that the denominators in the middle step are all bigger than $1$.
+	But now $\abs{z} < \frac{1}{2}$, so this is bounded by a geometric sum, namely
+	\[
+		\log \abs{E_\mu(z)} \leq \abs{z}^{\mu + 1} \Bigl( 1 + \frac{1}{2} + \frac{1}{2^2} + \dots \Bigr) = 2 \abs{z}^{\mu + 1}.
+	\]
+	Since $\abs{z} < \frac{1}{2} < 1$, making the power smaller enlarges the bound, so this also says $\log\abs{E_\mu(z)} \leq 2 \abs{z}^\mu$.
+
+	On the other hand, for $\abs{z} > 2$, we have
+	\[
+		\log \abs{E_\mu(z)} \leq \log\abs{1 - z} + \abs{z} + \frac{\abs{z}^2}{2} + \dots + \frac{\abs{z}^\mu}{\mu} \leq C \abs{z}^\mu
+	\]
+	for some constant $C > 0$ since, $\abs{z} > 2 > 1$ is large, the last term dominates.
+	This time, $\abs{z}$ being large, means enlarging the power enlarges the bound, so we also have $\log \abs{E_\mu(z)} \leq C \abs{z}^{\mu + 1}$.
+
+	Finally, consider $\frac{1}{2} \leq \abs{z} \leq 2$.
+	Here, notice how $\log\abs{E_\mu(z)}$ is a continuous function, except at $z = 1$, and there
+	\[
+		\lim_{z \to 1} \abs{E_\mu(z)} = -\infty,
+	\]
+	meaning that $\log \abs{E_\mu(z)}$ is bounded above, say $\log\abs{E_\mu(z)} \leq D$ for some $D > 0$.
+	Hence since $\abs{z}$ lives in a bounded range, we have
+	\[
+		\log\abs{E_\mu(z)} \leq D_a \abs{z}^a
+	\]
+	for any power $a$, so in particular for the powers $\mu$ and $\mu + 1$.
+
+	% Third, and most important, we study $\log \abs{E_\mu(z)} \leq M_3 \abs{z}^{\mu + 1}$ for some $M_3 > 0$, $\abs{z}$ large.
+	% To see this we need to recall that
+	% \[
+	% 	E_n(z) = (1 - z) \exp\Bigl( z + \frac{z^2}{2} + \dots + \frac{z^n}{n} \Bigr).
+	% \]
+	% Therefore
+	% \begin{align*}
+	% 	\abs{E_\mu(z)} &= \abs[\Big]{(1 - z) \exp\Bigl( z + \frac{z^2}{2} + \dots + \frac{z^n}{n} \Bigr)} \\
+	% 	&\leq (1 + \abs{z}) \exp\Bigl( \abs{z} + \frac{\abs{z}^2}{2} + \dots + \frac{\abs{z}^\mu}{\mu} \Bigr),
+	% \end{align*}
+	% since the real part of a complex number is bounded by its magnitude (the argument of the exponential becomes its real part when taking absolute values).
+	% Hence
+	% \[
+	% 	\log \abs{E_\mu(z)} \leq \log(1 + \abs{z}) + \abs{z} + \frac{\abs{z}^2}{2} + \dots + \frac{\abs{z}^\mu}{\mu},
+	% \]
+	% where the last term is dominant, so
+	% \[
+	% 	\log \abs{E_\mu(z)} \leq M_3 \abs{z}^{\mu + 1}
+	% \]
+	% for some $M_3 > 0$ and $\abs{z}$ large.
+	% Note that in principle our bound holds for $\abs{z}^{\mu}$, but as we see below, having the power $\mu + 1$ is helpful, because
+
+	Now
+	\[
+		\sum_{n = 1}^\infty \log \abs[\Big]{E_\mu\Bigl( \frac{z}{a_n} \Bigr )} \leq M_3 \sum_{n = 1}^\infty \Bigl( \frac{z}{\abs{a_n}} \Bigr)^{\mu + 1} = M_3 \abs{z}^{\mu + 1} \sum_{n = 1}^\infty \frac{1}{\abs{a_n}^{\mu + 1}},
+	\]
+	where the final sum converges since $f$ is of genus $\mu$.
+	Hence
+	\[
+		\sum_{n = 1}^\infty \log \abs[\Big]{E_\mu\Bigl( \frac{z}{a_n} \Bigr )} \leq M_4 \abs{z}^{\mu + 1}
+	\]
+	for some $M_4 > 0$ and $\abs{z}$ large.
+
+	Putting the three pieces together, this means
+	\[
+		\log \abs{f(z)} \leq K \abs{z}^{\mu + 1}
+	\]
+	for some $K > 0$ and $\abs{z}$ large, so
+	\[
+		f(z) \ll \exp(\abs{z}^{\mu + 1 + \varepsilon}),
+	\]
+	where the $\varepsilon > 0$ comes from absorbing $K$ into the exponential.
+\end{proof}

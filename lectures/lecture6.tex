@@ -1,0 +1,269 @@
+%!TEX root = ../lectures.tex
+
+\lecture[September 5th, 2019]{Counting Zeros}
+
+\topic{Simply connected sets and Simple closed curve}
+
+\begin{proposition}[Independence of path]\label{prop4.6}
+	Let $\gamma_0$ and $\gamma_1$ be two rectifiable curves in in an open set $G$, both from $a$ to $b$, and suppose $\gamma_0 \simeq \gamma_1$.
+	Then
+	\[
+		\int_{\gamma_0} f(z) \, d z = \int_{\gamma_1} f(z) \, d z
+	\]
+	for any analytic function $f$ on $G$.
+\end{proposition}
+
+\begin{proof}
+	Consider the path $\gamma_0 \cup - \gamma_1$, which is then a closed path from $a$ to itself.
+	Then
+	\[
+		0 = \int_{\gamma_0 \cup - \gamma_1} f(z) \, d z = \int_{\gamma_0} f(z) \, d z - \int_{\gamma_1} f(z) \, d z. \qedhere
+	\]
+\end{proof}
+
+\begin{corollary}\label{cor4.7}
+	Let $G$ be simply connected and let $f \colon G \to \C$ be analytic.
+	Then $f$ has a primitive.
+\end{corollary}
+
+\begin{proof}
+	We use the method from our proof of \nameref{thm4.5}: since $G$ is simply connected, and $f$ is analytic, the integral of $f$ over any simple closed curve is $0$.
+	So in particular the integral of $f$ over any triangular path is $0$, so we can construct a primitive of $f$ in the same way we did for \nameref{thm4.5} theorem.
+\end{proof}
+
+\begin{corollary}\label{cor4.8}
+	Let $G$ be simply connected and $f \colon G \to \C$ be an analytic function.
+	Suppose $f(z) \neq 0$ for all $z \in G$.
+	Then there exists an analytic function $g \colon G \to \C$ such that $f(z) = \exp(g(z))$.
+	Moreover, for fixed $z_0 \in G$ and $f(z_0) = e^{w_0}$, we can choose $g$ such that $g(z_0) = w_0$.
+\end{corollary}
+
+Before we go on to prove this, let us briefly discuss the idea behind this result.
+If we have a nonzero thing in $\R$, we can take its logarithm.
+The same thing is not \emph{quite} true in $\C$, because the complex logarithm is not analytic---it requires a branch cut, but it does make sense to take logarithms \emph{locally}, just make sure the branch cut doesn't interfere in the local neighbourhood at hand.
+
+Hence, since we can't take logarithms globally, we instead express a sort of inverse of the result, hence the exponential function.
+
+\begin{proof}
+	Since $f(z) \neq 0$ for all $z \in G$ and $f'$ exists since $f$ is analytic, we must have that its logarithmic derivative\index{logarithmic derivative} $\frac{f'}{f}(z)$ is analytic in $G$.
+
+	Hence by \autoref{cor4.7} $\frac{f'}{f}(z)$ has a primitive, say $g_1$.
+	Setting $h(z) = \exp(g_1(z))$, this must be analytic in $G$ and moreover because of the exponential $h(z) \neq 0$ for all $z \in G$.
+	Thus $\frac{f}{h}$ is analytic in $G$, and computing its derivative we get
+	\[
+		\Bigl ( \frac{f}{h} \Bigr )' = \frac{f' h - f h'}{h^2} = \frac{f' e^{g_1} - f e^{g_1} g_1'}{h^2} = \frac{f' e^{g_1} - f e^{g_1} \frac{f'}{f}}{h_2} = 0.
+	\]
+	Therefore $\frac{f}{h}$ is constant, so, say, $f = c \cdot h$ for some $c \neq 0$.
+	But then
+	\[
+		f(z) = c \exp(g_1(z)) = \exp(g(z))
+	\]
+	for some scaled version $g(z)$ of $g_1(z)$.
+
+	Note finally how, since the exponential is invariant under shifts of $2 \pi i k$ for integers $k$, this is equal to $\exp(g(z) + 2 \pi i k)$ for all integers $k$, and so if we want
+	\[
+		f(z_0) = e^{w_0} = \exp(g(z) + 2 \pi i k),
+	\]
+	we need just choose $k$ such that $w_0 = g(z_0) + 2 \pi  k$ and rename $g$ to include this shift.
+\end{proof}
+
+\topic{Counting zeros}
+
+Recall how if $G$ is a region and $f \colon G \to \C$ is analytic with zeros $a_1, a_2, \dots, a_m$ (repeated according to multiplicities), we can write
+\[
+	f(z) = (z - a_1) (z - a_2) \dotsm (z - a_m) g(z)
+\]
+where $g$ is analytic in $G$ and $g(z) \neq 0$ for all $z \in G$.
+Taking the logarithmic derivative of this we get
+\[
+	\frac{f'}{f}(z) = \frac{1}{z - a_1} + \frac{1}{z - a_2} + \dots + \frac{1}{z - a_m} + \frac{g'}{g}(z).
+\]
+Notice how $\frac{g'}{g}$ is analytic in $G$ since $g$, by construction, is never zero.
+Hence if we integrate this expression over a closed rectifiable curve $\gamma \simeq 0$, the last term goes away, and importantly, by Cauchy's integral formula, each of the remaining terms will contribute exactly $2 \pi i$ times the winding number of $\gamma$ around them if they are inside the region enclosed by $\gamma$, and otherwise zero.
+Therefore
+
+\begin{theorem}\label{thm4.9}
+	Let $G$ be a region and let $f$ be an analytic function on $G$ with zeros $a_1, a_2, \dots, a_m$, repeated according to multiplicities.
+	Let $\gamma$ be a closed rectifiable curve in $G$ such that $a_i \not\in \Set{\gamma}$ for any $i = 1, 2, \dots, m$, and $\gamma \simeq 0$ in $G$.
+	Then
+	\[
+		\frac{1}{2 \pi i} \int_\gamma \frac{f'}{f}(z) \, d z = \sum_{i = 1}^{m} n(\gamma; a_i).
+	\]
+\end{theorem}
+
+In practice, we often care about a simpler version of this result:
+
+\begin{corollary}
+	Let $G$ be a region and let $\gamma$ be a simple closed curve in $G$.
+	Then the integral
+	\[
+		\int_\gamma \frac{f'}{f}(z) \, d z
+	\]
+	counts the zeros of $f$ enclosed by $\gamma$ with multiplicities (assuming no zeros of $f$ lie on $\gamma$).
+\end{corollary}
+
+\begin{theorem}\label{thm4.10}
+	Let $f$ be analytic in $B(a, R)$, and let $f(a) = \alpha$.
+	Suppose $f(z) - \alpha$ has a zero of order $m$ at $z = a$.
+	Then there exist $\varepsilon > 0$ and $\delta > 0$ such that for all $0 < \abs{\xi - \alpha} < \delta$, the function $f(z) - \xi$ has exactly $m$ simple roots in $B(a, \varepsilon)$.
+\end{theorem}
+
+\begin{remark}
+	This theorem implies that $f(B(a, \varepsilon)) \supset B(\alpha, \delta)$.
+	This will be important in just a moment.
+\end{remark}
+
+\begin{proof}
+	Since the zeros of an analytic function are isolated, we can find $0 < \varepsilon < \frac{R}{2}$ such that $f(z) = \alpha$ has no solutions in $0 < \abs{z - a} < 2 \varepsilon$, and $f'(z) \neq 0$ in $0 < \abs{z - a} < 2 \varepsilon$.
+	For this second part, note that it is of course possible that $f'$ has a zero near $a$, but $f'$ is also analytic, and its zeros are also isolated, so in that case shrink the ball some more.
+
+	Let $\gamma(t) = a + \varepsilon \exp(2 \pi i t)$ for $0 \leq t \leq 1$, and let $\sigma = f \circ \gamma$, the image of this circle under $f$.
+
+	Since $\alpha = f(a) \not\in \Set{\sigma}$, there exists some $\delta > 0$ such that $B(\alpha, \delta) \cap \Set{\sigma} = \varnothing$.
+	Hence $B(\alpha, \delta) \subset \C \setminus \Set{\sigma}$.
+	Therefore, since both $\alpha$ and $\xi$ are inside the region enclosed by $\sigma$,
+	\[
+		n(\sigma; \alpha) = \frac{1}{2 \pi i} \int_\sigma \frac{1}{z - \alpha} \, d z = \frac{1}{2 \pi i} \int_\sigma \frac{1}{z - \xi} \, d z.
+	\]
+	But $\sigma = f \circ \gamma$, so taking the change of variables $z = f(w) - \alpha$, $d z = (f(w) - \alpha)' \, d w$ in the first integral, we get
+	\[
+		\frac{1}{2 \pi i} \int_\gamma \frac{(f(w) - \alpha)'}{f(w) - \alpha} \, d w ,
+	\]
+	which is the number of zeros of $f(z) - \alpha$ in $B(a, \varepsilon)$, or in other words $m$.
+	Doing the same thing to the second integral we get that
+	\[
+		\frac{1}{2 \pi i} \int_\sigma \frac{1}{z - \xi} \, d z
+	\]
+	is the number of zeros of $f(z) - \xi$ in $B(a, \varepsilon)$, but we we chose $\varepsilon$ such that $f'(z) \neq 0$ for all $0 < \abs{z - a} < 2 \varepsilon$, so each of these roots of $f(z) - \xi$ is simple.
+\end{proof}
+
+The remark, as promised, is fairly important:
+
+\index{open mapping theorem|(}
+\begin{theorem}[Open mapping theorem]\label{thm4.11}
+	Let $G$ be a region.
+	Suppose $f$ is a non-constant analytic function on $G$.
+	Then for any open set $U \subset G$, $f(U)$ is open.
+\end{theorem}
+\index{open mapping theorem|)}
+
+\begin{proof}
+	Let $U \subset G$ be open.
+	We want to show that $f(U)$ is open, i.e., for every $\alpha \in f(U)$ there exists some $\delta > 0$ such that $B(\alpha, \delta) \subset f(U)$.
+
+	To this end, suppose $a \in G$ such that $f(a) = \alpha$.
+	By the previous theorem there exists $\varepsilon > 0$ and $\delta > 0$ such that $B(a, \varepsilon) \subset U$ and $f(B(a, \varepsilon)) \supset B(\alpha, \delta)$, and $f(U) \supset f(B(a, \varepsilon))$, so $f(U)$ is open.
+\end{proof}
+
+As an aside, this implies that an injective analytic function has analytic inverse, since it says that preimages of open sets under the inverse are open sets.
+Though we know more than that about an injective analytic function: its derivative must be nonzero everywhere, so in fact it would be a conformal mapping:
+
+\begin{exercise}\label{hw3.1}
+	Let $G$ be a region.
+	Suppose that $f \colon G \to \C$ is analytic and one-to-one.
+	Show that $f'(z) \neq 0$ for all $z \in G$.
+\end{exercise}
+
+\begin{remark}
+	The converse of this exercise is not true: there exist analytic functions with non-vanishing derivatives that are not one-to-one.
+	An easy example if $f(z) =e^z$; the derivative of this is never zero, but $f(z + 2 \pi i k) = f(z)$ for all integers $k$, so it is certainly not injective.
+\end{remark}
+
+We mentioned a long time ago, in \autoref{remark:analytic}~\ref{remark:analytic:1}, that requiring the derivative of a function to be continuous in the definition of analytic is superfluous.
+We are finally ready to prove this:
+
+\index{Goursat's theorem|(}
+\begin{theorem}[Goursat's theorem]\label{thm4.12}
+	Let $G$ be an open set and let $f \colon G \to \C$ be differentiable.
+	Then $f$ is analytic.
+\end{theorem}
+\index{Goursat's theorem|)}
+
+\begin{proof}
+	We want to show, ultimately, that $f'$ is continuous, but it turns out a better idea, by \nameref{thm4.5}, is to show that
+	\[
+		\int_T f(z) \, d z = 0
+	\]
+	for all triangular paths $T$ in $G$, since $f$, being differentiable, is continuous, and by \nameref{thm4.5} this would make it analytic.
+
+	Let $T$ be an arbitrary triangular path in $G$.
+	Then if we form new add and subtract the line segments between the midpoints of the line segments making up $T$, as per \autoref{fig:triangularpath}, we have not changed the path, and we have
+	\[
+		\int_T f(z) \, d z = \sum_{i = 1}^4 \int_{T_i} f(z) \, d z.
+	\]
+	Now let $T^1$ be the triangular path among $T_1$, $T_2$, $T_3$, and $T_4$ such that
+	\[
+		\abs[\Big]{\int_{T'} f(z) \, d z} = \max_{1 \leq i \leq 4} \abs[\Big]{\int_{T_i} f(z) \, d z}.
+	\]
+
+	\begin{marginfigure}
+		\centering
+		\mfincludegraphics[width=\textwidth]{figures/l6figa.tikz}
+
+		becomes
+
+		\mfincludegraphics[width=\textwidth]{figures/l6figb.tikz}
+
+		\caption{\label{fig:triangularpath} Decomposing a triangular path $T$ into smaller triangular paths.}
+	\end{marginfigure}
+
+	Then by construction
+	\[
+		\abs[\Big]{\int_T f(z) \, d z} \leq 4 \abs[\Big]{\int_{T^1} f(z) \, d z}.
+	\]
+	Repeat this process with $T^1$ in place of $T$, getting $T^2$, and so on.
+	In general, then, we have
+	\[
+		\abs[\Big]{\int_T f(z) \, d z} \leq 4^n \abs[\Big]{\int_{T^n} f(z) \, d z},
+	\]
+	the lengths of the paths halve every time, i.e.,
+	\[
+		\ell(T^n) = \frac{1}{2} \ell(T^{n - 1}) = \dots = \frac{1}{2^n} \ell(T),
+	\]
+	and letting $\Delta^n$ denote the closed triangle inside $T^n$, so that
+	\[
+		\Delta \supset \Delta^1 \supset \dots \supset \Delta^n,
+	\]
+	we have
+	\[
+		\diam(\Delta^n) = \frac{1}{2} \diam(\Delta^{n - 1}) = \dots = \frac{1}{2^n} \diam(\Delta),
+	\]
+	which goes to $0$ as $n \to \infty$.
+	Now the intersection
+	\[
+		\bigcap_{n = 1}^\infty \Delta^n
+	\]
+	is nonempty, since the $\Delta^n$ are closed and nested, but the diameter of the intersection goes to $0$, so the intersection contains only a single point, say $z_0$.
+
+	Since $f$ is differentiable at $z_0$, we have that for every $\varepsilon > 0$ there exists some $\delta > 0$ such that $B(z_0, \delta) \subset G$ and
+	\[
+		\abs[\Big]{\frac{f(z) - f(z_0)}{z - z_0} - f'(z_0)} < \varepsilon
+	\]
+	for every $0 < \abs{z - z_0} < \delta$.
+	Hence
+	\[
+		\abs{f(z) - f(z_0) - f'(z_0) (z - z_0)} < \varepsilon \abs{z - z_0}.
+	\]
+	Now, since the functions $1$ and $z$ are analytic, by \nameref{cor4.4}
+	\[
+		\int_{T^n} 1 \, d z = \int_{T^n} z \, d z = 0,
+	\]
+	and thus for $n$ sufficiently large
+	\[
+		\abs[\Big]{\int_{T^n} f(z) \, d z} = \abs[\Big]{\int_{T^n} f(z) - f(z_0) - f'(z_0) (z - z_0) \, d z} \leq \varepsilon \int_{T^n} \abs{z - z_0} \, d z.
+	\]
+	But $z$ is on $T^n$ and $z_0$ is in the interior of $\Delta^n$, so this distance is bounded by $\diam(\Delta^n)$.
+	Hence the integral is bounded above by
+	\[
+		\varepsilon \diam(\Delta^n) \ell(T^n) = \frac{\varepsilon}{4^n} \diam(\Delta) \ell(T).
+	\]
+	Hence
+	\[
+		\abs[\Big]{\int_T f(z) \, d z} \leq 4^n \frac{\varepsilon}{4^n} \diam(\Delta) \ell(T) = \varepsilon \diam(\Delta) \ell(T),
+	\]
+	but $\varepsilon > 0$ is arbitrary, so
+	\[
+		\abs[\Big]{\int_T f(z) \, d z} = \int_T f(z) \, d z = 0,
+	\]
+	as desired.
+\end{proof}

@@ -1,0 +1,249 @@
+%!TEX root = ../lectures.tex
+
+\lecture[August 22nd, 2019]{Möbius Transformations}
+
+\topic{Conformal mappings}
+
+Let $f \colon G \to \C$ be some function and let $z_0 \in G$.
+Imagine any two (differentiable) curves $\gamma_1$ and $\gamma_2$ going through $z_0$.
+At the point $z_0$ these curves have tangent lines, and we can measure the (anticlockwise) angle between the two, say $\theta$.
+
+Now imagine mapping $\gamma_1$ and $\gamma_2$ through $f$, resulting in two new curves $f(\gamma_1)$ and $f(\gamma_2)$ going through a point $f(z_0)$.
+As before, we can measure the angles between the tangent lines of the two curves at this point, say $\alpha$.
+
+In the event that $\theta = \alpha$ we say that $f$ \keyword{preserves angles}\index{preserve angle} at $z_0$.
+
+\begin{definition}[Conformal mapping]
+	A function $f \colon G \to C$ is a \keyword{conformal mapping}\index{conformal mapping} if it preserves angles at each point $z_0 \in G$.
+\end{definition}
+
+\begin{theorem}\label{thm2.1}
+	Let $f \colon G \to \C$ be analytic and $z_0 \in G$.
+	Suppose $f'(z_0) \neq 0$.
+	Then $f$ preserves angles at $z_0$.
+\end{theorem}
+
+\begin{corollary}\label{cor2.2}
+	If $f \colon G \to \C$ is analytic and $f'(z) \neq 0$ for all $z \in G$, then $f$ is a conformal mapping.
+\end{corollary}
+
+\begin{proof}[Proof of \autoref{thm2.1}]
+	Take $\gamma \colon \interval{a}{b} \to G$ with $\gamma(t_0) = z_0$ and $\gamma'(t_0) \neq 0$.
+	Let $\sigma(t) = f(\gamma(t))$, so that $\sigma(t_0) = f(z_0)$.
+
+	Then by the chain rule $\sigma'(t) = f'(\gamma(t)) \cdot \gamma'(t)$, so in particular
+	\[
+		\sigma'(t_0) = f'(z_0) \cdot \gamma'(t_0).
+	\]
+	Now by assumption and choice both terms in the right-hand side are nonzero, so $\sigma'(t_0) \neq 0$ too.
+
+	Looking at the angles, we then get
+	\[
+		\arg \sigma'(t_0) = \arg f'(z_0) + \arg \gamma'(t_0),
+	\]
+	meaning that $\arg \sigma'(t_0) - \arg \gamma'(t_0) = \arg f'(z_0)$, which is fixed and independent of $\gamma$.
+	Therefore we get the same
+	\[
+		\arg \sigma_1'(t_0) - \arg \gamma_1'(t_0) = \arg f'(z_0)
+	\]
+	for another curve $\gamma_1$, and setting those equal and rearranging we see that
+	\[
+		\arg \gamma_1'(t_0) - \arg \gamma'(t_0) = \arg \sigma_1'(t_0) - \arg \sigma'(t_0)
+	\]
+	for any two curves $\gamma$ and $\gamma_1$, the angle between the tangent lines before applying $f$ is equal to the angle between the tangent lines after applying $f$, so $f$ preserves angles at $z_0$.
+\end{proof}
+
+\begin{example}
+	Let $f(z) = z^2$, so that $f'(z) = 2 z$, and in particular $f'(0) = 0$: as expected, $f$ does not preserve angles at $z = 0$.
+
+	To see this, imagine mapping the real line through $f$, ending up with a the nonnegative real line in the image space.
+	Similarly, the imaginary line mapped through $f$ results in the nonpositive real line in the image space.
+
+	The angles between the two axes before mapping through $f$ is $\pi/2$, but the angle afterwards is $\pi$.
+\end{example}
+
+\begin{example}
+	Consider $f(z) = e^z$, for which $f'(z) = e^z \neq 0$ for all $z \in \C$, so $f$ is conformal.
+	Keeping in mind that $e^z = e^{x + i y} = e^x e^{i y}$,
+	we see that, for example, the vertical line $x = c$ gets mapped to $e^c e^{i y}$, with $c$ fixed, so in other words the circle of radius $e^c$ centred on the origin
+
+	Similarly, the horizontal line $y = \theta$ gets mapped to $e^x e^{i \theta}$ for a fixed angle $\theta$, where $e^x$ takes any value on $\interval[open]{0}{\infty}$, so this line gets mapped to the ray from the origin pointing outward at the angle $\theta$.
+
+	Of course this ray lies on a radius of the above circle, so their the angles between those curves is $\pi/2$, just like the angle between vertical and horizontal lines.
+\end{example}
+
+\topic{Möbius transformations}
+
+\begin{definition}[Möbius transformation]
+	Let $a$, $b$, $c$, and $d$ be complex numbers with $a d - b c \neq 0$.
+	Then the function
+	\[
+		S(z) \coloneqq \frac{a z + b}{c z + d}
+	\]
+	is called a \keyword{Möbius transformation}\index{Möbius transformation} or \keyword{linear fractional transformation}\index{linear fractional transformation|see {Möbius transformation}}.
+\end{definition}
+
+Notice how for any complex number $\lambda \neq 0$,
+\[
+	S(z) = \frac{a z + b}{c z + d} = \frac{\lambda}{\lambda} \frac{a z + b}{c z + d} = \frac{(\lambda a) z + (\lambda b)}{(\lambda c) z + (\lambda d)},
+\]
+meaning that we can choose $a$, $b$, $c$, and $d$ such that $a d - b c = 1$ (by just dividing through by whatever the original $a d - b c \neq 0$ is).
+
+This means that we can identify the Möbius transformation $S$ with a matrix
+\[
+	\gamma = \begin{pmatrix}
+		a & b \\
+		c & d
+	\end{pmatrix} \in \SL_2(\C),
+\]
+where by $\SL_2(\C)$ we mean the \keyword{special linear group}\index{special linear group} of $2 \times 2$ matrices over $\C$ with determinant $1$.
+
+There is a small complication: this identification is not unique, since
+\[
+	\frac{a z + b}{c z + d} = \frac{(- a) z + (- b)}{(- c) z + (- d)},
+\]
+meaning that $\gamma$ and $-\gamma$ represent the same Möbius transformation.
+Consequently we should really identify $S$ with a matrix $\gamma$ in
+\[
+	\PSL_2(\C) = \SL_2(\C) / \Set{+I, -I},
+\]
+the \keyword{projective special linear group}\index{special linear group!projective} of $2 \times 2$ matrices over $\C$ with determinant $1$ (where by $I$ we mean the identity matrix).
+
+Correspondingly then we define for
+\[
+	\gamma = \begin{pmatrix}
+		a & b \\
+		c & d
+	\end{pmatrix} \in \SL_2(\C)
+\]
+the action
+\[
+	\gamma z = \frac{a z + b}{c z + d}.
+\]
+This is a group action on $\C$, meaning that $I z = z$ for all $z$ and $(\gamma_1 \gamma_2) z = \gamma_1 (\gamma_2 z)$ for all $\gamma_1, \gamma_2 \in \SL_2(\C)$ and $z \in \C$.
+This second property is a fairly lengthy but straight-forward computation.
+
+Keeping the second property in mind, since $\SL_2(\C)$ is a group, $\gamma$ has an inverse element (which is precisely its matrix inverse), $(\gamma^{-1} \gamma) z = I z = z$, meaning that the Möbius transformation $S$ corresponding to $\gamma$ has an inverse corresponding to $\gamma^{-1}$, i.e.
+\[
+	S^{-1}(z) = \gamma^{-1} z = \frac{d z - b}{-c z + a}
+\]
+since the determinant of $\gamma$ is $1$.
+
+Notice moreover that since $z = - \frac{d}{c}$ makes the denominator zero, it is sensible to define Möbius transformations not only on $\C$ but on the \keyword{Riemann sphere}\index{Riemann sphere} $\C_\infty = \C \cup \Set{\infty}$. on which we have in particular
+\[
+	S\Bigl ( - \frac{d}{c} \Bigr ) = \infty \qquad \text{and} \qquad S(\infty) = \frac{a}{c}.
+\]
+
+One (useful) way to visualise the Riemann sphere is as the projection from the pole (which we label $\infty$) of a sphere centred on the origin of the complex plane onto said plane.
+An illustration of this is given in \autoref{l2:figa}.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=\textwidth]{figures/l2figa.tikz}
+
+	\caption{\label{l2:figa} A model of the Riemann sphere, identifying a point $z \in \C$ with a point $Z$ on $\C_\infty$.}
+\end{figure}
+
+In this view we see that circles on $\C_\infty$ passing through $\infty$ correspond to straight lines in $\C$.
+
+Recalling how
+\[
+	S(z) = \frac{a z + b}{c z + d}
+\]
+we can see immediately that a Möbius transformation $S$ has at most two fixed points, since $S(z) = z$ becomes $c z^2 + (d - a) z - b = 0$, unless $S = \Id$, i.e., $S(z) = z$ for all $z \in \C_\infty$.
+
+A very useful consequence of this is the fact that $S(z)$ is uniquely determined by its values on any three given points in $\C_\infty$.
+
+To see this, suppose $S$ and $T$ are Möbius transformations such that $S(z_0) = T(z_0)$, $S(z_1) = T(z_1)$, and $S(z_2) = T(z_2)$ for three distinct points $z_0, z_1, z_2 \in \C_\infty$.
+Then since $T$ is invertible, we have $T^{-1} \circ S (z_0) = z_0$, $T^{-1} \circ S (z_1) = z_1$, and $T^{-1} \circ S (z_2) = z_2$, meaning that the Möbius transformation $T^{-1} \circ S$ (which is a Möbius transformation by closure of matrix multiplication in $\SL_2(\C)$, for the record) has more than two fixed points, meaning that $T^{-1} \circ S = \Id$, and so $S = T$.
+
+As a consequence we have the following
+\begin{lemma}\label{lem2.3}
+	Let $z_2, z_3, z_4 \in \C_\infty$.
+	Then the map
+	\[
+		S(z) = \begin{cases}
+			\displaystyle \frac{(z - z_3) (z_2 - z_4)}{(z - z_4) (z_2 - z_3)}, & \text{if } z_2, z_3, z_4 \in \C, \\
+			\displaystyle \frac{z - z_3}{z - z_4}, & \text{if } z_2 = \infty, \\
+			\displaystyle \frac{z_2 - z_4}{z - z_4}, & \text{if } z_3 = \infty, \\
+			\displaystyle \frac{z - z_3}{z_2 - z_3}, & \text{if } z_4 = \infty
+		\end{cases}
+	\]
+	is the unique Möbius transformation mapping $z_2 \mapsto 1$, $z_3 \mapsto 0$, and $z_4 \mapsto \infty$.
+\end{lemma}
+
+\begin{proof}
+	This is more or less straight-forward construction.
+	If we want $z_4 \mapsto \infty$, we need to have a factor of $z - z_4$ in the denominator but not in the numerator.
+	Similarly, to make $z_3 \mapsto 0$, we must have a $z - z_3$ in the numerator but not the denominator.
+	Finally for $z_2 \mapsto 1$, we need to make sure we have all the same factors in the numerator and denominator when $z$ is replaced by $z_2$, so we need a new $z_2 - z_4$ in the numerator and $z_2 - z_3$ in the denominator.
+
+	For the infinity cases, just cancel the relevant infinite factors.
+\end{proof}
+
+We denote this unique map $S(z)$ as $(z, z_2, z_3, z_4)$, known as the \keyword{cross ratio}\index{cross ratio} of $z$, $z_2$, $z_3$, and $z_4$, meaning the Möbius transformation mapping $z_2 \mapsto 1$, $z_3 \mapsto 0$, and $z_4 \mapsto \infty$
+
+\begin{example}
+	This means that for example $(z, 1, 0, \infty) = z$, since a Möbius transformation agreeing with the identity map at three points must agree with it everywhere.
+
+	Similarly, $(z_2, z_2, z_3, z_4) = 1$ no matter what $z_2$, $z_3$, and $z_4$ are.
+\end{example}
+
+\begin{exercise}
+	Evaluate the following cross ratios:
+	\begin{parts}
+		\item $(7 + i, 1, 0, \infty)$,
+		\item $(2, 1-i, 1, 1+i)$,
+		\item $(0, 1, i, -1)$,
+		\item $(-1+i, \infty, 1+i, 0)$. \qedhere
+	\end{parts}
+\end{exercise}
+
+\begin{proposition}\label{prop2.4}
+	Let $z_2, z_3, z_4 \in \C_\infty$ be three distinct points.
+	Let $T$ be any Möbius transformation.
+	Then
+	\[
+		(z_1, z_2, z_3, z_4) = (T(z_1), T(z_2), T(z_3), T(z_4))
+	\]
+	for all $z_1 \in \C_\infty$.
+\end{proposition}
+
+\begin{proof}
+	Let $S(z) = (z, z_2, z_3, z_4)$ and set $M = S \circ T^{-1}$.
+	Then
+	\[
+		M(T(z_2)) = S \circ T^{-1} \circ T (z_2) = S(z_2) = 1,
+	\]
+	$M(T(z_3)) = S(z_3) = 0$, and $M(T(z_4)) = S(z_4) = \infty$.
+	Therefore $M = S \circ T^{-1} = S$, and
+	\[
+		M(z) = (z, T(z_2), T(z_3), T(z_4)).
+	\]
+	Letting $z_1 = T^{-1}(z)$, so that $T(z_1) = z$, we then get
+	\[
+		(T(z_1), T(z_2), T(z_3), T(z_4)) = (z_1, z_2, z_3, z_4)
+	\]
+	for all $z_1 \in \C_\infty$, as desired.
+\end{proof}
+
+\begin{corollary}\label{cor2.5}
+	The unique Möbius transformation $W = T(z)$ mapping $z_2$, $z_3$, and $z_4$ to $w_2$, $w_2$, and $w_4$, respectively, is given by
+	\[
+		(w, w_2, w_3, w_4) = (z, z_2, z_3, z_4).
+	\]
+\end{corollary}
+
+\begin{exercise}
+	Find the unique Möbius transformation mapping $z_2 = 1$, $z_3 = 2$, $z_4 = 7$ to $w_2 = 1$, $w_3 = 2$, $w_4 = 3$, respectively.
+\end{exercise}
+
+\begin{proposition}\label{prop2.6}
+	Let $z_1$, $z_2$, $z_3$, and $z_4$ be four distinct points in $\C_\infty$.
+	then $(z_1, z_2, z_3, z_4)$ is a real number if and only if the four points lie on a circle in $\C_\infty$.
+\end{proposition}
+
+\begin{exercise}
+	Let $\displaystyle T(z) = \frac{a z + b}{c z + d}$.
+	Show that $T(\R_\infty) = \R_\infty$ if and only if we can choose $a, b, c, d$ to be real numbers.
+\end{exercise}

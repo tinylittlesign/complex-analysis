@@ -1,0 +1,269 @@
+%!TEX root = ../lectures.tex
+
+\lecture[November 5th, 2019]{Range of Analytic Functions}
+
+\topic{Proof of Hadamard's factorisation theorem}
+
+We start by finishing the proof started last time:
+
+\begin{proof}[Proof of \nameref{thm8.15}, continued]
+	By the \nameref{thm8.8}, we therefore have
+	\[
+		f(z) = z^m \exp(g(z)) \prod_{n = 1}^\infty E_p\Bigl( \frac{z}{a_n} \Bigr),
+	\]
+	where for ease of discussion we will call the product at the end $P(z)$.
+	We next wish to show that $g(z)$ is a polynomial of degree at most $\lambda$.
+
+	Consider the function $\frac{f(z)}{z^m P(z)}$.
+	It is entire (or has only removable singularities, so remove them) and never vanishes in $\C$.
+	Then, studying the orders of these terms,
+	\begin{align*}
+		\log \abs[\Big]{\frac{f(z)}{z^m P(z)}} &= \log \abs{f(z)} - m \log\abs{z} - \log \abs{P(z)} \\
+		&\leq C_\varepsilon \left ( \abs{z}^{\lambda + \varepsilon} + \abs{z}^\varepsilon + \abs{z}^p \right ) \\
+		&\leq K_\varepsilon \abs{z}^{\lambda + \varepsilon}
+	\end{align*}
+	for $\abs{z}$ large, since $p \leq \lambda$ and the terms in $P(z)$ are of the form
+	\[
+		E_p(z) = (1 - z) \exp\Bigl( z + \frac{z^2}{2} + \dots + \frac{z^p}{p} \Bigr),
+	\]
+	at least for $p \geq 1$ (for $p = 0$ it is just $1 - z$).
+
+	In other words $\frac{f(z)}{z^m P(z)}$ is of finite order at most $\lambda$, and never vanishes, which by \autoref{prop8.14} means
+	\[
+		\frac{f(z)}{z^m P(z)} = \exp(g(z))
+	\]
+	where $g(z)$ is a polynomial of degree at most $\lambda$, meaning that $f(z)$ is of finite genus at most $\lambda$, finishing the proof.
+\end{proof}
+
+As a small historic interlude, this theorem gives in particular a factorisation of the \keyword{Riemann zeta function}\index{Riemann zeta function} in terms of its zeros, a product representation first conjectured to exist by Riemann.
+It was in proving the existence of this product representation of the zeta function that Hadamard happened to prove the existence for all entire functions of finite order.
+
+Aside from genus and order, there is a third related, and sometimes powerful, notion.
+To see how this is occassionally more useful, see in particular \autoref{hw8p6}~\ref{hw8p6b}.
+
+\begin{definition}[Exponent of convergence]
+	Let $\Set{a_n}$ be a sequence of non-zero complex numbers.
+	Let
+	\[
+		\rho = \inf\Set*{r \given \sum_n \frac{1}{\abs{a_n}^r} < \infty},
+	\]
+	called the \keyword{exponent of convergence}\index{exponent of convergence} of $\Set{a_n}$.
+\end{definition}
+
+\begin{exercise}
+	\begin{parts}
+		\item Let $f$ be an entire function of rank $p$.
+		Show that the exponent of convergence $\rho$ of the non-zero zeros of $f$ satisfies: $p \leq \rho \leq p + 1$.
+
+		\item Let $f$ be an entire function of order $\lambda$ and let $\Set{a_n}$ be the non-zero zeros of $f$ repeated according to multiplicity.
+		Let $\rho$ be the exponent of convergence of $\Set{a_n}$.
+		Show that $\rho \leq \lambda$.
+
+		\item Let $\displaystyle P(z) = \prod_{n = 1}^\infty E_p\Bigl( \frac{z}{a_n} \Bigr)$ be a canonical product of rank $p$.
+		Let $\rho$ be the exponent of convergence of $\Set{a_n}$.
+		Show that the order of $P(z)$ is $\rho$. \qedhere
+	\end{parts}
+\end{exercise}
+
+\begin{exercise}\label{hw8p6}
+	\begin{parts}
+		\item\label{hw8p6a} Let $f$ and $g$ be entire functions of finite order $\lambda$.
+		Suppose that $f(a_n) = g(a_n)$ for $\Set{a_n}$ such that $\displaystyle \sum_n \abs{a_n}^{-(\lambda + 1)} = \infty$.
+		Show that $f = g$.
+
+		\item\label{hw8p6b} Replace the condition in \ref{hw8p6a} by $\displaystyle \sum_n \abs{a_n}^{-(\lambda + \varepsilon)} = \infty$ for some $\varepsilon > 0$.
+		Show that $f = g$.
+
+		\item Find all entire functions $f$ of finite order such that $f(\log n) = n$ for $n = 1, 2, \dots$. \qedhere
+	\end{parts}
+\end{exercise}
+
+\topic{The range of entire functions}
+
+Consider a polynomial $p(z)$, say of degree $n$, and let $c \in \C$.
+Then the polynomial $p(z) - c$ is also of degree $n$, and hence has precisely $n$ roots (counting multiplicity), according to the \nameref{thm3.10}.
+This means that the range of a polynomial is all of $\C$, and more precisely every point $c \in \C$ is attained exactly $n$ times.
+
+We wish to investigate the same question, that of the range, for entire functions in general.
+
+\index{Picard's theorem!special case|(}
+\begin{theorem}[Special case of Picard's theorem]\label{thm8.16}
+	Let $f$ be a non-constant entire function of finite order.
+	Then $f(z)$ assumes each complex number with only one possible exception.
+\end{theorem}
+\index{Picard's theorem!special case|)}
+
+\begin{proof}
+	Suppose there exist $\alpha, \beta \in \C$ be distinct points such that $f(z) \neq \alpha$ and $f(z) \neq \beta$ for all $z \in \C$.
+	Then $f(z) - \alpha$ is entire and never vanishes in $\C$, so by \autoref{prop8.14} we can write $f(z) - \alpha = \exp(g(z))$ where $g(z)$ is a polynomial.
+	That is to say, $f(z) = \exp(g(z)) + \alpha$.
+
+	Similarly, since $f(z) \neq \beta$ for all $z \in \C$ we have $\exp(g(z)) + \alpha \neq \beta$ for all $z \in \C$, meaning that $\exp(g(z)) \neq \beta - \alpha$.
+
+	Hence $g(z) \neq \log(\beta - \alpha)$ (note how $\beta - \alpha \neq 0$).
+	But $g(z)$ is a polynomial, so its range is all of $\C$, making this a contradiction.
+\end{proof}
+
+This means that an entire function can miss only one point in $\C$.
+
+The polynomial example brings up another natural question: if $f$ is an entire function, how many times can $f(z)$ assume $a \in \C$?
+
+As discussed, in the case of a degree $n$ polynomial, the answer is precisely $n$ times.
+We answer the question for entire functions analogously:
+
+\begin{theorem}\label{thm8.17}
+	Let $f$ be an entire function of finite order $\lambda$, where $\lambda$ is not an integer.
+	Then $f$ has infinitely many zeros.
+\end{theorem}
+
+Note that the order not being integral implies $f$ is non-constant, since (nonzero) constants are of order $0$.
+
+\begin{proof}
+	Suppose $f$ has only finitely many zeros, say $\Set{a_1, a_2, \dots, a_n}$, repeated according to multiplicity.
+	Then we can write
+	\[
+		f(z) = (z - a_1) (z - a_2) \dotsm (z - a_n) \exp(g(z)),
+	\]
+	with $g$ entire.
+	Consider
+	\[
+		\log \abs[\Big]{\frac{f(z)}{(z - a_1) \dotsm (z - a_n)}} = \log \abs{f(z)} - \log\abs{z - a_1} - \dots - \log\abs{z - a_n} \leq C_\varepsilon \abs{z}^{\lambda + \varepsilon}
+	\]
+	for $\abs{z}$ large.
+	Hence $\frac{f(z)}{(z - a_1) \dotsm (z - a_n)}$ has order at most $\lambda$, so $g(z)$ is a polynomial of degree $\lambda$ by \autoref{prop8.14}.
+	Hence the order of $f$ is the degree of $g$, which, being a polynomial, is an integer.
+	This is a contradiction.
+\end{proof}
+
+It is worth noting that the key insight in the above proof is that scaling by polynomials don't affect the order of an entire function.
+
+\begin{corollary}\label{cor8.18}
+	Let $f$ be an entire function of order $\lambda \not\in \Z$.
+	Then $f$ assumes each complex number an infinite number of times (hence there are no exceptional points).
+\end{corollary}
+
+\begin{proof}
+	Consider $g(z) = f(z) - \alpha$, $\alpha \in \C$.
+	The order of $g$ is the same as the order of $f$, i.e., $\lambda \not\in \Z$.
+	Hence by \autoref{thm8.17}, $g(z)$ has infinitely many zeros, meaning that $f(z)$ assumes $\alpha$ infinitely many times.
+\end{proof}
+
+That is to say, order $\lambda \not\in \Z$ guarantees the presence of the infinite product part of the \nameref{thm8.8}.
+
+The question of the range of analytic functions gets much more delicate if we move from all of $\C$ (so entire functions) to regions $G \neq \C$.
+
+\topic{The range of an analytic function}
+
+Let $D = \Set{z \given \abs{z} < 1}$, and suppose $f \colon D \to \C$ is analytic, with $f(0) = 0$ and $f'(0) = 1$.
+(By the \nameref{thm7.17} we know any region $G \neq \C$ is conformal to $D$, so if suffices to study $D$.)
+
+We want to investigate how `big' $f(D)$ can be,
+
+\begin{lemma}\label{lem9.1}
+	Let $f \colon D \to \C$ be analytic, $f(0) = 0$ and $f'(0) = 1$.
+	Suppose $\abs{f(z)} \leq M$ for every $z \in D$.
+	Then $M \geq 1$ and $f(D) \supset B(0, \frac{1}{6 M})$.
+\end{lemma}
+
+\begin{proof}
+	First we show that $M \geq 1$.
+	Consider the power series expansion of $f(z)$ at $z = 0$,
+	\[
+		f(z) = z + a_2 z^2 + a_3 z^3 + \dots,
+	\]
+	since $a_0 = f(0) = 0$ and $a_1 = f'(0) = 1$ by hypothesis.
+	But $0 < r < 1$, \nameref{thm4.2} gives us $\abs{a_n} \leq \frac{M}{r^n} \leq M$ for all $n$ by letting $r \to 1$.
+
+	Hence in particular $a_1 = f'(0) = 1$, so $1 \leq \frac{M}{r}$, or $r \leq M$, for $0 < r < 1$, so letting $r \to 1$ we see that $M \geq 1$.
+
+	Next let us show that $f(D) \supset B(0, \frac{1}{6 M})$.
+	For any $w \in B(0, \frac{1}{6 M})$, consider the function $g(z) = f(z) - w$.
+	We wish to show that $g(z)$ has a zero in $D$, since that corresponds to $w \in f(D)$.
+
+	The idea is to apply \nameref{thm5.8} on the circle $\abs{z} = \frac{1}{4 M}$.
+	For $\abs{z} = \frac{1}{4 M}$,
+	\[
+		\abs{f(z)} \geq \abs{z} - \sum_{n = 2}^\infty \abs{a_n} \abs{z}^n \geq \frac{1}{4 m} - \sum_{n = 2}^\infty M \Bigl( \frac{1}{4 M} \Bigr)^n
+	\]
+	since $\abs{a_n} \leq M$ for all $n$.
+	The sum at the end is geometric, and works out to be $\frac{1}{16M - 4}$, so
+	\[
+		\abs{f(z)} \geq \frac{1}{4 M} - \frac{1}{16 M - 4} \geq \frac{1}{6 M}.
+	\]
+	Hence on $\abs{z} = \frac{1}{4 M}$, since $w \in B(0, \frac{1}{6 M})$,
+	\[
+		\abs{f(z) - g(z)} = \abs{w} < \frac{1}{6 M} \leq \abs{f(z)}.
+	\]
+	Hence by \nameref{thm5.8} $f(z)$ and $g(z)$ have the same number of zeros in $B(0, \frac{1}{4 M})$, and since $f(0) = 0$, we must consequently have $g(z) = 0$ for some $z \in B(0, \frac{1}{4 M}) \subset D$, whence $w \in f(D)$ as claimed.
+\end{proof}
+
+\begin{remark}
+	It is useful to note that the appearance of the constant $6$ seems a bit out of the blue, and it sort of is.
+
+	As is often the case in situations like this, the way one originally discovers the theorem is to consider some constant $C$ in place of $6$, prove the theorem in some generality, and then, once done, optimise the choice of $C$.
+
+	The appearance of $6$ only looks vaguely magical because the exposition here skips the hard work in finding it.
+\end{remark}
+
+Heuristically, we can tell this lemma cannot be optimal: when $M$ is large, i.e., we have a large bound on $f(z)$, so $f$ takes on many values between $0$ and $M$, then $B(0, \frac{1}{6 M})$ is tiny.
+This hints at there being a better result, and indeed we will work on achieving it in the near future.
+
+For reference we also work out what this theorem becomes on arbitrary balls centred at $z = 0$:
+
+\begin{lemma}\label{lem9.2}
+	Suppose $g$ is analytic on $B(0, R)$, $g(0) = 0$, and $\abs{g'(0)} = \mu > 0$ and $\abs{g(z)} \leq M$ for all $z \in B(0, R)$.
+	Then $g(B(0, R)) \supset B(0, \frac{R^2 \mu^2}{6 M})$.
+\end{lemma}
+
+\begin{proof}
+	Consider the function $f(z) = \frac{g(R z)}{R g'(0)} \colon D \to \C$.
+	We verify that $f(0) = 0$,
+	\[
+		f'(0) = \frac{g'(R z) R}{R g'(0)} \biggr\rvert_{z = 0} = \frac{g'(0) R}{R g'(0)} = 1,
+	\]
+	and $\abs{f(z)} \leq \frac{M}{R \mu}$.
+	Hence \autoref{lem9.1} we get
+	\[
+		f(D) \supset B\Bigl( 0, \frac{1}{6 (\frac{M}{R \mu})} \Bigr) = B\Bigl( 0, \frac{R \mu}{6 M} \Bigr),
+	\]
+	so
+	\[
+		g(B(0, R)) \supset B\Bigl( 0, \frac{R^2 \mu^2}{6 M} \Bigr). \qedhere
+	\]
+\end{proof}
+
+We need one more lemma in order to prove the result we are really after.
+
+\begin{lemma}\label{lem9.3}
+	Let $f$ be analytic on $B(a, r)$ such that $\abs{f'(z) - f'(a)} < \abs{f'(a)}$ for all $z \in B(a, r)$, $z \neq a$.
+	Then $f$ is one-to-one.
+\end{lemma}
+
+\begin{proof}
+	This is essentially the fundamental theorem of calculus.
+	For $z_1, z_2 \in B(a, r)$, $z_1 \neq z_2$, write
+	\[
+		\abs{f(z_2) - f(z_1)} - \abs[\Big]{\int_{\interval{z_1}{z_2}} f'(z) \, d z},
+	\]
+	where by $\interval{z_1}{z_2}$ we mean the line segment joining $z_1$ and $z_2$ (since the ball $B(a, r)$ is convex, this line segment is in the ball).
+	Adding and subtracting $f'(z)$ inside the integral, we get
+	\begin{align*}
+		\abs{f(z_2) - f(z_1)} &= \abs[\Big]{\int_{\interval{z_1}{z_2}} f'(z) - f'(a) + f'(a) \, d z} \\
+		&\geq \abs[\Big]{\int_{\interval{z_1}{z_2}} f'(a) \, d z} - \abs[\Big]{\int_{\interval{z_1}{z_2}} f'(z) - f'(a) \, d z} \\
+		&> \abs{f'(a)} \abs{z_2 - z_1} - \abs[\Big]{\int_{\interval{z_1}{z_2}} f'(a) \, d z} \\
+		&= \abs{f'(a)} \abs{z_2 - z_1} - \abs{f'(a)} \abs{z_2 - z_1} = 0.
+	\end{align*}
+	Hence $f(z_2) \neq f(z_1)$, so $f$ is one-to-one.
+\end{proof}
+
+With these lemmata we are equipped to prove the main theorem we are after, the proof of which is very technical and little lengthy:
+
+\index{Bloch's theorem|(}
+\begin{theorem}[Bloch's theorem]\label{thm9.4}
+	Let $f$ be an analytic function on a neighbourhood of $\closure{D} = \Set{z \given \abs{z} \leq 1}$ such that $f(0) = 0$ and $f'(0) = 1$.
+	Then there exists a disk $S \subset D$ such that $f$ is one-to-one on $S$ and $f(S)$ contains a disk of radius $\frac{1}{72}$.
+\end{theorem}
+
+\begin{remark}
+	Note how this constant $\frac{1}{72}$, quite remarkably, is uniform in $f$.
+\end{remark}

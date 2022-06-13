@@ -1,0 +1,248 @@
+%!TEX root = ../lectures.tex
+
+\lecture[October 24th, 2019]{Weierstrass Factorisation Theorem}
+
+\topic{Elementary factors}
+
+\begin{definition}[Elementary factors]
+	An \keyword{elementary factor} is one of the following functions $E_n(z)$, $n = 0, 1, 2, \dots$,
+	\begin{align*}
+		E_0(z) &= 1 - z, \\
+		E_n(z) &= (1 - z) \exp\Bigl (z + \frac{z^2}{2} + \dots + \frac{z^n}{n} \Bigr ), \quad \text{for $n \geq 1$}.
+	\end{align*}
+\end{definition}
+
+\begin{remark}
+	These functions $E_n(z)$ have simple zeros at $z = 1$, so $E_n(\frac{z}{a})$ has a simple zero at $z = a$, and no other zeros.
+\end{remark}
+
+Our goal is to construct an entire function with a prescribed set of zeros $\Set{a_n}$, so naturally we will want to consider something like
+\[
+	\prod_{i = 1}^\infty E_{n_i} \Bigl ( \frac{z}{a_i} \Bigr ).
+\]
+By \autoref{cor8.2} from last lecture, such a quantity converges if and only if
+\[
+	\sum_{i = 1}^\infty \left ( 1 - E_{n_i} \Bigl(\frac{z}{a_i} \Bigr) \right )
+\]
+converges.
+Hence we want to estimate:
+
+\begin{lemma}\label{lem8.6}
+	For $\abs{z} \leq 1$, $\abs{1 - E_n(z)} \leq \abs{z}^{n + 1}$ for all $n \geq 0$.
+\end{lemma}
+
+\begin{proof}
+	For $n = 0$, $1 - E_0(z) = z$, so the result holds.
+
+	Let $n \geq 1$.
+	Since $E_n(z)$ is entire, it has a power series expansion at $z = 0$, say
+	\[
+		E_n(z) = 1 + \sum_{n = 1}^\infty a_n z^n,
+	\]
+	and so
+	\[
+		E_n'(z) = \sum_{n = 1}^\infty k a_k z^{k - 1}.
+	\]
+
+	On the other hand, from the definition of $E_n(z)$, the product rule gives us
+	\[
+		E_n'(z) = -z^n \exp\Bigl ( z + \frac{z^2}{2} + \dots + \frac{z^n}{n} \Bigr ),
+	\]
+	and since
+	\[
+		\exp\Bigl ( z + \frac{z^2}{2} + \dots + \frac{z^n}{n} \Bigr ) = 1 + \Bigl ( z + \frac{z^2}{2} + \dots + \frac{z^n}{n} \Bigr ) + \Bigl ( z + \frac{z^2}{2} + \dots + \frac{z^n}{n} \Bigr )^2 + \dots,
+	\]
+	the power series expansion of $E_n'(z)$ starts at $z^n$ (i.e., $a_1 = a_2 = \dots = a_n = 0$) and all the coefficients $a_k \leq 0$.
+	Therefore $\abs{a_k} = - a_k$, and so
+	\[
+		0 = E_n(1) = 1 + \sum_{k = 1}^\infty a_k,
+	\]
+	implying that
+	\[
+		\sum_{k = 1}^\infty \abs{a_k} = 1.
+	\]
+	Hence for $\abs{z} \leq 1$, combining the facts that $a_1 = a_2 = \dots = a_n = 0$ and that the sum of the magnitude of the coefficients is $1$, we get
+	\begin{align*}
+		\abs{1 - E_n(z)} &= \abs[\Big]{\sum_{k = 1}^\infty a_k z^k} \leq \sum_{k = 1}^\infty \abs{a_k} \abs{z}^k = \sum_{k = n + 1}^\infty \abs{a_k} \abs{z}^k \\
+		&= \abs{z}^{n + 1} \sum_{k = n + 1}^\infty \abs{a_k} \abs{z}^{k - (n + 1)} \\
+		&\leq \abs{z}^{n + 1} \sum_{k = n + 1}^\infty \abs{a_k} = \abs{z}^{n + 1}. \qedhere
+	\end{align*}
+\end{proof}
+
+Recalling the discussion on \autopageref{lec18:entire} and having the above in mind, we get
+
+\begin{theorem}\label{thm8.7}
+	Let $\abs{a_n} \subset \C$ such that $\lim\limits_{n \to \infty} \abs{a_n} = \infty$, and $a_n \neq 0$ for all $n \geq 1$.
+	Let $\Set{p_n} \subset \N \cup \Set{0}$ such that
+	\begin{equation}\label{thm8.7growth}
+		\sum_{n = 1}^\infty \Bigl( \frac{r}{\abs{a_n}} \Bigr)^{p_n + 1} < \infty
+	\end{equation}
+	for all $r > 0$.
+	Then
+	\[
+		f(z) = \prod_{n = 1}^\infty E_{p_n} \Bigl( \frac{z}{a_n} \Bigr)
+	\]
+	converges in $H(\C)$, i.e., $f$ is entire.
+	Moreover $f$ has zeros exactly at $a_n$, $n = 1, 2, \dots$, and if $z = a$ occurs in $\Set{a_n}$ exactly $m$ times, then $f$ has a zero at $z = a$ of multiplicity $m$.
+\end{theorem}
+
+\begin{remark}
+	Note that the condition in \eqref{thm8.7growth} always holds for $p_n \geq n - 1$.
+	This is not hard to see.
+	For any fixed $r > 0$, there exists an $N \in \N$ such that for $n > N$, $\frac{r}{\abs{a_n}} < \frac{1}{2}$ (since $\abs{a_n} \to \infty$), and therefore the tail
+	\[
+		\sum_{n > N} \Bigl( \frac{r}{\abs{a_n}} \Bigr)^{p_n + 1} < \sum_{n > N} \Bigl(\frac{1}{2}\Bigr)^n < \infty,
+	\]
+	converges, and the finite part does not affect the convergence.
+\end{remark}
+
+\begin{remark}
+	Since $\abs{a_n} \to \infty$ as $n \to \infty$, no point in $\Set{a_n}$ can be repeated infinitely many times.
+\end{remark}
+
+\begin{proof}
+	Suppose $\Set{p_n} \subset \N \cup \Set{0}$ satisfies \eqref{thm8.7growth}.
+	By \autoref{lem8.6}, for $\abs{z} \leq r$ and $n \geq N$ large enough such that $\abs{a_n} \geq r$,
+	\[
+		\abs[\Big]{1 - E_{p_n}\Bigl(\frac{z}{a_n}\Bigr)} \leq \abs[\Big]{\frac{z}{a_n}}^{p_n + 1} \leq \abs[\Big]{\frac{r}{a_n}}^{p_n + 1},
+	\]
+	then
+	\[
+		\sum_{n \geq N} \abs[\Big]{1 - E_{p_n}\Bigl( \frac{z}{a_n} \Bigr)} \leq \sum_{n \geq N} \abs[\Big]{\frac{r}{a_n}}^{p_n + 1} < \infty
+	\]
+	by assumption.
+
+	By \autoref{thm8.5}, this means
+	\[
+		f(z) = \prod_{n = 1}^\infty E_{p_n}\Bigl(\frac{z}{a_n}\Bigr)
+	\]
+	converges uniformly on $\closure{B(0, r)}$, with $r$ arbitrary, so $f(z)$ converges uniformly on any compact subset of $\C$, whence $f \in H(\C)$.
+	Moreover the same \autoref{thm8.5} means $f(z)$ has zeros exactly at $z = a_n$, $n = 1, 2, \dots$.
+\end{proof}
+
+\index{Weierstrass factorisation theorem|(}
+\begin{theorem}[Weierstrass factorisation theorem]\label{thm8.8}
+	Let $f$ be an entire function and let $\Set{a_n}$ be the nonzero zeros of $f$ (repeated according to multiplicity).
+	Suppose $f(z)$ has a zero of order $m$ at $z = 0$.
+	Then there exists an entire function $g(z)$ and a sequence $\Set{p_n} \subset \N \cup \Set{0}$ such that
+	\[
+		f(z) = z^m \prod_{n = 1}^\infty E_{p_n} \Bigl( \frac{z}{a_n} \Bigr) \exp(g(z)).
+	\]
+\end{theorem}
+\index{Weierstrass factorisation theorem|)}
+
+\begin{remark}
+	Per the above remark we can take $p_n = n$ (or $p_n = n - 1$).
+	Then the theorem says
+	\[
+		f(z) = z^m \prod_{n = 1}^\infty E_n\Bigl(\frac{z}{a_n}\Bigr) \exp(g(z)).
+	\]
+\end{remark}
+
+\begin{proof}
+	By \autoref{thm8.7}, the function
+	\[
+		h(z) = z^m \prod_{n = 1}^\infty E_{p_n}\Bigl( \frac{z}{a_n} \Bigr)
+	\]
+	is entire and has exactly the same zeros as $f$, including multiplicities.
+	This means that $\frac{f(z)}{h(z)}$ has only removable singularities, specifically at $z = 0$ (if $m \geq 1$), $z = a_1, a_2, \dots$.
+	Hence there exists an entire function $k(z)$ such that $k(z) = \frac{f(z)}{h(z)}$ for all $z \neq 0, a_1, a_2, \dots$, and $k(z) \neq 0$ for all $z \in \C$.
+	Since $\C$ is simply connected, we can write $k(z) = \exp(g(z))$ for some $g(z) \in H(\C)$ (this is \autoref{cor4.8}).
+	Consequently
+	\[
+		f(z) = k(z) h(z) = \exp(g(z)) z^m \prod_{n = 1}^\infty E_{p_n} \Bigl(\frac{z}{a_n}\Bigr).
+	\]
+	Originally this argument only tells us these are equal for $z \neq 0, a_1, a_2, \dots$, but two analytic functions being equal on a dense set must be equal everywhere (this is \autoref{cor3.13}, for the record).
+\end{proof}
+
+\begin{exercise}
+	Show that
+	\[
+		\sin(\pi z) = \pi z \prod_{n = 1}^\infty \Bigl( 1 - \frac{z^2}{n^2} \Bigr)
+	\]
+	for every $z \in \C$.
+
+	Notice how we specifically group the negative and positive zeros, writing
+	\[
+		\prod_{n = 1}^\infty \Bigl( 1 - \frac{z^2}{n^2} \Bigr)
+	\]
+	instead of
+	\[
+		\prod_{n \in \Z} \Bigl( 1 - \frac{z}{n} \Bigr).
+	\]
+	There is good reason for this---think about the convergence of these two.
+\end{exercise}
+
+Note that this analysis is for functions analytic on the entire complex plane $\C$.
+A natural question to ask is whether we can have the same factorisation for $f \in H(G)$, where $G \neq \C$ is a region.
+
+The answer to this question is yes, but the proof is more technical.
+The main reason for this is that our key estimate, namely \autoref{lem8.6}, no longer holds in this case---it relies on $\abs{\frac{z}{a_n}} \leq 1$ for $n$ large enough, which we can no longer guarantee since we no longer know that $\abs{a_n} \to \infty$ as $n \to \infty$.
+
+All we know in this case is that for $f \in H(G)$ with zeros $\Set{a_n}$, the set $\abs{a_n}$ does not have a limit point in $G$.
+
+The correct elementary factor to consider now is not $E_n(\frac{z}{a})$, for the reason just discussed, but instead $E_n(\frac{a - b}{z - b})$ for $b \in \C \setminus G$, which then has a simple zero at $z = a$, no other zeros in $G$, and is analytic in $G$---all properties we want.
+
+\begin{theorem}\label{thm8.9}
+	Let $G \neq \C$ be a region and let $\Set{a_n} \subset \C$ be a sequence of distinct points with no limit point in $G$.
+	Let $\Set{m_n} \subset \N$.
+	Then there exists a function $f \in H(G)$ whose zeros are exactly $z = a_n$, $n = 1, 2, \dots$, with multiplicities $m_n$, respectively.
+\end{theorem}
+
+\begin{proof}[Sketch of proof]
+	Let $\Set{z_n}$ be the sequence of $a_n$ repeated with multiplicities $m_n$.
+	Take a sequence $\Set{w_n} \subset \C \setminus G$.
+	Then $E_n( \frac{z_n - w_n}{z - w_n} )$ is analytic in $G$ and has a simple zero at $z = z_n$ and no other zeros.
+	The goal then is to show that
+	\[
+		f(z) = \prod_{n = 1}^\infty E_n \Bigl( \frac{z_n - w_n}{z - w_n} \Bigr) \in H(G).
+	\]
+	The technical part of showing this depends on the choice of $w_n$, namely choosing $w_n$ such that $\lim\limits_{n \to \infty} \abs{z_n - w_n} = 0$.
+	We can do this since $\Set{z_n}$ has a limit point in $\C \setminus G$, so on $\partial G$.
+	The idea, then, is to use this limit in order to bound
+	\[
+		1 - E_n\Bigl( \frac{z_n - w_n}{z - w_n} \Bigr). \qedhere
+	\]
+\end{proof}
+
+\begin{exercise}
+	Let $G$ be a region.
+	Let $f, g \colon G \to \C$ be analytic functions.
+	Show that there exist analytic functions $f_1, g_1$, and $h_1$ on $G$ such that $f(z) = h(z) f_1(z)$ and $g(z) = h(z) g_1(z)$ for all $z \in G$; and $f_1$ and $g_1$ have no common zeros.
+\end{exercise}
+
+\begin{exercise}
+	\begin{parts}
+		\item Let $0 < \abs{a} < 1$ and $\abs{z} \leq r < 1$.
+		Show that
+		\[
+			\abs[\Big]{\frac{a + \abs{a} z}{(1 - \conjugate{a} z) a}} \leq \frac{1 + r}{1 - r}.
+		\]
+		\item Let $\Set{a_n} \subset \C$ with $0 < \abs{a_n} < 1$ and $\displaystyle \sum_{n = 1}^\infty (1 - \abs{a_n}) < \infty$.
+		Show that
+		\[
+			B(z) = \prod_{n = 1}^\infty \frac{\abs{a_n}}{a_n} \Bigl( \frac{a_n - z}{1 - \conjugate{a_n} z} \Bigr)
+		\]
+		converges in $H(B(0; 1))$ and that $\abs{B(z)} \leq 1$.
+		What are the zeros of $B(z)$?
+
+		\item Find a sequence $\Set{a_n}$ in $B(0; 1)$ such that $\displaystyle \sum_{n = 1}^\infty (1 - \abs{a_n}) < \infty$ and every number $e^{i \theta}$ is a limit point of $\Set{a_n}$. \qedhere
+	\end{parts}
+\end{exercise}
+
+\begin{remark}
+	$B(z)$ is called a \keyword{Blaschke product}\index{Blaschke product}.
+\end{remark}
+
+\begin{corollary}\label{cor8.10}
+	Let $f \in M(G)$.
+	Then there exists function $g, h \in H(G)$ such that $f(z) = \frac{g(z)}{h(z)}$.
+	In other words, viewed as algebraic structures, $M(G)$ is the quotient field of the integral domain $H(G)$ (this is an integral domain since it has no zero divisors, see \autoref{ex:zerodivs}).
+\end{corollary}
+
+\begin{proof}
+	Let $\Set{a_n}$ be the poles of $f$ with orders $m_n$.
+	Then by \autoref{thm8.9} there exists $h \in H(G)$ such that $h$ has zeros exactly at $z = a_n$ with multiplicity $m_n$.
+	Then $f(z) h(z)$ has only removable singularities.
+	Hence there exists a function $g \in H(G)$ such that $f(z) h(z) = g(z)$ for every $z \not\in \Set{a_n}$, meaning that $f(z) = \frac{g(z)}{h(z)}$.
+\end{proof}

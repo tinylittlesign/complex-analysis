@@ -1,0 +1,188 @@
+%!TEX root = ../lectures.tex
+
+\lecture[November 14th, 2019]{The Little Picard Theorem}
+
+\topic{Proof of the Little Picard theorem}
+
+With these two lemmata in hand we are equipped to prove
+
+\index{Little Picard theorem|(}\index{Picard's theorem!little|see {Little Picard theorem}}
+\begin{theorem}[Little Picard theorem]\label{thm9.10}
+	Let $f$ be an entire function.
+	Suppose $f$ misses two values in $\C$.
+	Then $f$ is a constant function.
+\end{theorem}
+\index{Little Picard theorem|)}
+
+\begin{proof}
+	Suppose $f(z) \neq a$ and $f(z) \neq b$ for all $z \in \C$, with $a \neq b$---that is, $f$ misses $a$ and $b$.
+	Then we can normalise to $\tilde f(z) = \frac{f(z) - a}{b - a}$ which misses $0$ and $1$.
+	Hence by \autoref{lem9.8} we can write
+	\[
+		\tilde f(z) = -\exp(\pi  \cosh(2 g(z)))
+	\]
+	for some entire function $g$, and by \autoref{lem9.9} we know that $g(\C)$ contains no disk of radius $1$.
+
+	By way of contradiction, suppose $f$ is not constant, meaning that $g$ is not constant.
+	A non-constant entire function must have some nonzero derivative (else its power series, which converges everywhere, is zero), so there exists some $z_0 \in \C$ such that $g'(z_0) \neq 0$.
+ 	For convenience we may assume $z_0 = 0$, so $g'(0) \neq 0$ (else shift to $\tilde g(z) = g(z + z_0)$).
+
+	Now by \autoref{cor9.5} of \nameref{thm9.4}, $g(B(0, R))$ contains a disk of radius $\frac{1}{72} R \abs{g'(0)}$.
+	But since $g'(0) \neq 0$, this goes to infinity as $R \to \infty$, so we can pick $R$ large enough so that $g(\C) \supset g(B(0, R))$ contains a disk of radius $1$, contradicting \autoref{lem9.9}.
+
+	Hence $f$ is constant, finishing the proof.
+\end{proof}
+
+\begin{exercise}
+	Let $f$ be a meromorphic function on $\C$ such that such that $\C_\infty \setminus f(\C)$ has at least three points.
+	Show that $f$ is constant.
+\end{exercise}
+
+\topic{Schottky's theorem}
+
+As a consequence of \nameref{thm8.15} we showed a \nameref{thm8.16}, saying that a non-constant entire function of finite order assumes each complex number with only one possible exception.
+\nameref{thm9.10} above tells us that the assumption of finite order is not necessary.
+
+From \nameref{thm8.15} we also inferred \autoref{cor8.18}, saying that an entire function of finite, non-integral order assumes each complex number an infinite number of times.
+We wish to generalise this result too.
+
+The strategy boils down to that of \autoref{lem9.8}, but with slightly more care taken, to derive precise bounds.
+In particular, the way we constructed the function $g$ coming from $f \colon G \to \C$, analytic and missing $0$ and $1$, was to take $h(z)$ to be a branch of $\log f(z)$ (i.e., $e^{h(z)} = f(z)$), set $F(z) = \frac{1}{2 \pi i} h(z)$, and take $H(z) = \sqrt{F(z)} - \sqrt{F(z) - 1}$.
+Then we finally took $g(z)$ to be a branch of $\log H(z)$, i.e., $e^{g(z)} = H(z)$.
+
+The way we are going to make this more precise is to specify the branches at each of these stages.
+In particular, we will take $0 \leq \Im h(0) \leq 2 \pi$ and $0 \leq \Im g(0) \leq 2 \pi$.
+
+\index{Schottky's theorem|(}
+\begin{theorem}[Schottky's theorem]\label{thm9.11}
+	Let $f$ be analytic on some simply connected region containing $\closure{B(0, 1)}$, and suppose $f(z)$ misses $0$ and $1$.
+
+	Then for each $\alpha$ and $\beta$, $0 < \alpha < \infty$ and $0 \leq \beta < 1$, there exists a constant $C(\alpha, \beta)$ such that if $\abs{f(0)} < \alpha$, then $\abs{f(z)} \leq C(\alpha, \beta)$ for $\abs{z} \leq \beta$.
+\end{theorem}
+\index{Schottky's theorem|)}
+
+\begin{remark}
+	Notice how this constant $C(\alpha, \beta)$ is independent of $f$---this gives a uniform bound for all functions $f$ so long as $\abs{f(0)} < \alpha$.
+\end{remark}
+
+\begin{proof}
+	As outlined in the discussion above, the strategy is to perform the calculations in \autoref{lem9.8} to obtain a bound for $g$ depending only on $\alpha$ and $\beta$, and then leverage this to bound $f$ likewise.
+
+	As will soon become apparent, the calculations are easier if $2 \leq \alpha < \infty$, but of course if $\abs{f(0)} < \gamma$ for some $\gamma \leq 2$, then it is also bounded by $\alpha$, so it suffices to study such $\alpha$.
+
+	We will consider two cases: when $f(0)$ has a lower bound, namely $\frac{1}{2} \leq \abs{f(0)} \leq \alpha$, and when $0 < \abs{f(0)} < \frac{1}{2}$.
+
+	Start by supposing $\frac{1}{2} \leq \abs{f(0)} \leq \alpha$.
+	Let $h$, $F$, $H$, and $g$ be defined as in \autoref{lem9.8}.
+	Then by definition
+	\begin{align*}
+		\abs{F(0)} &= \frac{1}{2\pi} \abs{h(0)} = \frac{1}{2 \pi} \abs{\log f(0)} = \frac{1}{2\pi} \abs{ \log \abs{f(0)} + i \Im \log f(0) } \\
+		&= \frac{1}{2 \pi} \abs{ \log \abs{f(0)} + i \Im h(0) } \leq \frac{1}{2 \pi} ( \abs{\log\abs{f(0)}} + 2 \pi)
+	\end{align*}
+	by choice of the branch $0 \leq \Im h(0) \leq 2 \pi$.
+	But $\frac{1}{2} \leq \abs{f(0)} \leq \alpha$, so $- \log 2 \leq \log \abs{f(0)} \leq \log \alpha$, and hence $\abs{\log\abs{f(0)}} \leq 2 \leq \alpha$.
+	Therefore
+	\[
+		\abs{F(0)} \leq \frac{1}{2 \pi} ( \log \alpha + 2 \pi ) = C_0(\alpha).
+	\]
+
+	Next, we have by the triangle inequality that
+	\[
+		\abs{\sqrt{F(0)} \pm \sqrt{F(0) - 1}} \leq \abs{\sqrt{F(0)}} + \abs{\sqrt{F(0) - 1}}
+	\]
+	Notice in general, writing $\sqrt{z} = \exp(\frac{1}{2} \log z)$, we have
+	\[
+		\abs{\sqrt{z}} = \exp\Bigl( \frac{1}{2} \Re \log z \Bigr) = \exp\Bigl( \frac{1}{2} \log\abs{z} \Bigr) = \sqrt{\abs{z}},
+	\]
+	so we can bring the modulus inside, whence
+	\[
+		\abs{\sqrt{F(0)} \pm \sqrt{F(0) - 1}} \leq \abs{F(0)}^{\frac{1}{2}} + \abs{F(0) - 1}^{\frac{1}{2}} \leq C_0(\alpha)^{\frac{1}{2}} + (C_0(\alpha) + 1)^{\frac{1}{2}}.
+	\]
+	Now let $C_1(\alpha) = C_0(\alpha)^{\frac{1}{2}} + (C_0(\alpha) + 1)^{\frac{1}{2}}$ so that $\abs{\sqrt{F(0)} \pm \sqrt{F(0) - 1}} \leq C_1(\alpha)$.
+
+	There are two cases to consider here: if $\abs{H(0)} \geq 1$, then
+	\[
+		\abs{g(0)} = \abs{\log \abs{H(0)} + i \Im g(0)} \leq \abs{\log\abs{H(0)}} + 2 \pi,
+	\]
+	since we chose $0 \leq \Im g(0) \leq 2 \pi$.
+	Hence in particular
+	\[
+		\abs{g(0)} \leq \log C_1(\alpha) + 2\pi
+	\]
+	since $\abs{H(0)} \geq 1$.
+	On the other hand, if $\abs{H(0)} < 1$, then
+	\begin{align*}
+		\abs{g(0)} &\leq - \log \abs{H(0)} = 2\pi = \log\abs[\Big]{\frac{1}{H(0)}} + 2\pi \\
+		&= \log\abs{\sqrt{F(0)} + \sqrt{F(0) - 1}} + 2\pi \leq \log C_1(\alpha) + 2\pi,
+	\end{align*}
+	so we get the same bound.
+	Thus let $C_2(\alpha) = \log C_1(\alpha) + 2\pi$, so that $\abs{g(0)} \leq C_2(\alpha)$.
+
+	In other words, we now have control of $g(0)$.
+
+	By shifting the function in \autoref{cor9.5} of \nameref{thm9.4}, for $\abs{a} < 1$ we see $g(B(a, 1 - \abs{a}))$ contains a disk of radius $\frac{1}{72} \abs{g'(a)} (1 - \abs{a})$.
+
+	\begin{marginfigure}
+		\mfincludegraphics[width=\textwidth]{figures/l26fig911.tikz}
+
+		\caption{\label{thm911:fig} The setup of $a$ in the unit disk.}
+	\end{marginfigure}
+
+	On the other hand, by \autoref{lem9.9}, $g(B(0, 1))$ contains no disk of radius $1$, so we must have
+	\[
+		\frac{1}{72} \abs{g'(a)} (1 - \abs{a}) < 1,
+	\]
+	meaning that we can control the derivative:
+	\[
+		\abs{g'(a)} < \frac{72}{1 - \abs{a}}
+	\]
+	for any $\abs{a} < 1$.
+
+	The idea now is that, since we have control of the function $g$ at a point (namely $0$) and we have control of its derivative, we can the function at any point by means of the Fundamental theorem of calculus.
+	In particular, for $\abs{a} < 1$ we have
+	\begin{align*}
+		\abs{g(a)} &\leq \abs{g(0)} + \abs{g(a) - g(0)} \leq C_2(\alpha) + \abs[\Big]{\int_{\interval{0}{a}} g'(z) \, d z} \\
+		&\leq C_2(\alpha) + \abs{a} \max_{z \in \interval{0}{a}} \abs{g'(z)} \leq C_2(\alpha) + \abs{a} \frac{72}{1 - \abs{a}}.
+	\end{align*}
+	So if we let
+	\[
+		C_3(\alpha, \beta) = C_2(\alpha) + \frac{72 \beta}{1 - \beta}
+	\]
+	for $0 \leq \beta < 1$, we have for all $\abs{z} \leq \beta$ that
+	\[
+		\abs{g(z)} \leq C_2(\alpha) + \frac{72 \abs{z}}{1 - \abs{z}} \leq C_3(\alpha, \beta)
+	\]
+	since the expression $\frac{72 \abs{z}}{1 - \abs{z}}$ is increasing in $\abs{z} < 1$.
+	Notice how this bound is uniform---it doesn't depend on $g$.
+
+	Consequently, we get
+	\[
+		\abs{f(z)} = \abs{\exp(\pi i \cosh(2 g(z)))} \leq C(\alpha, \beta)
+	\]
+	for a corresponding constant $C(\alpha, \beta)$ independent of $f$.
+
+	This leaves the case when $0 < \abs{f(0)} < \frac{1}{2}$.
+	In this case, consider $1 - f(z)$, which misses $0$ and $1$ since $f(z)$ does.
+	Then $\frac{1}{2} \leq \abs{1 - f(0)} \leq \frac{3}{2}$, so taking $\alpha = \frac{3}{2}$ and applying the previous case, we get
+	\[
+		\abs{1 - f(z)} \leq C(\alpha, \beta)
+	\]
+	for all $\abs{z} \leq \beta$, and $\abs{1 - f(z)} \geq \abs{f(z)} - 1$, meaning that
+	\[
+		\abs{f(z)} \leq 1 + C(\alpha, \beta)
+	\]
+	for all $\abs{z} \leq \beta$.
+\end{proof}
+
+As is now our custom, we can easily generalise results on the unit ball to results on larger balls:
+
+\begin{corollary}\label{cor9.12}
+	Let $f$ be analytic on a simply connected region containing $\closure{B(0, R)}$.
+	Suppose $f(z)$ misses $0$ and $1$, and $\abs{f(0)} \leq \alpha$.
+	Let $C(\alpha, \beta)$ be the constant in \nameref{thm9.11}.
+	Then $\abs{f(z)} \leq C(\alpha, \beta)$ for all $\abs{z} \leq \beta R$.
+\end{corollary}
+
+\begin{proof}
+	Consider $f(R z)$ for $\abs{z}$ and apply \nameref{thm9.11}.
+\end{proof}

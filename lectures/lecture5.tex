@@ -1,0 +1,179 @@
+%!TEX root = ../lectures.tex
+
+\lecture[September 3rd, 2019]{Cauchy's Integral Theorem}
+
+\topic{Winding numbers}
+
+Let $\gamma_1(t) = a + r e^{i t}$ for $0 \leq t \leq 2 \pi$, i.e., the anticlockwise circle of radius $r$ around $a$.
+Then
+\[
+	\frac{1}{2 \pi i} \int_{\gamma_1} \frac{1}{z - a} \, d z = \frac{1}{2 \pi i} \int_0^{2 \pi} \frac{i r e^{i t}}{a + r e^{i t} - a} \, d t = \frac{1}{2 \pi} \int_0^{2 \pi} \, d t = 1.
+\]
+On the other hand, for $b$ outside the region enclosed by $\gamma_1$, we get
+\[
+	\frac{1}{2 \pi i} \int_{\gamma_1} \frac{1}{z - b} \, d z = 0,
+\]
+since the integrand is analytic on the region enclosed by $\gamma_1$.
+
+Similarly, consider another curve $\gamma_2(t) = a + r e^{i t}$, but this time for $0 \leq t \leq 4 \pi$.
+Then
+\[
+	\frac{1}{2 \pi i} \int_{\gamma_2} \frac{1}{z - a} \, d z = 2.
+\]
+
+So it appears, in general, as though this kind of integral counts how many times the curve goes around $a$.
+Indeed this is the case, and first let us make sure it counts in a reasonable way:
+
+\begin{proposition}\label{prop4.1}
+	If $\gamma \colon \interval{0}{1} \to \C$ is a closed rectifiable curve and $a \not\in \Set{\gamma}$.
+	Then
+	\[
+		\frac{1}{2 \pi i} \int_\gamma \frac{1}{z - a} \, d z
+	\]
+	is an integer.
+\end{proposition}
+
+\begin{proof}
+	We may assume that $\gamma$ is a smooth curve (otherwise approximate it by a smooth curve).
+	Define the function
+	\[
+		g(t) = \int_0^t \frac{\gamma'(s)}{\gamma(s) - a} \, d s,
+	\]
+	so that $g(0) = 0$ and
+	\[
+		g(1) = \int_\gamma \frac{1}{z - a} \, d z.
+	\]
+	The strategy is this: since $e^{2 \pi i k} = 1$ for all integers $k$, we want to show that something like $e^g(t)$ is constant.
+	To this end, note how by the Fundamental theorem of calculus
+	\[
+		g'(t) = \frac{\gamma'(t)}{\gamma(t) - a},
+	\]
+	and notice how
+	\[
+		\frac{d}{d t} \left ( e^{-g(t)} (\gamma(t) - a) \right ) = e^{-g(t)} \gamma'(t) - g'(t) e^{-g(t)} (\gamma(t) - a) = 0.
+	\]
+	Hence $e^{-g(t)} (\gamma(t) -a) = e^{-g(0)} (\gamma(0) - a) = \gamma(0) - a$ is a constant, since $g(0) = 0$.
+	But $\gamma$ is a closed curve, so $\gamma(0) = \gamma(1)$, meaning that
+	\[
+		e^{-g(1)} (\gamma(1) - a) = \gamma(0) - a,
+	\]
+	meaning that $e^{-g(1)} = 1$, so $g(1) = 2 \pi i k$ for some integer $k$.
+\end{proof}
+
+Consequently we make the following definition.
+
+\begin{definition}[Winding number]
+	If $\gamma$ is a closed rectifiable curve in $\C$, then for $a \not\in \Set{\gamma}$,
+	\[
+		n(\gamma; a) \coloneqq \frac{1}{2 \pi i} \int_\gamma \frac{1}{ z - a} \, d z \in \Z
+	\]
+	is called the \keyword{winding number}\index{winding number} of $\gamma$ around $a$.
+	This simply counts how many times the curve $\gamma$ winds around $a$, as suggested by the name.
+\end{definition}
+
+\begin{example}
+	If $a$ belongs to the unbounded component of $\C \setminus \Set{\gamma}$ for some closed rectifiable curve $\gamma$, then of course $n(\gamma; a) = 0$, since $\frac{1}{z - a}$ is analytic there.
+\end{example}
+
+\index{Cauchy's integral formula|(}
+\begin{theorem}[Cauchy's integral formula]\label{thm4.2}
+	Let $G$ be an open set and $f \colon G \to \C$ be analytic.
+	Suppose $\gamma$ is a closed rectifiable curve in $G$ such that $n(\gamma; w) = 0$ for all $w \in \C \setminus G$.
+	Then for $a \in G \setminus \Set{\gamma}$,
+	\[
+		n(\gamma; a) f(a) = \frac{1}{2 \pi i} \int_\gamma \frac{f(z)}{z - a} \, d z.
+	\]
+\end{theorem}
+\index{Cauchy's integral formula|)}
+
+\begin{remark}
+	The condition $n(\gamma; w) = 0$ for all $w \in \C \setminus G$ is to avoid cases where, for instance, $G$ is an annulus and with $w$ in the inside the inner disk and $\gamma$ around it.
+
+	Often in practice we use this theorem for simply connected $G$, where this is not a problem.
+\end{remark}
+
+\begin{corollary}\label{cor4.3}
+	Let $G$ be an open set and $f \colon G \to \C$ be analytic.
+	Suppose $\gamma$ is a closed and rectifiable curve in $G$ such that $n(\gamma; w) = 0$ for all $w \in \C \setminus G$.
+	Then for $a \in G \setminus \Set{\gamma}$,
+	\[
+		n(\gamma; a) f^{(k)} (a) = \frac{k!}{2 \pi i} \int_\gamma \frac{f(z)}{(z - a)^{k + 1}} \, d z.
+	\]
+\end{corollary}
+
+\index{Cauchy's theorem|(}
+\begin{corollary}[Cauchy's theorem]\label{cor4.4}
+	Let $G$ be an open set and $f \colon G \to \C$ an analytic function.
+	Suppose $\gamma$ is a closed and rectifiable curve in $G$ such that $n(\gamma, w) = 0$ for all $w \in \C \setminus G$.
+	Then
+	\[
+		\int_\gamma f(z) \, d z = 0.
+	\]
+\end{corollary}
+\index{Cauchy's theorem|)}
+
+\begin{proof}
+	Replace $f(z)$ by $f(z) (z - a)$ in Cauchy's integral formula, making the left-hand side $0$ and the right-hand side the above integral.
+\end{proof}
+
+It is useful to note that all of these, along with Cauchy's residue theorem (which we might talk about in future) are equivalent.
+
+An interesting question one might naturally ask is if there are other functions that satisfy
+\[
+	\int_\gamma f(z) \, d z = 0
+\]
+for all closed curves $\gamma$.
+The answer is no:
+
+\index{Morera's theorem|(}
+\begin{theorem}[Morera's theorem]\label{thm4.5}
+	Let $G$ be a region and let $f \colon G \to \C$ be continuous such that
+	\[
+		\int_T f(z) = 0
+	\]
+	for all triangular paths\index{triangular path} $T$ in $G$.\footnote{By triangular path we mean simply a curve composed of three line segments meeting end on end.}
+	Then $f$ is analytic in $G$.
+\end{theorem}
+\index{Morera's theorem|)}
+
+\begin{proof}
+	We will show that $f$ has a primitive $F$, i.e., $F'(z) = f(z)$ in $G$.
+	This implies that $F$ and $f$ are both analytic, since one derivative implies infinite derivatives in $\C$.
+
+	Without loss of generality we may assume that $G = B(a, R)$, since if we can make the theorem work on any small ball in $G$, then we can make it work in all of $G$.
+
+	For $z \in G$, define
+	\[
+		F(z) = \int_{\interval{a}{z}} f(z) \, d z,
+	\]
+	where by $\interval{a}{z}$ we mean the line segment joining $a$ and $z$, with that orientation.
+	Then for any $z_0 \in G$ we have
+	\[
+		F(z) = \int_{\interval{a}{z}} f(z) \, d z = \int_{\interval{a}{z_0}} f(z) \, d z + \int_{\interval{z_0}{z}} f(z) \, d z
+	\]
+	since the interval over all three segments added together is $0$ by hypothesis.
+	Therefore
+	\[
+		\frac{F(z) - F(z_0)}{z - z_0} = \frac{\int_{\interval{z_0}{z}} f(z) \, d z}{z - z_0}.
+	\]
+	We expect this to be $f(z_0)$, so we study the difference
+	\[
+		\abs[\Big]{\frac{F(z) - F(z_0)}{z - z_0} - f(z_0)} = \abs[\Big]{ \frac{1}{z - z_0} \int_{\interval{z_0}{z}} (f(w) - f(z_0)) \, d w}.
+	\]
+	We can bound the integrand by its supremum on $\interval{z_0}{z}$, so this is bounded by
+	\[
+		\frac{1}{\abs{z - z_0}} \int_{\interval{z_0}{z}} \sup_{w \in \interval{z_0}{z}} \abs{f(w) - f(z_0)} \, d w = \sup_{w \in \interval{z_0}{z}} \abs{f(w) - f(z_0)}
+	\]
+	since the integrand no longer depends on $w$.
+	Taking the limit as $z \to z_0$, this goes to $0$ since $f$ is continuous, and hence $F'(z_0) = f(z_0)$ for every $z_0 \in G$.
+\end{proof}
+
+\topic{Homotopy}
+
+\begin{definition}[Homotopic]
+	We say that two curves $\gamma_1$ and $\gamma_2$ are \keyword{homotopic}\index{homotopic} in a domain $G$ if they can be continuously deformed from one to the other inside of the domain.
+\end{definition}
+
+\begin{definition}[Simply connected]
+	We say that a set $G$ is \keyword{simply connected}\index{simply connected} if every closed curve $\gamma$ in $G$ is homotopic to a point, denoted $\gamma \simeq 0$.
+\end{definition}

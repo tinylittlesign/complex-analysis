@@ -1,0 +1,319 @@
+%!TEX root = ../lectures.tex
+
+\lecture[August 29th, 2019]{Entire Functions}
+
+\topic{Properties of analytic and entire functions}
+
+Let us first establish the following corollary to the theorem at the end of last lecture.
+
+\begin{corollary}\label{cor3.5}
+	Let $G \subset \C$ be open.
+	If $f \colon G \to \C$ is analytic, then
+	\begin{items}
+		\item $f$ is infinitely differentiable;
+		\item\label{cor3.5ii} $\displaystyle f^{(n)}(a) = \frac{n!}{2 \pi i} \int_\gamma \frac{f(w)}{(w - a)^{n + 1}} \, d w$ where $\gamma(t) = a + r e^{i t}$ for $0 \leq t \leq 2 \pi$, and $\gamma \subset G$; and
+		\item $\displaystyle f(z) = \frac{1}{2 \pi} \int_0^{2 \pi} f(z + r e^{i t}) \, d t$, i.e., the mean value of an analytic function on a circle is the value at the central point.\index{mean value property}
+	\end{items}
+\end{corollary}
+
+\begin{proof}
+	The first two properties follow directly from the calculation at the end, noting that the integral in the last equality must be the coefficients from the Taylor expansion (since Taylor's theorem guarantees uniqueness).
+
+	For the last property, note that when evaluating
+	\[
+		f(z) = \frac{1}{2 \pi i} \int_\gamma \frac{f(w)}{w - z} \, d w
+	\]
+	over $w = \gamma(t) = z + r e^{i t}$ for $0 \leq t \leq 2 \pi$, noting that $d w = i r e^{i t} \, d t$, we get
+	\[
+		f(z) = \frac{1}{2 \pi i} \int_0^{2 \pi} \frac{f(z + r e^{i t})}{z + r e^{i t} - z} i r e^{i t} \, d t = \frac{1}{2 \pi} \int_0^{2 \pi} f(z + r e^{i t}) \, d t. \qedhere
+	\]
+\end{proof}
+
+\begin{corollary}\label{cor3.6}
+	Let $f$ be analytic in $B(a, R)$.
+	Suppose $\abs{f(z)} \leq M$ for every $z \in B(a, R)$.
+	Then
+	\[
+		\abs{f^{(n)}(a)} \leq \frac{n! M}{R^n}.
+	\]
+\end{corollary}
+
+\begin{proof}
+	Using \ref{cor3.5ii} from the previous corollary, we have
+	\[
+		\abs{f^{(n)}(a)} = \abs*{ \frac{n!}{2 \pi i} \int_\gamma \frac{f(w)}{(w - a)^{n + 1}} \, d w} \leq \frac{n!}{2 \pi} \int_\gamma \frac{M}{r^{n + 1}} \, \abs{d w}
+	\]
+	for $0 < r < R$.
+	Evaluating this we get
+	\[
+		\frac{n!}{2 \pi} \frac{M}{r^{n + 1}} \cdot 2 \pi r = \frac{n! M}{r^n} \to \frac{n! M}{R^n}
+	\]
+	as we let $r$ tend to $R$.
+\end{proof}
+
+\begin{theorem}\label{thm3.7}
+	Let $f$ be analytic in $B(a, R)$.
+	Suppose $\gamma$ is a closed rectifiable\index{rectifiable}\footnote{Meaning of bounded variation.} curve in $B(a, R)$.
+	Then $f$ has a primitive and thus $\displaystyle \int_\gamma f(z) \, d z = 0$.
+\end{theorem}
+
+\begin{proof}
+	Since $f$ is analytic, it has a series representation
+	\[
+		f(z) = \sum_{n = 0}^\infty a_n (z - a)^n.
+	\]
+	Since this series converges uniformly on compact sets, we can integrate termwise, getting
+	\[
+		F(z) = \sum_{n = 0}^\infty \frac{a_n}{n + 1} (z - a)^{n + 1},
+	\]
+	for which $F'(z) = f(z)$ on $B(a, R)$.
+	Therefore, if we say $\gamma$ is parametrised from $t = 0$ to $t = 1$, we have
+	\[
+		\int_\gamma f(z) \, d z = F(\gamma(t)) \biggr\rvert_{t = 0}^{t = 1} = 0. \qedhere
+	\]
+\end{proof}
+
+\begin{definition}[Entire function]
+	A function $f$ is an \keyword{entire}\index{entire function} function if it is defined and analytic on $\C$.
+\end{definition}
+
+\begin{proposition}\label{prop3.8}
+	If $f$ is an entire function, then
+	\[
+		f(z) = \sum_{n = 0}^\infty a_n z^n
+	\]
+	where
+	\[
+		a_n = \frac{f^{(n)}(0)}{n!},
+	\]
+	with infinite radius of convergence.
+\end{proposition}
+
+\begin{proof}
+	By \autoref{thm3.4}, $f$ has a power series representation on any ball $B(0, R)$.
+	Let $R$ tend to infinity, and the proposition follows.
+\end{proof}
+
+\begin{exercise}\label{ex:polynomial}
+	Let $f$ be an entire function.
+	Suppose there are constants $M, R > 0$ and an integer $n \geq 1$ such that $\abs{f(z)} \leq M \abs{z}^n$ for $\abs{z} > R$.
+	Show that $f$ is a polynomial of degree $\leq n$.
+\end{exercise}
+
+\label{entirequestions}
+Note how this means that, in some sense, we can think of an entire function as a `polynomial of infinite degree'.
+This raises a natural question: can the theory of polynomials be generalised to entire functions?
+
+For instance, a polynomial (over $\C$) can be factored as a product over its zeros by the Fundamental theorem of algebra.
+Is the same true for entire functions?
+The answer, it turns out, is yes, known as the Weierstrass factorisation theorem.
+
+Another interesting question, which is easier to answer: no non-constant polynomial is bounded.
+How about entire functions?
+The same thing holds, it turns out:
+
+\index{Liouville's theorem|(}
+\begin{theorem}[Liouville's theorem]\label{thm3.9}
+	If $f$ is a bounded entire function, then $f$ is a constant function.
+\end{theorem}
+\index{Liouville's theorem|)}
+
+\begin{proof}
+	Since $f$ is entire, meaning differentiable, it must be continuous.
+	Hence if we can show that $f'(z) = 0$ for all $z \in \C$, $f$ must be constant.
+
+	We already have the estimate we need for this.
+	Suppose $f$ is bounded by $M$, then by \autoref{cor3.6} with $n = 1$,
+	\[
+		\abs{f'(x)} \leq \frac{M}{R} \to 0
+	\]
+	as $R \to \infty$.
+\end{proof}
+
+As it happens, an important consequence of this is one of the most elegant proofs of the Fundamental theorem of algebra.
+
+\index{Fundamental theorem of algebra|(}
+\begin{theorem}[Fundamental theorem of algebra]\label{thm3.10}
+	If $p(z)$ is a non-constant polynomial, then $p(a) = 0$ for some $a \in \C$.
+\end{theorem}
+\index{Fundamental theorem of algebra|)}
+
+\begin{proof}
+	Suppose $p(z) \neq 0$ for all $z \in \C$, and let $f(z) = 1 / p(z)$.
+	Since the denominator is never zero, $f(z)$ is an entire function.
+
+	Moreover, since $p(z)$ is non-constant,
+	\[
+		\lim_{\abs{z} \to \infty} \abs{p(z)} = \infty,
+	\]
+	implying that
+	\[
+		\lim_{\abs{z} \to \infty} \frac{1}{\abs{p(z)}} = \lim_{\abs{z} \to \infty} \abs{f(z)} = 0.
+	\]
+	Hence $f(z)$ is bounded, and by \nameref{thm3.9} constant.
+	But that implies that $g(z)$ too is constant, which is a contradiction.
+\end{proof}
+
+\begin{corollary}\label{cor3.11}
+	Let $p(z)$ be a polynomial of degree $n$.
+	Then
+	\[
+		p(z) = c (z - a_1)^{k_1} (z - a_2)^{k_2} \dotsm (z - a_m)^{k_m}
+	\]
+	for some $c \in \C$, $a_1, a_2, \dots, a_m \in \C$, and $k_1 + k_2 + \dots + k_m = n$.
+\end{corollary}
+
+\begin{theorem}\label{thm3.12}
+	Let $G$ be a region\index{region}\footnote{Meaning an open and connected set.}  in $\C$.
+	Let $f \colon G \to \C$ be analytic.
+	Then the following are equivalent:
+	\begin{items}
+		\item\label{thm3.12i} $f(z) = 0$ for all $z \in G$;
+		\item\label{thm3.12ii} there exists some $a \in G$ such that $f^{(n)}(a) = 0$ for all $n \geq 0$; and
+		\item\label{thm3.12iii} the zero set\index{zero set}
+		\[
+			Z(f) \coloneqq \Set{z \in G \given f(z) = 0}
+		\]
+		of $f$ has a limit point in $G$.
+	\end{items}
+\end{theorem}
+
+\begin{proof}
+	That \ref{thm3.12i} implies \ref{cor3.5ii} and \ref{thm3.12i} implies \ref{thm3.12iii} is trivial.
+
+	Let us show that \ref{thm3.12ii} implies \ref{thm3.12iii}.
+	Let $a \in G$ be a limit point of $Z(f)$.
+	Then since $f$ is continuous, $f(a) = 0$, since we can pass the limit inside the function by continuity.
+	Suppose there exists some $n \in \N$ such that $f'(a) = f''(a) = \dots = f^{(n - 1)}(a) = 0$, but $f^{(n)}(a) \neq 0$.
+	Then
+	\[
+		f(z) = \sum_{k = n}^\infty a_k (z - a)^k = (z - a)^n \sum_{k = n}^\infty a_k (z - a)^k.
+	\]
+	Call the series at the end $g(z)$, which is necessarily analytic, being defined in terms of its power series.
+	Hence $g(a) = a_n \neq 0$.
+	Since $a$ is a limit point of $Z(f)$, there exists $z_n \in Z(f)$ such that $z_n \to a$, $z_n \neq a$, and hence
+	\[
+		f(z_n) = (z_n - a)^n g(z_n)
+	\]
+	where the left-hand side is $0$ and the first factor of the right-hand side is nonzero, so $g(z_n) = 0$, implying $g(0) = 0$, which is a contradiction.
+
+	Finally let us show that \ref{thm3.12ii} implies \ref{thm3.12i}.
+	To this end, let
+	\[
+		A = \Set{z \in G \given f^{(n)}(z) = 0 \text{ for all } n \geq 0}.
+	\]
+	By \ref{thm3.12ii} we know that at least $a \in A$, so $A \neq \varnothing$.
+	If we can show that $A = G$ we are done, since then $f$ as defined locally by its power series anywhere in $G$ is zero there.
+
+	Since $G$ is connected, and a connected set is one in which every open and closed subset is either empty or the entire set, we need to show that $A$ is both open and closed, for it is nonempty, and so must then be $G$.
+
+	First, to show that $A$ is closed, let $b \in \closure{A}$, and take $\Set{a_k} \subset A$ with $a_k \to b$ as $k \to \infty$.
+	Then $f^{(n)}(a_k) = 0$ for all $n \geq 0$, since $a_k \in A$, and since $f^{(n)}$ is continuous we also have $f^{(n)}(b) = 0$ for all $n \in \N$.
+	Hence $b \in A$ too, so $A = \closure{A}$ is closed.
+
+	Second, we need to show that $A$ is open, which is almost trivial: take $a \in A$ and take some $r > 0$ such that $B(a, r) \subset G$.
+	Then since $f$ is analytic, we have a power representation around $a$,
+	\[
+		f(z) = \sum_{n = 0}^\infty a_n (z - a)^n
+	\]
+	for all $z \in B(a, r)$, where crucially
+	\[
+		a_n = \frac{f^{(n)}(a)}{n!} = 0
+	\]
+	meaning that $f(z) = 0$ for all $z \in B(a, r)$, whence $B(a, r) \subset A$, so $A$ is open.
+\end{proof}
+
+\begin{corollary}\label{cor3.13}
+	Let $f$ and $g$ be analytic on a region $G$.
+	Then $f = g$ if and only if $\Set{z \in G \given f(z) = g(z)}$ has a limit point in $G$.
+\end{corollary}
+
+\begin{proof}
+	Take $h(z) = f(z) - g(z)$ in the previous theorem.
+\end{proof}
+
+\begin{example}
+	Consider the function
+	\[
+		f(z) = \cos\Bigl ( \frac{1 + z}{1 - z} \Bigr )
+	\]
+	on the region $G = \Set{z \given \abs{z} < 1}$.
+	Since the potential singularity is avoided, $f$ is analytic in $G$, with the zero set
+	\[
+		Z(f) = \Set*{\frac{\pi n - 2}{\pi n + 2} \given n > 0 \text{ odd}}.
+	\]
+	This has a limit point $1$, but it is not in $G$.
+\end{example}
+
+\begin{corollary}\label{cor3.14}
+	Let $f \neq 0$ be analytic in a region $G$.
+	Then for each $a \in G$ with $f(a) = 0$, there exists some $n \in \N$ and some analytic function $g \colon G \to \C$ such that
+	\[
+		f(z) = (z - a)^n g(z)
+	\]
+	with $g(a) \neq 0$.
+	In other words, each zero of $f$ has finite order.
+\end{corollary}
+
+\begin{proof}
+	A zero $a$ being of order $n$ means that $f^{(k)}(a) = 0$ for all $k < n$, so the power series representation of $f$ around $a$ starts at $(z - a)^n$, meaning that we can factor out $(z - a)^n$.
+\end{proof}
+
+\begin{corollary}\label{cor3.15}
+	Let $G$ be a region and let $f \colon G \to \C$ be analytic, $f \neq 0$ and $f(a) = 0$ for some $a \in G$.
+	Then there exists some $R > 0$ such that $B(a, R) \subset G$ and $f(z) \neq 0$ for all $0 < \abs{z - a} < R$.
+	That is to say, zeros of an analytic function (not identically zero) are isolated.
+\end{corollary}
+
+\begin{proof}
+	This is \autoref{thm3.12}.
+\end{proof}
+
+\begin{exercise}\label{ex:zerodivs}
+	Let $G$ be a region.
+	Let $f$ and $g$ be analytic functions on $G$ such that $f(z) g(z) = 0$ for all $z \in G$.
+	Show that either $f \equiv 0$ or $g \equiv 0$.
+\end{exercise}
+
+\index{maximum modulus principle|(}
+\begin{theorem}[Maximum modulus principle]\label{thm3.16}
+	Let $G$ be a region and let $f \colon G \to \C$ be analytic.
+	Suppose there exists some $a \in G$ such that $\abs{f(a)} \geq \abs{f(z)}$ for all $z \in G$.
+	Then $f$ is constant.
+\end{theorem}
+\index{maximum modulus principle|)}
+
+\begin{proof}
+	Take $\closure{B(a, R)} \subset G$.
+	Then
+	\[
+		f(a) = \frac{1}{2 \pi} \int_0^{2 \pi} f(a + r e^{i t}) \, d t
+	\]
+	for $r < R$.
+	Hence
+	\[
+		\abs{f(a)} \leq \abs*{\frac{1}{2 \pi} \int_0^{2 \pi} f(a + r e^{i t}) \, d t} \leq \frac{1}{2 \pi} \int_0^{2 \pi} \abs{f(a + r e^{i t})} \, d t,
+	\]
+	but by assumption $\abs{f(a + r e^{i t})} \leq \abs{f(a)}$, so this is bounded by
+	\[
+		\frac{1}{2 \pi} \int_0^{2 \pi} \abs{f(a)} \, d t = \abs{f(a)}.
+	\]
+	Hence
+	\[
+		\abs*{\frac{1}{2 \pi} \int_0^{2 \pi} f(a + r e^{i t}) \, d t} = \abs{f(a)} = \frac{1}{2 \pi} \int_0^{2 \pi} \abs{f(a)} \, d t,
+	\]
+	so rearranging
+	\[
+		\frac{1}{2 \pi} \int_0^{2 \pi} \abs{f(a)} - \abs{f(a + r e^{i t})} \, d t = 0.
+	\]
+	Again by assumption this integrand must be nonnegative, but if the integral of a nonnegative continuous function is zero, the function must be zero, so $\abs{f(a)} = \abs{f(a + r e^{i t})}$ for all $0 \leq t \leq 2 \pi$, implying too that $\abs{f(z)} = \abs{f(a)}$ for all $z \in B(a, R)$.
+	Finally this implies that $f(z)$ is constant on $B(a, R)$, since $f$ is continuous, meaning that $f(z)$ is constant also in $G$.
+\end{proof}
+
+\begin{exercise}
+	Show the last part of the above proof.
+	In other words:
+	Let $f$ be analytic on a region $G$.
+	Suppose $\abs{f(z)}$ is a constant on $G$.
+	Show that $f(z)$ is a constant.
+\end{exercise}

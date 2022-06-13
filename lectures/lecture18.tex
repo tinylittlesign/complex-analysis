@@ -1,0 +1,213 @@
+%!TEX root = ../lectures.tex
+
+\lecture[October 17th, 2019]{The Riemann Mapping Theorem}
+
+\topic{Proving the Riemann mapping theorem}
+
+We will start by proving uniqueness, which is the easier part by a good margin:
+
+\begin{proof}[Proof of the \nameref{thm7.17}, (uniqueness)]
+	Let $f$ and $g$ be two analytic functions both satisfying the properties of the theorem.
+	Then since $f \colon G \to D$ and $g \colon G \to D$, $f \circ g^{-1} \colon D \to D$.
+
+	Since $f(a) = g(a) = 0$, we have in turn that $f \circ g^{-1} (0) = f(a) = 0$.
+	Hence $f \circ g^{-1}$ is one-to-one, onto, and analytic (so it is an automorphism of $D$).
+	Then by the \nameref{thm6.4}, there exists $c \in \C$ with $\abs{c} = 1$ so that $f \circ g^{-1}(z) = c z$ for every $z \in D$.
+	Hence $f(z) = c g(z)$, so $0 < f'(a) < c g'(a)$, where $g'(a)$, implying that $c \in R$ and $c > 0$.
+	The only positive real number with $\abs{c} = 1$ is $c = 1$, so $f = g$.
+\end{proof}
+
+For the existence part of the proof it suffices to prove the following lemma:
+
+\begin{lemma}\label{lem7.18}
+	Let $G$ be a region and $G \neq \C$.
+	Suppose every non-vanishing analytic function on $G$ has an analytic square root.
+	Let $a \in G$.
+	Then there exists an analytic function $f \colon G \to \C$ such that
+	\begin{items}
+		\item\label{lemi} $f(a) = 0$, $f'(a) \in \R$, and $f'(a) > 0$;
+		\item\label{lemii} $f$ is one-to-one; and
+		\item\label{lemiii} $f(G) = D$.
+	\end{items}
+\end{lemma}
+
+That this is sufficient is motivated by an old result of ours, namely \autoref{cor4.8}, and is the only reason we need simple connectedness in the \nameref{thm7.17}:
+An non-vanishing analytic function $f \colon G \to \C$ on a simply connected region $G$ can be written as $f(z) = \exp(g(z))$ where $g(z)$ is analytic.
+Hence we can define an analytic square root of $f(z)$ as $\exp(\frac{1}{2} g(z))$.
+
+All by way of saying, if $G$ is simply connected, then the existence of an analytic square root in the lemma is automatic.
+
+\begin{proof}[Proof of \autoref{lem7.18}]
+	Let
+	\[
+		\mathcal{F} = \Set{f \in H(G) \given \text{$f$ is one-to-one, $f'(a) \in \R$, $f'(a) > 0$, and $f(G) \subset D$}}.
+	\]
+	In other words, $\mathcal{F}$ is the family of functions satisfying the the conditions \ref{lemi}--\ref{lemiii} we want, with the exception that $f(G) \subset D$ instead of $f(G) = D$.
+
+	Assume for now, and we will prove momentarily, that
+	\boolfalse{inSolution} % Temporarily supress list style in proof/solution.
+	\begin{parts}
+		\item\label{l18:pfa} $\mathcal{F} \neq \varnothing$, and
+		\item\label{l18:pfb} $\closure{\mathcal{F}} = \mathcal{F} \cup \Set{0}$.
+	\end{parts}
+
+	Since $f(G) \subset D$ for every $f \in \mathcal{F}$, $\mathcal{F}$ is locally bounded.
+	\nameref{thm7.10} implies $\mathcal{F}$ is normal, and hence $\closure{\mathcal{F}}$ is compact.
+
+	Consider the function $H(G) \to \C$ defined by $f \mapsto \abs{f'(a)}$.
+	This is continuous, meaning that, since $\closure{\mathcal{F}}$ is nonempty (since $\mathcal{F}$ is nonempty) and compact, there exists a maximum, i.e., there exists some $f \in \closure{\mathcal{F}}$ such that $\abs{f'(a)} \geq \abs{g'(a)}$ for all $g \in \closure{\mathcal{F}}$.
+	So in particular, $f'(a) \geq g'(a)$ for all $g \in \mathcal{F}$, since restricted to $\mathcal{F}$ these quantities are positive.
+
+	Hence $f \in \mathcal{F}$ since, per above, $\closure{\mathcal{F}} = \mathcal{F} \cup \Set{0}$.
+
+	If we can then show that, for this particular choice of $f$, $f(G) = D$, we are done.
+	To this end, suppose not.
+	That is, suppose there exists some $w \in D$ such that $w \not\in f(G)$.
+	Then
+	\[
+		\frac{f(z) - w}{1 - \conjugate{w} f(z)}
+	\]
+	is analytic on $G$ (since $\abs{w} < 1$ and $f(z) < 1$ means the denominator never vanishes) and it never vanishes on $G$ (since by choice $f(z) \neq w$ for $z \in G$).
+
+	By hypothesis this function has an analytic square root, in other words there exists an analytic function $h \colon G \to \C$ such that
+	\begin{equation}\label{l18:lemeqsquareroot}
+		h(z)^2 = \frac{f(z) - w}{1 - \conjugate{w} f(z)}.
+	\end{equation}
+	Note that $T(\xi) = \frac{\xi - w}{1 - \conjugate{w} \xi}$ is a Möbius transformation mapping $D$ to $D$ (specifically what we called $\varphi_w(\xi)$ when discussing automorphisms of the unit disk, see \autopageref{automorphismsunitdisk}) and $f(G) \subset D$, meaning that $h(G) \subset D$.
+
+	Define a new function $g \colon G \to \C$ by
+	\[
+		g(z) = \frac{\abs{h'(a)}}{h'(a)} \frac{h(z) - h(a)}{1 - \conjugate{h(a)} h(z)}.
+	\]
+	We want to show that $g \in \mathcal{F}$ and that $g'(a) > f'(a)$, which would contradict the choice of $f$ as having maximal derivative.
+
+	First, $g$ is one-to-one simply because $f$ is one-to-one, so $h$ is one-to-one since it is a composition of a Möbius transformation (which is one-to-one) and $f$, and $f$ in turn is a composition of a Möbius transformation and $h$.
+
+	That $g(a) = 0$ is clear---just plug in $z = a$.
+	Finally, for the derivative, we compute
+	\begin{align*}
+		g'(a) &= \frac{\abs{h'(a)}}{h'(a)} \frac{h'(z) (1 - \conjugate{h(a)} h(z)) - (h(z) - h(a)) (- \conjugate{h(a)})}{(1 - \conjugate{h(a)} h(z))^2} \biggr\rvert_{z = a} \\
+		&= \frac{\abs{h'(a)}}{h'(a)} \frac{h'(a) (1 - \abs{h(a)}^2)}{(1 - \abs{h(a)}^2)^2} = \frac{\abs{h'(a)}}{1 - \abs{h(a)}^2}.
+	\end{align*}
+	By \autoref{l18:lemeqsquareroot},
+	\[
+		\abs{h(a)}^2 = \frac{\abs{f(a) - w}}{\abs{1 - \conjugate{w} f(a)}} = \abs{-w} = \abs{w}
+	\]
+	since $f(a) = 0$, and hence differentiating $2 h(a) h'(a) = f'(a) (1 -\abs{w}^2)$, so
+	\[
+		\abs{h'(a)} = \abs[\Big]{\frac{f'(a) (1 - \abs{w}^2)}{2 h(a)}} = \frac{f'(a) (1 - \abs{w}^2)}{2 \abs{h(a)}}
+	\]
+	since $f'(a) > 0$ and $1 - \abs{w}^2 > 0$ because $\abs{w} < 1$, and so
+	\[
+		\abs{h'(a)} = \frac{f'(a) (1 - \abs{w}^2)}{2 \sqrt{\abs{w}}}.
+	\]
+
+	Putting this back into $g'(a)$, this means
+	\[
+		g'(a) = \frac{f'(a) (1 - \abs{w}^2)}{2 \sqrt{\abs{w}}} \frac{1}{1 - \abs{w}} = f'(a) \frac{1 + \abs{w}}{2 \sqrt{\abs{w}}}.
+	\]
+	Rewriting
+	\[
+		\frac{1 + \abs{w}}{2 \sqrt{\abs{w}}} = \frac{1}{2 \sqrt{\abs{w}}} + \frac{\sqrt{\abs{w}}}{2},
+	\]
+	we can view this as the arithmetic mean of $\frac{1}{\sqrt{\abs{w}}}$ and $\sqrt{\abs{w}}$, and so by the inequality of arithmetic and geometric means, we have the bound
+	\[
+		\frac{1 + \abs{w}}{2 \sqrt{\abs{w}}} \geq \sqrt{\frac{1}{\sqrt{\abs{w}}} \sqrt{\abs{w}}} = 1.
+	\]
+	In particular, equality holds only if the terms we are averaging are equal, that is $\frac{1}{\sqrt{\abs{w}}} = \sqrt{\abs{w}}$, meaning that $\abs{w} = 1$.
+	But by assumption $w \in D$, so $\abs{w} < 1$, whence $\abs{w} \neq 1$, giving us strict inequality.
+	Hence $g'(a) > f'(a)$ as desired, contradicting the maximality of $f'(a)$ in $\mathcal{F}$, which means our assumption of $D \setminus f(G) \neq \varnothing$ is false, so $f(G) = D$.
+
+	Looking back, it remains to show \ref{l18:pfa} and \ref{l18:pfb} in order to finish our proof.
+
+	First, for \ref{l18:pfa}, let us show $\mathcal{F} \neq \varnothing$.
+	Since $G \neq \C$, there exists some $b \in \C \setminus G$, and so the function $z - b$ is analytic and non-vanishing in $G$.
+	Hence by hypothesis there exists an analytic square root $g \colon G \to \C$ such that $g(z)^2 = z - b$.
+
+	Since $z - b$ is one-to-one, so is $g$, and hence by \autoref{hw3.1} $g'(z) \neq 0$ for all $z \in G$.
+	By the \nameref{thm4.11} there exists some $r > 0$ such that $g(G) \supset B(g(a), r)$.
+
+	\begin{marginfigure}
+		\mfincludegraphics[width=\textwidth]{figures/l18fig718a.tikz}
+
+		\caption{\label{lem718:fig} The image of $g$ contains a ball by the \nameref{thm4.11}. The reflected ball does not meet the image.}
+	\end{marginfigure}
+
+	Now, in a bit of a leap, note how it is true that $g(G) \cap B(-g(a), r) = \varnothing$.
+	To see this, suppose by way of contradiction that this is not the case.
+	That is, suppose there exists some $z \in G$ such that $r > \abs{g(z) + g(a)} = \abs{-g(z) - g(a)}$.
+	This implies $-g(z) \in B(g(a), r)$, and so by since $g(G) \supset B(g(a), r)$, there must exist some $w \in G$ so that $g(w) = - g(z)$.
+	But then $g(w)^2 = (-g(z))^2$, so $w - b = z - b$, from which we gather that $w = z$.
+	Then $g(w) = - g(w)$, so $w - b = -(w - b)$, so $w - b = 0$, whence $b = w \in G$, which is a contradiction---$b$ was chosen specifically not to be in $G$.
+
+	Now take a Möbius transformation $T$ such that $T(\C \setminus \closure{B(-g(a), r)}) = D$.
+	This can be done since we can pick a Möbius transformation mapping the circle on the boundary of $B(-g(a), r)$ to the unit circle, and it maps connected components to connected components, so we can pick, in particular, the one that maps $g(a)$ to zero, i.e., $T(g(a)) = 0$.
+
+	Let $g_1 = T \circ g \colon G \to D$.
+	Then $g_1$ is analytic, $g_1(a) = 0$, and since $g$ and $T$ are both one-to-one, so is $g_1$, and therefore in particular $g_1'(a) \neq 0$.
+
+	Choose a complex number $c$, $\abs{c}$ so that $c g'(a) \in \R$ and $c g'(a) > 0$, and define a new function $g_2(z) = c g_1(z)$.
+	Then $g_2'(a) > 0$, it is one-to-one since $g_1$ is, and $g_2(a) = 0$ by construction.
+	Moreover $g_2(G) \subset D$, so $g_2 \in \mathcal{F}$, so $\mathcal{F}$ is nonempty.
+
+	This leaves \ref{l18:pfb}, namely showing $\closure{\mathcal{F}} = \mathcal{F} \cup \Set{0}$.
+	So let $\Set{f_n} \subset \mathcal{F}$ and suppose $f_n \to f$ in $H(G)$ (since $H(G)$ is complete).
+	Since $f_n(a) = 0$, $f(a) = 0$, and since $f_n'(a) > 0$, we know $f_n'(a) \to f'(a) \geq 0$.
+
+	Let $z_1 \in G$ be arbitrary and set $\xi = f(z_1)$ and $\xi_n = f_n(z_1)$.
+	For $z_2 \neq z_1 \in G$, let $K = \closure{B(z_2, r)} \subset G$ such that $z_1 \not\in K$.
+	Then $f_n(z) - \xi_n$ never vanishes on $K$ since $f_n$ is one-to-one, and $f_n(z) - \xi_n \to f(z) - \xi$.
+
+	By \autoref{cor7.8} of \nameref{thm7.7}, either $f(z) - \xi = 0$ for all $z \in K$, or $f(z) - \xi \neq 0$ for all $z \in K$.
+	In the first case, $f(z) = \xi$ for all $z \in K$, so $f(z) = \xi$ for all $z \in G$.
+	But $f(a) = 0$, so $\xi = 0$, so $f = 0$.
+
+	In the second case, $f(z) \neq \xi$ for all $z \in K$, so $f(z_2) \neq f(z_1)$, meaning that $f$ is one-to-one since $z_1 \neq z_2$ are arbitrary.
+	Hence $f'(z) \neq 0$ for all $z \in G$, which together with $f'(a) \geq 0$ means $f'(a) > 0$.
+	Hence $f \in \mathcal{F}$.
+
+	Therefore, as claimed, $\closure{\mathcal{F}} = \mathcal{F} \cup \Set{0}$, finishing our proof of \autoref{lem7.18} and hence the \nameref{thm7.17}.
+\end{proof}
+
+\begin{exercise}
+	Let $G = \Set{z \given \Re(z) > 0}$.
+	Let $f$ be an analytic function on $G$ such that $\Re(f(z)) > 0$ for all $z$ in $G$ and $f(a) = a$ for some $a$ in $G$.
+	Show that $\abs{f'(a)} \leq 1$.
+\end{exercise}
+
+\topic{Entire functions}\label{lec18:entire}
+
+A long time ago (namely on \autopageref{entirequestions}) we asked several questions about how the behaviour of entire functions compares to the behaviour of polynomials.
+We are about ready to answer one of them, namely:
+Does there exist an entire function with a prescribed set of zeros?
+
+The answer is that it depends.
+If the set is finite, set $a_1, a_2, \dots, a_n \in \C$, then of course there exists an entire function $f$ such that $f(a_i) = 0$ for every $i = 1, 2, \dots, n$, and $f(z) \neq 0$ for $z \neq a_i$, namely the polynomial
+\[
+	f(z) = (z - a_1) (z - a_2) \dotsm (z - a_n).
+\]
+
+A much more interesting situation, therefore is when the set is infinite, say $\Set{a_n}_{n = 1}^\infty \subset \C$.
+Does there exists an entire function $f$ such that $f(a_i) = 0$ for $i = 1, 2, \dots$, and $f(z) \neq 0$ for $z \not\in \Set{a_n}$?
+
+We need some restrictions on $\Set{a_n}$.
+First, $\Set{a_n}$ cannot be a bounded set, for otherwise, being a bounded sequence, it must contain some convergent subsequence, so the set has a limit point.
+In other words, if $\Set{a_n}$ is bounded, $f$ has a limit point of zeros, and so (all the way back from \autoref{thm3.12}), $f$ must be identically zero.
+
+Second, $\Set{a_n}$ cannot have a point repeated infinitely many times.
+If it does, then $f$ would have a zero of infinite order, meaning that \emph{all} its derivatives at that point are zero.
+This makes the power series around that point identically zero, so $f$ is identically zero on an open neighbourhood of a point, so $f$ is identically zero (or, alternatively, the aforementioned zero power series must have infinite radius of convergence since $f$ is entire).
+That is to say, the order of any zero of a nonzero analytic function must be finite.
+
+An easy way to satisfy both of these conditions is to require
+\[
+	\lim_{n \to \infty} \abs{a_n} = \infty.
+\]
+With this assumption, as it happens, the answer is the affirmative: there does exist some entire function $f$ with $f(a_i) = 0$ for every $i = 1, 2, \dots$, and $f(z) \neq 0$ for $z \not\in \Set{a_n}$---this is the \nameref{thm8.8}.
+
+Of course the naïve attempt is
+\[
+	f(z) = \prod_{n = 1}^\infty (z - a_n),
+\]
+mimicking our approach in the polynomial case.
+The issue, and what we will spend the near discussing, is the question of convergence, and unfortunately $f(z)$ thus defined does not converge.

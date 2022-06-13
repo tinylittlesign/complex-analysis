@@ -1,0 +1,199 @@
+%!TEX root = ../lectures.tex
+
+\lecture[November 19th, 2019]{The Great Picard Theorem}
+
+\topic{The range of entire functions, revisited}
+
+The \nameref{thm9.14} will follow almost immediately from the following slightly technical theorem:
+
+% Cheat because I'm lazy. Remove at some point.
+%TODO.
+\clearpage
+
+\index{Montel--Carathéodory theorem|(}
+\begin{theorem}[Montel--Carathéodory theorem]\label{thm9.13}
+	Let $G$ be a region.
+	Let
+	\[
+		\mathcal{F} = \Set{f \colon G \to \C\ \text{analytic} \given \text{$f(z)$ omits $0$ and $1$}}.
+	\]
+	Then $\mathcal{F}$ is normal in $C(G, \C_\infty)$.
+\end{theorem}
+\index{Montel--Carathéodory theorem|)}
+
+\begin{proof}
+	Fix $z_0 \in G$ and let $\mathcal{G} = \Set{f \in \mathcal{F} \given \abs{f(z)} \leq 1}$ and $\mathcal{H} = \Set{f \in \mathcal{F} \given \abs{f(z)} > 1}$.
+	Then $\mathcal{F} = \mathcal{G} \cup \mathcal{H}$ and if we can show that $\mathcal{G}$ and $\mathcal{H}$ are normal in $C(G, \C_\infty)$, then so is $\mathcal{F}$.
+
+	We will show in particular that $\mathcal{G}$ is normal in $H(G)$, and $\mathcal{H}$ is normal in $C(G, \C_\infty)$, one at a time.
+
+	First, to show that $\mathcal{G}$ is normal in $H(G)$, recall how by \nameref{thm7.10} it suffices to show that $\mathcal{G}$ is locally bounded.
+
+	To this end, let $a \in G$ and let $\gamma$ be a path from $z_0$ to $a$.
+	Take disks $\closure{D_0}, \closure{D_1}, \dots, \closure{D_n}$ in $G$, centred at $z_0, z_1, \dots, z_n = a \in \Set{\gamma}$, so that $z_{k - 1}, z_k \in D_{k - 1} \cup D_k$ for all $1 \leq k \leq n$.
+	This is possible by taking $z_{k - 1}$ and $z_k$ sufficiently close to one another, and since $\gamma$ is compact, we can find a finite subset of them that does the job.
+
+	Now by applying a shifted version of \nameref{thm9.11} on $D_0$, we see that there exists some constant $C_0$ such that $\abs{f(z)} \leq C_0$ for all $z \in D_0$ and all $f \in \mathcal{G}$.
+
+	In particular, since by construction $z_1 \in D_0$, this gives us $\abs{f(z_1)} \leq C_0$ for all $f \in \mathcal{G}$.
+	This lets us apply \nameref{thm9.11} again to $D_1$, whence $\abs{f(z)} \leq C_1$ for all $f \in \mathcal{G}$ and all $z \in D_1$ for some constant $C_1$, and in particular $\abs{f(z_2)} \leq C_1$ for all $f \in \mathcal{G}$.
+
+	Repeat this argument on $D_2$, $D_3$, and so on, until we get for $D_n$ that $\mathcal{G}$ is uniformly bounded on $D_n = B(a, r)$ for some radius $r$.
+	Hence $\mathcal{G}$ is locally bounded, since $a \in G$ is arbitrary, and therefore $\mathcal{G}$ is normal.
+
+	This leaves showing that $\mathcal{H}$ is normal in $C(G, \C_\infty)$.
+	If $f \in \mathcal{H}$ is analytic, then $\frac{1}{f}$ is analytic on $G$ (since $f$ omits zero, being bounded below by $1$).
+	Moreover, $\frac{1}{f(z)} \neq 0$ since $f$ is analytic, hence having no poles, and $\frac{1}{f(z)} \neq 1$ since $f(z) \neq 1$.
+	Finally, $\abs{\frac{1}{f(z)}} < 1$ since $\abs{f(z) > 1}$.
+
+	All by way of saying: $\tilde{\mathcal{H}} \coloneqq \Set{\frac{1}{f} \given f \in \mathcal{H}} \subset \mathcal{G}$.
+	Since $\mathcal{G}$ is normal, $\tilde{\mathcal{H}}$ must be normal too.
+
+	In other words, if $\Set{f_n} \subset \mathcal{H}$, then there exists a subsequence $\Set{f_{n_k}}$ such that $\frac{1}{f_{n_k}} \to h \in H(G)$.
+
+	By \autoref{cor7.8} of \nameref{thm7.7}, this means either $h = 0$ identically or $h(z) \neq 0$ for all $z \in G$.
+	In the first case we get $f_{n_k} \to \infty$ in $C(G, \C_\infty)$, and in the second case we see that $\frac{1}{h}$ is analytic on $G$, and $f_{n_k} \to \frac{1}{h}$ in $H(G)$, so in particular in $C(G, \C_\infty)$.
+	In either case we have a subsequence of $\Set{f_n} \subset \mathcal{H}$ converging in $C(G, \C_\infty)$, so $\mathcal{H}$ is normal.
+\end{proof}
+
+With this in hand we are equipped to prove
+
+\index{Great Picard theorem|(}\index{Picard's theorem!great|see {Great Picard theorem}}
+\begin{theorem}[Great Picard theorem]\label{thm9.14}
+	Let $G$ be a region and $a \in G$.
+	Let $f$ be analytic on $G \setminus \Set{a}$ and suppose $g$ has an essential singularity at $z = a$.
+	Then in each neighbourhood of $z = a$, $f(z)$ assumes each complex number, with one possible exception, infinitely many times.
+\end{theorem}
+\index{Great Picard theorem|)}
+
+\begin{remark}
+	This improves the \nameref{thm5.4}, which says that the image of each neighbourhood of an essential singularity is dense in $\C$.
+\end{remark}
+
+\begin{proof}
+	Without loss of generality, assume $f$ has an essential singularity at $z = 0$ (else shift it).
+	Suppose there exists some $R > 0$ such that $f(z)$ omits two values on $0 < \abs{z} < R$.
+	Again we can assume those two values are $0$ and $1$, i.e., $f(z) \neq 0$ and $f(z) \neq 1$ for all $0 < \abs{z} < R$, else normalise as in the proof of the \nameref{thm9.10}.
+
+	Let $G = B(0, R) \setminus \Set{0}$ and define $f_n \colon G \to \C$ by $f_n(z) = f(\frac{z}{n})$.
+	Then $f_n$ is analytic on $G$ since $f$ is and $f_n(z) \neq 0$ for all $z \in G$ since $f(z) \neq 0$ on $G$.
+
+	By \nameref{thm9.13}, $\set{f_n}$ is normal in $C(G, \C_\infty)$, meaning that there exists a subsequence $\Set{f_{n_k}}$ such that $f_{n_k} \to \varphi$ in $C(G, \C_\infty)$.
+	In particular, $f_{n_k} \to \varphi$ uniformly on any compact subset of $G$, so in particular on $\abs{z} = \frac{1}{2} R$.
+
+	Note how, since $\Set{f_{n_k}} \subset H(G)$, we have again by \autoref{cor7.8} of \nameref{thm7.7} that either $\varphi$ is analytic on $G$ or $\varphi = \infty$ identically.
+
+	In the former case, let
+	\[
+		M = \max_{\abs{z} = \frac{1}{2} R} \abs{\varphi(z)},
+	\]
+	which exists since $\varphi$ is analytic and $\abs{z} = \frac{1}{2} R$ is compact.
+	Then for $\abs{z} = \frac{1}{2} R$,
+	\[
+		\abs[\Big]{f\Bigl( \frac{z}{n_k})} = \abs{f_{n_k}(z)} \leq \abs{f_{n_k}(z) - \varphi(z)} + \abs{\varphi(z)}.
+	\]
+	The first term in the right-hand side goes to $0$ uniformly, and the second term is bounded uniformly by $M$, so for $n_k$ sufficiently large we have $\abs{f(\frac{z}{n_k})} \leq 2 M$.
+
+	Hence $\abs{f(z)} \leq 2 M$ for $\abs{z} = \frac{R}{2 n_k}$ for $n_k$ large, so $f(z)$ is uniformly bounded on $B(0, r) \setminus \Set{0}$ for some $0 < r < R$.
+	This means $f(z)$ has a removable singularity at $z = 0$, which is a contradiction.
+
+	Similarly, in the latter case, assume $\varphi = \infty$.
+	In this case, $f_{n_k} \to \infty$ uniformly on $\abs{z} = \frac{1}{2} R$, which means $f(\frac{z}{n_k}) \to \infty$ uniformly on $\abs{z} = \frac{1}{2} R$.
+	In other words,
+	\[
+		\lim_{z \to \infty} \abs{f(z)} = \infty,
+	\]
+	meaning that $f$ has a pole at $z = 0$, which is again a contradiction.
+
+	Hence $f$ cannot omit two values in $\C$, meaning it can omit \emph{at most} one value.
+
+	For the second part of the theorem we need to show that, apart from this possible exceptional point, all points are attained infinitely many times.
+
+	Suppose, therefore, that two values are assumed by $f$ only finitely many times.
+	This means that there are some finite set of preimages of those two points in $G$, which in turn means we must be able to find some sufficiently small punctured disk $B(0, r) \setminus \Set{0}$, $0 < r < R$, not containing any of those preimages.
+	Hence on this smaller punctured disk, $f$ omits those two values, which by the previous discussion is impossible.
+\end{proof}
+
+An immediate corollary of this is
+
+\begin{corollary}\label{cor9.15}
+	If $f$ has an isolated singularity at $z = 0$ and if there are two values that are not assumed by $f(z)$ infinitely many times, then $z = a$ is either a pole or a removable singularity (i.e., $z = a$ cannot be an essential singularity).
+\end{corollary}
+
+An almost as immediate corollary, and the result we promised a bit ago, is this:
+
+\begin{corollary}\label{cor9.16}
+	If $f$ is an entire function that is not a polynomial, then $f(z)$ assumes every complex number, with one possible exception, infinitely many times.
+\end{corollary}
+
+\begin{exercise}
+	Suppose $f$ is a one-to-one entire function.
+	Show that $f(z) = a z + b$ for some $a, b \in \C$ with $a \neq 0$.
+\end{exercise}
+
+\begin{proof}
+	Since $f$ is entire and not a polynomial, it has a power series expansion about $z = 0$ that never ends.
+	Consequently, the Laurent expansion of $g(z) = f(\frac{1}{z})$ extends infinitely in the negative direction, so $g$ has an essential singularity at $z = 0$.
+
+	Therefore by the \nameref{thm9.14} $g(z)$ assumes each complex number, with one possible exception, infinitely many times.
+	But $f$ and $g$ have the same image, so $f(z)$ does too.
+\end{proof}
+
+\topic{Runge's theorem}
+
+Recall how in real analysis, Weierstrass theorem\index{Weierstrass theorem} says that every continuous function $f$ on a compact set in $\R$ can be approximated uniformly by polynomials.
+(One way to prove this is by way of harmonic analysis: show that they can be approximated by Fourier series, i.e., linear combinations of trigonometric functions, and then approximate those trigonometric functions by their Taylor polynomials).
+
+A natural question to ask, then, is this: let $K \subset \C$ be compact and let $G$ be a neighbourhood of $K$.
+Suppose $f \in H(G)$.
+Can $f$ be approximated uniformly by polynomials on $K$?
+
+The answer, in general, is no.
+Consider the following two examples:
+
+\begin{example}
+	Let $G = B(0, R)$.
+	For any $f \in H(G)$, we have a power series expansion
+	\[
+		f(z) = \sum_{n = 0}^\infty a_n z^n,
+	\]
+	which converges uniformly on any compact subset $K \subset G$.
+	Taking the partial sums
+	\[
+		P_k(z) = \sum_{n = 0}^k a_n z_n,
+	\]
+	we then have $P_k \to f$ uniformly on $K$ as $k \to \infty$.
+	Hence in this particular case, the answer to the above question is yes.
+\end{example}
+
+On the other hand,
+
+\begin{example}
+	Let $G = B(0, R) \setminus \Set{0}$, and let $f(z) = \frac{1}{z} \in H(G)$ (it is holomorphic since $G$ specifically excludes the pole).
+	Let $K = \Set{z \given \abs{z} = \frac{1}{2} R} \subset G$, which is compact.
+
+	For any polynomial $P(z)$,
+	\[
+		\int_K P(z) \, d z = 0
+	\]
+	since $K$ encloses no pole of $P(z)$ (it has no poles).
+	On the other hand,
+	\[
+		\int_K f(z) \, d z = \int_K \frac{1}{z} \, d z = 2 \pi i
+	\]
+	since $K$ encloses the pole at $z = 0$ of $f$.
+
+	Now if $P_n \to f$ uniformly on $K$, we must have
+	\[
+		\int_K P_n(z) \, d z \to \int_K f(z) \, d z
+	\]
+	but the left-hand side is constantly $0$, and the right-hand side if $2 \pi i \neq 0$, so $f$ cannot be approximated uniformly by polynomials on $K$.
+\end{example}
+
+What these examples show is that, in fact, whether $f$ can be approximated uniformly by polynomials or not is a topological property: it depends on whether $\C \setminus K$ is connected or not.
+
+What \nameref{thm10.4}\index{Runge's theorem} says is this, which we will work toward proving:
+\begin{items}
+	\item If $f \in H(G)$, then $f$ can be approximated uniformly by \emph{rational functions} on $K$; and
+	\item If $\C \setminus K$ is connected, then $f \in H(G)$ can be approximated uniformly by \emph{polynomials} on $K$.
+\end{items}

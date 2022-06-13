@@ -1,0 +1,99 @@
+%!TEX root = ../lectures.tex
+
+\lecture[October 8th, 2019]{The Space of Meromorphic Functions}
+
+\topic{The topology of $C(G, \C_\infty)$}
+
+Recall how we model the Riemann sphere\index{Riemann sphere} $\C_\infty = \C \cup \Set{\infty}$ as a sphere centred on the origin of the origin of the complex plane, and we identify the north pole of the sphere as $\infty$, and if we imagine a line connecting this north pole with any given point $z$ on the complex plane, where this line intersects the sphere, say $Z$, is the corresponding point.
+We have illustrated this in \autoref{l15:figa}.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=\textwidth]{figures/l15figa.tikz}
+
+	\caption{\label{l15:figa} A model of the Riemann sphere, identifying points $z_1, z_2 \in \C$ with points $Z_1, Z_2 \in \C_\infty$.}
+\end{figure}
+
+If we wish to study continuous functions from $G$ to $\C_\infty$, we first need a metric on $\C_\infty$.
+We define this metric $d$ by
+\[
+	d(z_1, z_2) = d(Z_1, Z_2)
+\]
+for $z_1, z_2 \in \C$, where $Z_1$ and $Z_2$ are the points corresponding to $z_1$ and $z_2$ on the sphere, and the right-hand side distance is measured in the usual Euclidean way in $\R^3$.
+
+Then in all, we define the metric on $\C_\infty$ by
+\begin{items}
+	\item\label{ddefi} if $z_1, z_2 \in \C$, then $\displaystyle d(z_1, z_2) = \frac{2 \abs{z_1 - z_2}}{(1 + \abs{z_1}^2)^{1/2} (1 + \abs{z_2}^2)^{1/2}}$ (this is just $d(Z_1, Z_2)$ written out); and
+	\item if $z \in \C$, then $\displaystyle d(z, \infty) = \frac{2}{(1 + \abs{z}^2)^{1/2}}$.
+\end{items}
+
+This metric has an interesting property:
+for $z_1, z_2 \neq 0$,
+\[
+	d(z_1, z_2) = d\left ( \frac{1}{z_1}, \frac{1}{z_2} \right ),
+\]
+and similarly for $z \neq 0$,
+\[
+	d(z, 0) = d \left ( \frac{1}{z}, \infty \right ).
+\]
+This is a consequence of $z$ and $1/z$ corresponding to symmetric points in the upper and lower hemispheres in this model.
+
+\begin{remark}
+	In order to distinguish the topology on the complex plane and the topology on the Riemann sphere, we will (as before) use $B(a, r)$ to mean an open ball in $(\C, \abs{})$, and $B_\infty(a, r)$ to mean a ball in the Riemann sphere $(\C_\infty, d)$.
+\end{remark}
+
+The good news is that these topologies are essentially the same (barring the tricky point at infinity):
+
+\begin{proposition}\label{prop7.12}
+	\begin{items}
+		\item\label{p7.12i} Given $a \in \C$ and $r > 0$, there exists $\rho > 0$ such that $B_\infty(a, \rho) \subset B(a, r)$ (so open in $\abs{}$ implies open in $d$);
+		\item\label{p7.12ii} Given $a \in \C$ and $\rho > 0$, there exists $r > 0$ such that $B(a, r) \subset B_\infty(a, \rho)$ (so open in $d$ implies open in $\abs{}$);
+		\item\label{p7.12iii} Given $\rho > 0$, there exists a compact set $K \subset \C$ such that $\C_\infty \setminus K \subset B_\infty(\infty, \rho)$; and
+		\item\label{p7.12iv} Given a compact set $K \subset \C$, there exists $\rho > 0$ such that $B_\infty(\infty, \rho) \subset \C_\infty \setminus K$.
+	\end{items}
+\end{proposition}
+
+\begin{remark}
+	Parts \ref{p7.12i} and \ref{p7.12ii} together imply that the subspace topology on $\C \subset \C_\infty$ and the usual topology $(\C, \abs{})$ are the same.
+	In other words, things will converge in one if and only if they converge in the other (though the speed of convergence needn't be the same).
+
+	Parts \ref{p7.12iii} and \ref{p7.12iv} tell us that $\C_\infty$ is, in fact, a one-point compactification\index{compactification} of $\C$.
+\end{remark}
+
+Recall how a function $f \colon G \to \C$ is called \keyword{meromorphic}\index{meromorphic function} if it is analytic except for isolated poles.
+Now that we have a metric on the Riemann sphere, we can view this in a different light: a meromorphic function is an analytic function (hence continuous) which sometimes reaches infinity.
+In other words, $f \colon G \to \C_\infty$ is continuous.
+
+In this light, if we let $M(G)$ denote the set of all meromorphic functions on $G$, then $M(G) \subset C(G, \C_\infty)$, where $C(G, \C_\infty)$ is a complete metric space in $d$.
+
+\begin{remark}
+	Unlike $H(G)$, the space $M(G)$ of meromorphic functions is \emph{not} complete, for it is not closed.
+
+	For example, if we let $f_n(z) = n$ be constant functions, then $\Set{f_n}$ is a Cauchy sequence in $C(G, \infty)$ (they get close to $\infty$), and $f_n \to f$ where $f \equiv \infty$.
+	But this limit is not meromorphic.
+
+	It is instructive to note that this does not converge at all in $C(G, \C)$---convergence in $C(G, \C_\infty)$ is not quite the same.
+	This example then also demonstrates that in $C(G, \C_\infty)$, $H(G)$ also stops being closed.
+\end{remark}
+
+That said, $M(G)$ is, in some sense, very close to being complete: the \emph{only} function it is missing is the one that is constantly infinity:
+
+\begin{theorem}\label{thm7.13}
+	\begin{items}
+		\item Let $\Set{f_n} \subset M(G)$.
+		Suppose $f_n \to f$ in $C(G, \C_\infty)$.
+		Then either $f \in M(G)$ or $f \equiv \infty$.
+		\item Suppose $\Set{f_n} \subset H(G)$ and $f_n \to f$ in $C(G, \C_\infty)$.
+		Then either $f \in H(G)$ or $f \equiv \infty$.
+	\end{items}
+\end{theorem}
+
+Consequently,
+
+\begin{corollary}\label{cor7.14}
+	$\closure{M(G)} = M(G) \cup \Set{\infty}$ is a complete metric space.
+\end{corollary}
+
+\begin{corollary}\label{cor7.15}
+	$\closure{H(G)} = H(G) \cup \Set{\infty}$ is a closed in $C(G, \C_\infty)$ and hence complete.
+\end{corollary}

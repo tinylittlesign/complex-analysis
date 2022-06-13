@@ -1,0 +1,245 @@
+%!TEX root = ../lectures.tex
+
+\lecture[December 5th, 2019]{Perron's Formula}
+
+\topic{Uniqueness of Dirichlet series}
+
+\begin{remark}
+	As a consequence of \autoref{prop12.2}, we infer:
+	\begin{items}
+		\item The region of convergence of a Dirichlet series is a half-plane.
+		\item There exists a unique $\sigma_c \in \interval{-\infty}{\infty}$ such that $D(s)$ converges for $\Re(s) > \sigma_c$ and diverges for $\Re(s) < \sigma_c$.
+		Such a $\sigma_c$ is called the \keyword{abscissa of convergence}\index{abscissa of convergence} of $D(s)$.
+	\end{items}
+\end{remark}
+
+Notice how, since absolute convergence implies convergence, $\sigma_c \leq \sigma_{ac}$.
+However they need not be equal.
+
+\begin{example}
+	Consider the alternating harmonic series
+	\[
+		D(s) = \sum_{n = 1}^\infty \frac{(-1)^n}{n^2}.
+	\]
+	This has abscissa of absolute convergence $\sigma_{ac} = 1$, but abscissa of convergence $\sigma_c = 0$ (from \keyword{Dirichlet's test}\index{Dirichlet's test}: $a_n = (-1)^n$ has bounded average, and $\frac{1}{n^s}$ is decreasing to $0$ in magnitude for $\Re(s) > 0$).
+\end{example}
+
+In this example $\sigma_{ac}$ and $\sigma_c$ differ by one.
+This is the worst case scenario:
+
+\begin{proposition}\label{prop12.3}
+	Let
+	\[
+		D(s) = \sum_{n = 1}^\infty \frac{a_n}{n^s}
+	\]
+	with abscissa of absolute convergence $\sigma_{ac}$ and abscissa of convergence $\sigma_c$.
+	Then $0 \leq \sigma_{ac} - \sigma_c \leq 1$.
+\end{proposition}
+
+\begin{proof}
+	The left-hand side inequality is trivial since $\sigma_c \leq \sigma_{ac}$.
+	Hence it remains to show $\sigma_{ac} \leq 1 + \sigma_c$, i.e., show that
+	\[
+		\sum_{n = 1}^\infty \frac{a_n}{n^{1 + \sigma_c + \varepsilon}}
+	\]
+	converges absolutely for all $\varepsilon > 0$.
+
+	Since $\sigma_c$ is the abscissa of convergence,
+	\[
+		D\Bigl( \sigma_c + \frac{\varepsilon}{2} \Bigr) = \sum_{n = 1}^\infty \frac{a_n}{n^{\sigma_c + \frac{\varepsilon}{2}}}
+	\]
+	converges, meaning that the individual terms must go to zero.
+	In other words,
+	\[
+		\lim_{n \to \infty} \frac{a_n}{n^{\sigma_c + \frac{\varepsilon}{2}}} = 0.
+	\]
+	Hence there exists some $N \in \N$ such that for $n > N$,
+	\[
+		\abs[\Big]{\frac{a_n}{n^{\sigma_c + \frac{\varepsilon}{2}}}} < 1.
+	\]
+	Consequently we consider the tail
+	\[
+		\sum_{n = N}^\infty \abs[\Big]{\frac{a_n}{n^{1 + \sigma_c + \varepsilon}}} = \sum_{n = N}^\infty \abs[\Big]{\frac{a_n}{n^{\sigma_c + \frac{\varepsilon}{2}}}} \cdot \frac{1}{n^{1 + \frac{\varepsilon}{2}}} \leq \sum_{n = N}^\infty \frac{1}{n^{1 + \frac{\varepsilon}{2}}} < \infty,
+	\]
+	so we have the absolute convergence we were looking for.
+\end{proof}
+
+\index{Dirichlet series!uniqueness theorem|(}
+\begin{theorem}[Uniqueness theorem for Dirichlet series]\label{thm12.4}
+	Let
+	\[
+		D(s) = \sum_{n = 1}^\infty \frac{a_n}{n^s} \qquad \text{and} \qquad F9s) = \sum_{n = 1}^\infty \frac{b_n}{n^s}
+	\]
+	with abscissae of absolute convergence less than $\sigma$.
+	Suppose there exist $\Set{s_k} \subset \Set{s \given \Re(s) > \sigma}$ such that
+	\begin{items}
+		\item $\Re(s_k) = \sigma_k \to \infty$ as $k \to \infty$ and
+		\item $D(s_k) = F(s_k)$ for all $k$.
+	\end{items}
+	Then $a_n = b_n$ for all $n \in \N$.
+\end{theorem}
+\index{Dirichlet series!uniqueness theorem|)}
+
+\begin{proof}
+	Define a new Dirichlet series
+	\[
+		G(s) = D(s) - F(s) = \sum_{n = 1}^\infty \frac{a_n - b_n}{n^s} = \sum_{n = 1}^\infty \frac{c_n}{n^s},
+	\]
+	i.e., let $c_n = a_n - b_n$.
+	We wish to show that $c_n = 0$ for all $n \in N$.
+
+	Notice how, by assumption, $G(s_k) = 0$ for all $k$.
+	Now suppose $c_n \neq 0$ for some $n$.
+	Then there must be a smallest index for which $c_n$ is nonzero, so let $N$ be the smallest integer such that $c_N \neq 0$, meaning that $c_n = 0$ for all $n < N$.
+	Then
+	\[
+		G(s) = \sum_{n = N}^\infty \frac{c_n}{n^s} = \frac{c_N}{N^s} + \sum_{n = N + 1}^\infty \frac{c_n}{n^s}.
+	\]
+	Since $G(s_k) = 0$, we must have
+	\[
+		\frac{c_N}{N^{s_k}} + \sum_{n = N + 1}^\infty \frac{c_n}{n^{s_k}} = 0,
+	\]
+	which, if we rearrange and take absolute values, becomes
+	\[
+		\abs{c_N} \leq N^{\sigma_k} \sum_{n = N + 1}^\infty \frac{\abs{c_n}}{n^{\sigma_k}} \leq \frac{N^{\sigma_k}}{(N + 1)^{\sigma_k - \sigma - \varepsilon}} \sum_{n = N + 1}^\infty \frac{abs{c_n}}{n^{\sigma + \varepsilon}}.
+	\]
+	The factor in front of the summation goes to $0$ as $\sigma_k \to \infty$, and the sum is finite since we are in the region of absolute convergence.
+	Hence all of this goes to $0$, implying that $c_N = 0$, which is a contradiction.
+\end{proof}
+
+\topic{Perron's formula}
+
+\begin{lemma}\label{lem12.5}
+	Let $c > 0$ and $y > 0$.
+	Then we have
+	\[
+		\frac{1}{2 \pi i} \int_{(c)} y^w \frac{d w}{w} = \begin{cases}
+			1, & \text{if $y > 1$} \\
+			0, & \text{if $0 < y < 1$}.
+		\end{cases}
+	\]
+\end{lemma}
+
+\begin{remark}
+	By integrating over $(c)$ we mean to integrate along the vertical line at $\Re(s) = c$, i.e., in this example,
+	\[
+		\frac{1}{2 \pi i} \int_{(c)} y^w \frac{d w}{w} = \frac{1}{2 \pi i} \int_{c - i \infty}^{c + i \infty} y^w \frac{d w}{w}.
+	\]
+\end{remark}
+
+\begin{marginfigure}
+	\mfincludegraphics[width=\textwidth]{figures/l30lem125a.tikz}
+
+	\caption{\label{l30:lem125a} The choice of contour when $y > 1$.}
+\end{marginfigure}
+
+\begin{proof}
+	Let us consider $y > 1$ first.
+	The integrand $\frac{y^w}{w}$ is analytic except for a simple pole at $w = 0$ with residue $1$, so integrating over the semicircle described in \autoref{l30:lem125a} by \nameref{thm4.2}
+	\[
+		1 = \frac{1}{2 \pi i} \int_{\gamma_R} y^w \frac{d w}{w} + \frac{1}{2 \pi i} \int_{c - i R}^{c + i R} y^w \frac{d w}{w}.
+	\]
+	Sending $R \to \infty$ the second integral becomes the integral we want, so ideally the first integral goes to $0$ as $R \to \infty$.
+
+	So for $w \in \Set{\gamma_R}$ we parametrise as $w = c + R e^{i \theta}$, with $\frac{\pi}{2} \leq \theta \leq \frac{3 \pi}{2}$.
+	Here also $d w = R i e^{i \theta} \, d \theta$, and we estimate $\abs{w} = \abs{c + R e^{i \theta}} \geq R - c$ (since $c$ is fixed and $R$ is large).
+	Then
+	\[
+		\abs[\Big]{\frac{1}{2 \pi i} \int_{\gamma_R} y^w \frac{d w}{w}} \leq \frac{1}{2 \pi} \int_{\pi/2}^{3 \pi/2} y^c y^{R \cos(\theta)} \frac{R \, d \theta}{R - c}.
+	\]
+	Since $\frac{\pi}{2} \leq \theta \leq \frac{3 \pi}{2}$, $\cos(\theta) < 0$, and so $R \cos(\theta)$ is negative meaning that, since $y > 1$, $y^{R \cos(\theta)} \to 0$ as $R \to \infty$.
+	Consequently the entire integral goes to $0$ since $\frac{R}{R - c} \to 1$ as $R \to \infty$.
+
+	Next we consider the case $0 < y < 1$.
+	The estimate is similar, only this time we want to integrate over a semicircle extending to the right (see \autoref{l30:lem125b}), since for $0 < y < 1$ we want positive powers to make the integrand small.
+
+	\begin{marginfigure}
+		\mfincludegraphics[width=\textwidth]{figures/l30lem125b.tikz}
+
+		\caption{\label{l30:lem125b} The choice of contour when $0 < y < 1$.}
+	\end{marginfigure}
+
+	Again there is a simple pole of $\frac{y^w}{w}$ at $w = 0$, but this lies outside of our contour, so by \nameref{thm4.2}
+	\[
+		0 = \frac{1}{2 \pi i} \int_{\gamma_R} y^w \frac{d w}{w} + \frac{1}{2 \pi i} \int_{c - i R}^{c + i R} y^w \frac{d w}{w}.
+	\]
+	As before, the second integral goes to the integral we want when $R \to \infty$, and we show that the first integral goes to $0$.
+
+	Indeed, with the same parametrisation, only with $-\frac{\pi}{2} \leq \theta \leq \frac{\pi}{2}$, we get
+	\[
+		\abs[\Big]{\frac{1}{2 \pi i} \int_{\gamma_R} y^w \frac{d w}{w}} \leq \frac{1}{2 \pi} \int_{\pi/2}^{-\pi/2} y^c y^{R \cos(\theta)} \frac{R \, d \theta}{R - c}.
+	\]
+	Since $\cos(\theta) > 0$ in this range, the exponent is positive, but $0 < y < 1$ so $y^{R \cos(\theta)} \to 0$ as $R \to \infty$.
+	Hence the integral goes to $0$ as $R \to \infty$, again.
+\end{proof}
+
+In order to prove \nameref{thm12.7} we need the following technical lemma, the proof of which is not difficult, but is a bit lengthy:
+
+\begin{lemma}\label{lem12.6}
+	Let
+	\[
+		D(s) = \sum_{n = 1}^\infty \frac{a_n}{n^s}
+	\]
+	with abscissa of convergence $\sigma_c$.
+	For $s = \sigma + i t$, $\sigma_c < \sigma < \sigma_c + 1$, we have
+	\[
+		D(s) \ll \abs{t}^{1 - (\sigma - \sigma_c) + \varepsilon}
+	\]
+	for any $\varepsilon > 0$.
+\end{lemma}
+
+The idea of the proof is similar to that of \autoref{prop12.2}.
+
+\index{Perron's formula|(}
+\begin{theorem}[Perron's formula]\label{thm12.7}
+	Let
+	\[
+		D(s) = \sum_{n = 1}^\infty \frac{a_n}{n^s}
+	\]
+	with abscissa of convergence $\sigma_c$.
+	Let $X > 0$, $X \not\in \N$, and $c > 0$.
+	For any $s = \sigma + i t$ with $\sigma + c > \sigma_c$, we have
+	\[
+		\sum_{n < X} \frac{a_n}{n^s} = \frac{1}{2 \pi i} \int_{(c)} D(s + w) X^w \frac{d w}{w}.
+	\]
+	In particular,
+	\[
+		\sum_{n < X} a_n = \frac{1}{2 \pi i} \int_{(c)} D(w) X^w \frac{d w}{w}
+	\]
+	for $c > \sigma_c$.
+\end{theorem}
+\index{Perron's formula|)}
+
+This is a remarkable formula: it translates a discrete average into an analytic formula.
+Hence by understanding analytic properties of the Dirichlet series, we can glean understanding about the sequence $\Set{a_n}$.
+
+\begin{proof}[Sketch of proof]
+	The main idea of the proof is to write $D(s + w)$ in the right-hand side in terms of its series representation, then switch the order or summation and integration, like so:
+	\begin{align*}
+		\frac{1}{2 \pi i} \int_{(c)} D(s + w) X^w \frac{d w}{w} &= \frac{1}{2 \pi i} \int_{(c)} \Bigl( \sum_{n = 1}^\infty \frac{a_n}{n^{s + w}} \Bigr) X^w \frac{d w}{w} \\
+		&= \sum_{n = 1}^\infty \frac{a_n}{n^s} \frac{1}{2 \pi i} \int_{(c)} \Bigl( \frac{X}{n} \Bigr)^w \frac{d w}{w}.
+	\end{align*}
+	There are two steps of note here: first, we can write $D(s + w)$ in terms of its series representation since $\Re(s + w) = \sigma + c > \sigma_c$, so we are in the region of convergence.
+	Second, being able to switch the order of summation and integration is not trivial.
+	In this case we can do this because we have control of the size of the tails courtesy of \autoref{lem12.6}.
+
+	With those details out of the way, we are done: the resulting integral at the end can be evaluated using \autoref{lem12.5}:
+	\[
+		\frac{1}{2 \pi i} \int_{(c)} \Bigl( \frac{X}{n} \Bigr)^w \frac{d w}{w} = \begin{cases}
+			1, \text{if $X > n$} \\
+			0, \text{if $X < n$}.
+		\end{cases}
+	\]
+	Hence this truncates the series to
+	\[
+		\frac{1}{2 \pi i} \int_{(c)} D(s + w) x^w \frac{d w}{w} = \sum_{n < X} \frac{a_n}{n^s}
+	\]
+	as desired.
+\end{proof}
+
+\begin{remark}
+	Note that both \autoref{lem12.5} and \nameref{thm12.7} can be worked out in the case where $y = 1$ (or correspondingly $X \in \N$).
+	In this case the integral in \autoref{lem12.5} evaluates to $\frac{1}{2}$ (from plain calculation, no tricky integration required), and consequently the resulting sum in \nameref{thm12.7} would add only half of the final term if $X \in \N$.
+
+	All by way of saying: requiring $X \not\in \N$ simply makes the formula slightly cleaner looking; it isn't a technical limitation.
+\end{remark}

@@ -1,0 +1,256 @@
+%!TEX root = ../lectures.tex
+
+\lecture[August 20th, 2019]{Review of Basic Complex Analysis}
+
+\topic{Basics}
+
+Throughout we will denote complex numbers by $z = x + i y$, where $x, y \in \R$ and $i = \sqrt{-1}$.
+We call $x = \Re(z)$ and $y = \Im(y)$, the \keyword{real}\index{real part} and \keyword{imaginary}\index{imaginary part} parts of $z$, respectively.
+Moreover we call $\conjugate{z} = x - i y$ the \keyword{complex conjugate}\index{complex conjugate} of $z$ and $\abs{z} = \sqrt{x^2 + y^2} = \abs{\conjugate{z}}$ the \keyword{absolute value} or \keyword{modulus}\index{absolute value}\index{modulus|see {absolute value}} of $z$.
+Note, which occasionally comes in handy, that $\abs{z}^2 = z \conjugate{z}$.
+
+Also commonplace is to discuss \keyword{polar representation}\index{polar form} of complex numbers.
+To this end, let $\theta \in \R$ and define
+\[
+	e^{i \theta} \coloneqq \cos(\theta) + i \sin(\theta).
+\]
+This way $e^{i \theta}$ is a point on the unit circle in the complex plane, and so naturally we can scale this by a real number to reach any point in the plane.
+
+Since the complex plane $\C$ has an absolute value $\abs{}$, as per above, we also have an induced metric, namely for $z_1, z_2 \in \C$ we define the distance $d(z_1, z_2) = \abs{z_1 - z_2}$.
+Under this metric $(\C, d)$ is a complete metric space.
+
+We will take a moment to discuss some commonly useful functions on the complex plane.
+The first suspect we have almost seen above already, namely $e^z$.
+If $z = x + i y$, then of course
+\[
+	e^z = e^{x + i y} = e^x \cdot e^{i y} = e^x (\cos(y) + i \sin(y)),
+\]
+so $\abs{e^z} = e^x = e^{\Re(z)}$.
+
+Close cousin of the exponential function are the basic trigonometric functions; we would like for $\sin(z)$ and $\cos(z)$ to satisfy $e^z = \cos(z) + i \sin(z)$ (and, correspondingly, $e^{i z} = \cos(z) - i \sin(z)$), and so to that end we define
+\[
+	\cos(z) \coloneqq \frac{e^{i z} + e^{- i z}}{2}
+\]
+and
+\[
+	\sin(z) \coloneqq \frac{e^{i z} - e^{- i z}}{2 i}.
+\]
+
+Another close cousin to the exponential function is the natural logarithm.
+This, for the first time in our brief exploration, is where things get a little bit hairy.
+We of course would like for $e^{\log (z)} = z$, since we want $\log$ to be the inverse function of the exponential.
+Now, writing $z = \abs{z} e^{i \theta}$, where $\theta = \arg(z)$, its argument, we can try to puzzle out what $\log(z)$ should look like, by setting $\log(z) = u + i v$ and studying $e^{\log(z)}$.
+
+Since we then have
+\[
+	e^{\log(z)} = e^{u + i v} = e^u \cdot e^{i v},
+\]
+and in turn we want $e^{\log(z)} = z = \abs{z} e^{i \theta}$ we have, comparing sides, $e^u = \abs{z}$, i.e., $u = \log\abs{z}$, and $e^{i v} = e^{i \theta}$.
+This last one is where it gets hairy: this does not imply $v = \theta$, but more loosely that $v = \theta + k 2 \pi$ for any $k \in \Z$.
+
+Thus
+\[
+	\log(z) \coloneqq \log\abs{z} + i(\theta + k 2 \pi)
+\]
+for $k \in \Z$, meaning this right-hand side is not unique, so $\log(z)$ is not well-defined, and hence not a function.
+To resolve this we need to choose a \keyword{branch} of $\log(z)$, by which we mean deciding in what range we let the argument live; so long as it's any open interval of length $2 \pi$ we are fine.
+For instance, between $0$ and $2 \pi$ would be fine, as would $-\pi$ to $\pi$.
+
+\topic{Analytic functions}
+
+\begin{definition}[Complex differentiable]
+	Let $G \subset \C$ be an open set.
+	A function $f \colon G \to \C$ is \keyword{differentiable}\index{complex differentiability} at $z \in G$ if
+	\[
+		f'(z) \coloneqq \lim_{h \to 0} \frac{f(z + h) - f(z)}{h}
+	\]
+	exists.
+\end{definition}
+Note that, crucially, since $h$ is a complex number, this limit must exist along \emph{all} paths.
+
+\begin{definition}[Analytic function]
+	Let $G \subset \C$ be an open set.
+	A function $f \colon G \to \C$ is \keyword{analytic}\index{analytic function} if it is continuously differentiable in $G$, i.e., $f'(z)$ exists and is continuous for all $z \in G$.
+\end{definition}
+
+\begin{remark}\label{remark:analytic}
+	\begin{items}
+		\item\label{remark:analytic:1} Every (complex) differentiable function is analytic (so the requirement of \emph{continuously} above is not necessary).
+		This, of course, is \emph{not} true in real analysis.
+		Take, for example,
+		\[
+			f(x) = \begin{cases}
+				x^2 \sin(\frac{1}{x}), & \text{if } x \neq 0, \\
+				0, & \text{if } x = 0.
+			\end{cases}
+		\]
+		Then $f'(x)$ exists everywhere, but is not continuous at $x = 0$.
+
+		\item Every analytic function is infinitely differentiable, and has a power series representation.
+		This, again, is \emph{not} true in the real case.
+		Take, say,
+		\[
+			f(x) = \begin{cases}
+				0, & \text{if } x \leq 0, \\
+				e^{-\frac{1}{x^2}}, & \text{if } x > 0.
+			\end{cases}
+		\]
+		Then $f^{(n)}(0) = 0$ for all $n \in \N$, meaning that the Taylor series centred at $x = 0$ is identically zero, but $f$ is not identically zero near $0$, so $f(x)$ has no power series there (or, another way of putting it, the radius of convergence of its power series around $x = 0$ is zero).
+	\end{items}
+\end{remark}
+
+\begin{exercise}
+	Show that $f(z) = \abs{z}^2$ has a derivative only at $z = 0$.
+\end{exercise}
+
+\begin{proposition}
+	Suppose that $\sum\limits_{n = 0}^\infty a_n (z - a)^n$ has radius of convergence $R > 0$.
+	Then $f(z) \coloneqq \sum\limits_{n = 0}^\infty a_n (z - a)^n$ is analytic in $\abs{z - a} < R$, and moreover
+	\[
+		f^{(k)}(z) = \sum_{n = 0}^\infty n (n - 1) \dots (n - k + 1) a_n (z - a)^{n - k}
+	\]
+	for $\abs{z - a} < R$ (meaning that the derivative can be taken termwise), and in addition
+	\[
+		a_n = \frac{f^{(n)}(a)}{n!}.
+	\]
+\end{proposition}
+
+\begin{example}
+	As expected we have
+	\[
+		e^z = \sum_{n = 0}^\infty \frac{z^n}{n!}
+	\]
+	for all $z \in \C$, i.e., $R = \infty$.
+
+	Also as expected,
+	\[
+		(e^z)' = \sum_{n = 1}^\infty \frac{n z^n}{n!} = \sum_{n = 0}^\infty \frac{z^n}{n!} = e^z
+	\]
+	by reindexing the first sum.
+
+	Hence this is analytic.
+\end{example}
+
+\begin{example}
+	Similarly, we then get
+	\[
+		\sin(z) = \frac{e^{i z} - e^{- i z}}{2 i} = z - \frac{z^3}{3!} + \frac{z^5}{5!} - \dots + (-1)^n \frac{z^{2 n - 1}}{(2 n - 1)!} + \dots
+	\]
+	and
+	\[
+		\cos(z) = \frac{e^{i z} + e^{- i z}}{2} = 1 - \frac{z^2}{2!} + \frac{z^4}{4!} - \dots + (-1)^n \frac{z^{2 n}}{(2 n)!} + \dots ,
+	\]
+	again with infinite radius of convergence.
+	Differentiating termwise we thus, once again as expected, get $(\sin(z))' = \cos(z)$ and $(\cos(z))' = - \sin(z)$, making the two analytic.
+\end{example}
+
+\begin{example}
+	Take a branch of $f(z) = \log(z)$, e.g., $-\pi < \arg(z) < \pi$.
+	Then $f(z)$ is analytic in this branch, and $f'(z) = \frac{1}{z}$.
+\end{example}
+
+\topic{Cauchy--Riemann equations}
+
+Suppose $f \colon G \to \C$ is analytic, and write $f$ as a function of the real and imaginary parts of $z$, i.e., $f(z) = f(x + i y) = f(x, y) = u(x, y) + i v(x, y)$, where then naturally $u, v \colon G \to \R$.
+
+Since $f$ is analytic, the derivative
+\[
+	f'(z) = \lim_{h \to 0} \frac{f(z + h) - f(z)}{h}
+\]
+exists, and so in particular exists along any particular given path.
+We will compute it along two paths, namely parallel to the real axis and parallel to the imaginary axis.
+In other words, for $h = \delta \in \R$ and for $h = i \delta$, $\delta \in \R$.
+
+First, then,
+\begin{align*}
+	f'(z) &= \lim_{\delta \to 0} \frac{f(z + \delta) - f(z)}{\delta} \\
+	&= \lim_{\delta \to 0} \frac{(u(x + \delta, y) - u(x, y)) + i (v(x + \delta, y) - v(x, y))}{\delta} \\
+	&= \frac{\partial u}{\partial x} (x, y) + i \frac{\partial v}{\partial x} (x, y).
+\end{align*}
+Similarly, along the imaginary direction,
+\begin{align*}
+	f'(z) &= \lim_{\delta \to 0} \frac{(u(x, y + \delta) - u(x, y)) + i (v(x, y + \delta) - v(x, y))}{i \delta} \\
+	&= \frac{\partial v}{\partial y} (x, y) - i \frac{\partial u}{\partial y} (x, y).
+\end{align*}
+Since those are equal, we compare real and imaginary parts and see that
+\[
+	\begin{cases}
+		\frac{\partial u}{\partial x} = \frac{\partial v}{\partial y} \\
+		\frac{\partial u}{\partial y} = - \frac{\partial v}{\partial x},
+	\end{cases}
+\]
+known as the \keyword{Cauchy--Riemann equations}\index{Cauchy--Riemann equations}, which the real and imaginary parts of an analytic function must therefore satisfy.
+
+Differentiating these relations again, we get
+\[
+	\frac{\partial^2 u}{\partial x^2} = \frac{\partial^2 v}{\partial x \partial y}
+\]
+and
+\[
+	\frac{\partial^2 u}{\partial y^2} = - \frac{\partial^2 v}{\partial y \partial x}.
+\]
+Taking for granted at the moment that the imaginary parts have continuous partials, so that the second partials in the right-hand sides are equal, we then get
+\[
+	\frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2} = 0,
+\]
+i.e., letting $\Delta = \frac{\partial^2}{\partial x^2} + \frac{\partial^2}{\partial y^2}$, the \keyword{Laplace operator}\index{Laplace operator}, we have $\Delta u = 0$, meaning that $u$ is \keyword{harmonic}\index{harmonic!function}.
+Taking the opposite partials we can draw the same conclusion about $v$.
+
+\begin{theorem}
+	Let $u$ and $v$ be real-valued functions defines on an open set $G \subset \C$.
+	Suppose $u$ and $v$ have continuous partial derivatives.
+	Then $f(z) \coloneqq u(z) + i v(z)$ is analytic if and only if $u$ and $v$ satisfy the Cauchy--Riemann equations.
+\end{theorem}
+
+\begin{remark}
+	The function $v$ above is called a \keyword{harmonic conjugate}\index{harmonic!conjugate} of $u$.
+\end{remark}
+
+\begin{proof}[Proof sketch]
+	Use the Cauchy--Riemann equations to show that the derivative of $f(z) = u(z) + i v(z)$ exists.
+	The converse direction we proved by the previous discussion.
+\end{proof}
+
+\begin{theorem}
+	Let $G \subset \C$ be a simply connected open set.
+	If $u \colon G \to \C$ is a harmonic function, then $u$ has a harmonic conjugate, i.e., there exists a $v \colon G \to \C$ such that $f = u + i v$ is analytic.
+\end{theorem}
+
+\begin{proof}[Proof sketch]
+	Assume $G$ is a ball, say $G = B(0, R)$.
+	We need to find $v$ such that $u$ and $v$ satisfy the Cauchy--Riemann equations.
+	In other words, we first need $\frac{\partial v}{\partial y} = \frac{\partial u}{\partial x}$.
+	Defining
+	\[
+		v(x, y) = \int_0^y \frac{\partial u}{\partial x}(x, t) \, d t + \varphi(x)
+	\]
+	does the job, since $u$ is given.
+	Now using the second equation, $\frac{\partial v}{\partial x} = - \frac{\partial u}{\partial y}$, we can solve for $\varphi(x)$, namely
+	\[
+		\frac{\partial v}{\partial x} = \int_0^y \frac{\partial^2 u}{\partial x^2}(x, t) \, d t + \varphi'(x).
+	\]
+	Since $u$ is harmonic, we can rewrite this as
+	\[
+		\int_0^y - \frac{\partial^2 u}{\partial y^2} (x, t) \, d t + \varphi'(x) = - \frac{\partial u}{\partial y} (x, y) + \frac{\partial u}{\partial y}(x, 0) + \varphi'(x).
+	\]
+	On the other hand, by the second Cauchy--Riemann equation, this equals
+	\[
+		- \frac{\partial u}{\partial y}(x, y),
+	\]
+	whence
+	\[
+		\varphi'(x) = \frac{\partial u}{\partial y}(x, 0),
+	\]
+	implying
+	\[
+		v(x, y) = \int_0^y \frac{\partial u}{\partial x}(x, t) \, d t + \int_0^x \frac{\partial u}{\partial y}(s, 0) \, d s.
+	\]
+	Of course if $G$ isn't a ball we might not be able to integrate along quite this path, but similar arguments work.
+\end{proof}
+
+\begin{exercise}\label{hw1.3}
+	Let $G$ be an open subset of $\C$.
+	Define $\conjugate{G} = \Set{z \given \conjugate{z} \in G}$.
+	Suppose that $f \colon G \to \C$ is analytic.
+	Show that $f^\star \colon \conjugate{G} \to \C$ defined by $f^\star(z) = \conjugate{f(\conjugate{z})}$ is also analytic.
+\end{exercise}

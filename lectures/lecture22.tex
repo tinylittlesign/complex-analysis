@@ -1,0 +1,174 @@
+%!TEX root = ../lectures.tex
+
+\lecture[October 31st, 2019]{Order}
+
+\topic{The order of entire functions}
+
+We showed last time that if $f$ is an entire function of finite genus $\mu$, then $f(z) \ll \exp(\abs{z}^{\mu + 1 + \varepsilon})$ for any $\varepsilon > 0$.
+
+\begin{definition}[Order]
+	An entire function $f$ is of \keyword{finite order}\index{order!finite} if there exists $a \geq 0$ such that $f(z) \ll \exp(\abs{z}^a)$.
+
+	If $f$ is not of finite order, then we say $f$ is of \keyword{infinite order}\index{order!infinite}.
+
+	If $f$ is of finite order, then $\lambda \coloneqq \inf\Set{a \given f(z) \ll \exp(\abs{z}^a)}$ is called the \keyword{order}\index{order} of $f$.
+\end{definition}
+
+That is to say, if $f$ is of order $\lambda$, then for any $\varepsilon > 0$ we have $f(z) \ll \exp(\abs{z}^{\lambda + \varepsilon})$.
+
+An equivalent way of saying this is that $f$ being of order $\lambda$ means that $\log \abs{f(z)} \leq C_\varepsilon \abs{z}^{\lambda + \varepsilon}$ for $\abs{z}$ large.
+This is slightly delicate: when taking logarithms of $f(z) \ll \exp(\abs{z}^{\lambda + \varepsilon})$ we cannot keep the $\ll$ sign, for $f(z)$ could be very large in the negative direction, making $\abs{f(z)}$ large, reversing the inequality.
+
+\begin{exercise}
+	Look back at \autoref{hw8.2} and use it to prove that if $f$ is of finite order $\lambda$, then $n(r) \ll_\varepsilon r^{\lambda + \varepsilon}$.
+\end{exercise}
+
+\begin{exercise}
+	Let $f_1$ and $f_2$ be entire functions of finite order $\lambda_1$ and $\lambda_2$ respectively.
+	Let $f = f_1 + f_2$.
+	\begin{parts}
+		\item Show that $f$ has finite order $\lambda \leq \max\Set{\lambda_1, \lambda_2}$.
+		\item Show that $\lambda = \max\Set{\lambda_1, \lambda_2}$ if $\lambda_1 \neq \lambda_2$.
+		\item Give an example where $\lambda < \max\Set{\lambda_1, \lambda_2}$ with $f \neq 0$. \qedhere
+	\end{parts}
+\end{exercise}
+
+\begin{exercise}
+	Let $f_1$ and $f_2$ be entire functions of finite order $\lambda_1$ and $\lambda_2$ respectively.
+	Let $f = f_1 f_2$.
+	Show that $f$ has finite order $\lambda \leq \max\Set{\lambda_1, \lambda_2}$.
+\end{exercise}
+
+By last lecture's discussion we then also have that finite genus implies finite order:
+
+\begin{corollary}\label{cor8.13}
+	If $f$ is entire of finite genus $\mu$, then $f$ is of finite order $\lambda \leq \mu + 1$.
+\end{corollary}
+
+This means that the genus of an entire function, which by definition controls the factorisation, in fact also controls the growth of the function.
+The converse is also true.
+
+\topic{Hadamard's factorisation theorem}
+
+\begin{proposition}\label{prop8.14}
+	Let $f$ be an entire function of order $\lambda$ which does not vanish in $\C$.
+	Then $f(z) = \exp(g(z))$ where $g(z)$ is a polynomial of degree $\deg g \leq \lambda$.
+	Thus $f$ is of integral order $\deg g$.
+\end{proposition}
+
+\begin{proof}
+	By the \nameref{thm8.8}, $f(z) = \exp(g(z))$ with $g(z)$ being entire (since $f$ has no zeros, the other two parts of the Weierstrass factorisation disappear).
+	Hence let
+	\[
+		g(z) = \sum_{n = 0}^\infty a_n z^n
+	\]
+	be the power series expansion of $g$ at $z = 0$.
+	In order to show that $g(z)$ is a polynomial of degree at most $\lambda$ we therefore need to show that $a_n = 0$ for all $n > \lambda$.
+
+	Since $f$ is of order $\lambda$, for any $\varepsilon > 0$ there exists some $C_\varepsilon > 0$ such that $\Re g(z) = \log \abs{f(z)} \leq C_\varepsilon \abs{z}^{\lambda + \varepsilon}$ for $\abs{z}$ large.
+
+	\begin{remark}
+		It is instructive, at this point, to note that this is not quite as easy as invoking \autoref{ex:polynomial}, for the order only gives us a bound on $\log \abs{f(z)} = \Re g(z) \leq C_\varepsilon \abs{z}^{\lambda + \varepsilon}$, not $\abs{g(z)}$.
+	\end{remark}
+
+	Writing $\C \ni a_n = \alpha_n + i \beta_n$, where $\alpha_n, \beta_n \in \R$, and setting $z = R e^{2 \pi i \theta}$, we have from the power series
+	\[
+		\Re g(z) = \sum_{n = 0}^\infty \alpha_n R^n \cos(2 \pi n \theta) - \sum_{n = 1}^\infty \beta_n R^n \sin(2 \pi n \theta).
+	\]
+	Note that the second sum starts at $n = 1$ since $\sin(0) = 0$.
+
+	Now we can use the orthogonality of sine and cosine to extract $\alpha_n$ and $\beta_n$.
+	In particular, multiplying by $\cos(2 \pi n \theta)$ and integrating from $0$ to $1$, we extract
+	\[
+		\alpha_0 = \int_0^1 \Re g(R e^{2 \pi i \theta}) \, d \theta
+	\]
+	and
+	\[
+		\alpha_n R^n = 2 \int_0^1 \Re g(R e^{2 \pi i \theta}) \cos(2 \pi n \theta) \, d \theta
+	\]
+	for $n \geq 1$, and multiplying by $\sin(2 \pi n \theta)$ and integrating from $0$ to $1$ produces
+	\[
+		\beta_n R^n = 2 \int_0^1 \Re g(R e^{2 \pi i \theta}) \sin(2 \pi n \theta) \, d \theta
+	\]
+	for $n \geq 1$.
+	Since we want to show that $a_n = 0$ for $n > \lambda$, we need to show that $\alpha_n = \beta_n = 0$ for $n > \lambda$.
+
+	Since $\abs{\cos(2 \pi n \theta)} \leq 1$, we have
+	\[
+		\abs{\alpha_n R^n} \leq 2 \int_0^1 \abs{\Re g(R e^{2 \pi i \theta})} \, d \theta.
+	\]
+	As per the remark, we couldn't use the bound from the order directly, since the inside of the absolute value might be large in the negative direction.
+	The trick here is to add and subtract $\Re g(R e^{2 \pi i \theta})$ in the integrand, resulting in
+	\[
+		\abs{\alpha_n R^n} \leq 2 \int_0^1 \abs{\Re g(R e^{2 \pi i \theta})} + \Re g(R e^{2 \pi i \theta}) \, d \theta - 2 \int_0^1 \Re g(R e^{2 \pi i \theta}) \, d \theta.
+	\]
+	The second integral is nothing but $\alpha_0 = a_0$, and the first integrand is $0$ if the real part is negative, and else just twice times itself, so
+	\[
+		\abs{\alpha_n R^n} \leq 2 \int_0^1 \max\Set{0, 2 C_\varepsilon R^{\lambda + \varepsilon}} \, d \theta - 2 a_0 \leq 4 C_\varepsilon R^{\lambda + \varepsilon} - 2 a_0
+	\]
+	since $\Re g(R e^{2 \pi i \theta}) \leq C_\varepsilon R^{\lambda + \varepsilon}$ because $f$ is of order $\lambda$.
+
+	Hence
+	\[
+		\abs{\alpha_n} \leq 4 C_\varepsilon R^{\lambda - n + \varepsilon} - \frac{2 a_0}{R^n},
+	\]
+	which goes to $0$ as $R \to \infty$ if $n > \lambda$.
+	Hence $\alpha_n = 0$ for $n > \lambda$.
+
+	In precisely the same way, we see that $\beta_n = 0$ for $n > \lambda$, whence $a_n = \alpha_n + \beta_n = 0$ for $n > \lambda$.
+	Hence $g(z)$ is a polynomial of degree at most $\lambda$, meaning that $f(z) = \exp(g(z))$ is of integral order $\deg g$.
+\end{proof}
+
+\index{Hadamard's factorisation theorem|(}
+\begin{theorem}[Hadamard's factorisation theorem]\label{thm8.15}
+	Let $f$ be an entire function of finite order $\lambda$.
+	Then $f$ has finite genus $\mu \leq \lambda$.
+\end{theorem}
+\index{Hadamard's factorisation theorem|)}
+
+In other words, the growth of an entire function also controls its factorisation.
+
+\begin{proof}
+	Let $p$ be the integer such that $p \leq \lambda < p + 1$, i.e., the integer part of $\lambda$.
+	We claim that $f$ has rank at most $p$.
+
+	To show this, let $\Set{a_n}$ be the nonzero zeros of $f$, repeated according to multiplicity, and arranged such that $0 < \abs{a_1} \leq \abs{a_2} \leq \dots$.
+	To show that $f$ has rank at most $p$ we need to show that
+	\[
+		\sum_{n = 1}^\infty \frac{1}{\abs{a_n}^{p + 1}} < \infty.
+	\]
+
+	First, without loss of generality we may assume $f(0) = 1$, because if $f$ has a zero of order $m$ at $z = 0$, then $\frac{f(z)}{z^m}$ does not vanish at $z = 0$, and, for $z \neq 0$,
+	\[
+		\log \abs[\Big]{\frac{f(z)}{z^m}} = \log \abs{f(z)} - m \log\abs{z} \leq C_\varepsilon \abs{z}^{\lambda + \varepsilon},
+	\]
+	since $f$ is of order $\lambda$ and $\log \abs{z} \ll \abs{z}^\varepsilon$.
+	Note that this estimate also holds for $z$ close to $a_n$, because then $\log \abs{f(z)}$ is large negative, so the left-hand side is even smaller.
+	Hence $\frac{f(z)}{z^m}$ has the same order as $f(z)$, and since it does not affect the rank since it touches only the first part of the Weierstrass factorisation.
+
+	Let $n(r)$ be the number of zeros of $f$ in $B(0, r)$ counted according to multiplicity, and let
+	\[
+		M(r) = \max_{\abs{z} = r} \abs{f(z)}.
+	\]
+	Then, by \autoref{hw8.2},
+	\[
+		n(r) \leq \frac{\log M(2 r)}{\log 2}.
+	\]
+	Since $f$ has order $\lambda$, for any $\varepsilon > 0$, $\log M(2 r) \ll r^{\lambda + \varepsilon}$, and consequently $n(r) \ll r^{\lambda + \varepsilon}$.
+
+	Now having arranged $0 < \abs{a_1} \leq \abs{a_2} \leq \dots \leq \abs{a_k} \leq \dots,$ we have for any $\delta > 0$ that $n(\abs{a_k} + \delta) \geq k$.
+	On the order hand, $n(\abs{a_k} + \delta) \leq C (\abs{a_k} + \delta)^{\lambda + \varepsilon}$ for some constant $C > 0$.
+	Letting $\delta \to 0$, this implies $k \leq C \abs{a_k}^{\lambda + \varepsilon}$.
+
+	Therefore
+	\[
+		\frac{1}{\abs{a_k}^{p + 1}} \leq k^{- \frac{p + 1}{\lambda + \varepsilon}},
+	\]
+	and since $p \leq \lambda < p + 1$ we can choose $\varepsilon$ small enough so that this power $\frac{p + 1}{\lambda + \varepsilon}$ is bigger than $1$.
+	So for some $\varepsilon' > 0$,
+	\[
+		\sum_{n = 1}^\infty \frac{1}{\abs{a_n}^{p + 1}} \leq \sum_{n = 1}^\infty n^{-(1 + \varepsilon')}
+	\]
+	which is convergent.
+	Hence $f$ has finite rank at most $p \leq \lambda$. \renewcommand{\qedsymbol}{}
+\end{proof}

@@ -1,0 +1,221 @@
+%!TEX root = lectures.tex
+
+% Redefine equation environment to use gather, which is supported by amsmath (and therefore causes fewer spacing issues, and interacts better with hyperref)
+\let\equation\gather
+\let\endequation\endgather
+
+% Define some common variously styled letters we occasionally need.
+\newcommand{\C}{\ensuremath{\mathbb{C}}}
+\newcommand{\Q}{\ensuremath{\mathbb{Q}}}
+\newcommand{\R}{\ensuremath{\mathbb{R}}}
+\newcommand{\Z}{\ensuremath{\mathbb{Z}}}
+\newcommand{\N}{\ensuremath{\mathbb{N}}}
+\newcommand{\F}{\ensuremath{\mathbb{F}}}
+\newcommand{\OO}{\ensuremath{\mathcal{O}}}
+\newcommand{\PP}{\ensuremath{\mathcal{P}}}
+\newcommand{\M}{\ensuremath{\mathcal{M}}}
+\newcommand{\Sw}{\ensuremath{\mathcal{S}}}
+\newcommand{\HH}{\ensuremath{\mathbb{H}}}
+
+\newcommand{\cont}{\ensuremath{\mathcal{C}}}
+
+% a \pmod*{} variant with less spacing for subscripting.
+\makeatletter
+\let\@@pmod\pmod
+\DeclareRobustCommand{\pmod}{\@ifstar\@pmods\@@pmod}
+\def\@pmods#1{\mkern4mu({\operator@font mod}\mkern 6mu#1)}
+\makeatother
+
+% Allow overwriting of \Re and \Im.
+\let\Re\relax
+\let\Im\relax
+% Redefine \Re and \Im as Re and Im instead of mathfrak letters.
+\DeclareMathOperator{\Re}{Re}
+\DeclareMathOperator{\Im}{Im}
+
+\newcommand{\pmid}{\parallel}
+
+\newcommand{\legendre}[2]{\genfrac{(}{)}{}{}{#1}{#2}}
+% Spectra
+\DeclareMathOperator{\Spec}{Spec}
+\DeclareMathOperator{\mspec}{m-spec}
+
+\DeclareMathOperator{\nilrad}{nilrad}
+\DeclareMathOperator{\rad}{rad}
+
+\DeclareMathOperator{\e}{e}
+\DeclareMathOperator*{\Res}{Res}
+\DeclareMathOperator{\Ann}{Ann}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\Id}{Id}
+
+
+\DeclareMathOperator{\interior}{int}
+
+\DeclareMathOperator{\ord}{ord}
+\DeclareMathOperator{\diam}{diam}
+
+\DeclareMathOperator{\Aut}{Aut}
+
+\DeclareMathOperator{\Li}{Li}
+
+\DeclareMathOperator{\Vol}{Vol}
+
+\DeclareMathOperator{\Gal}{Gal}
+\DeclareMathOperator{\Cl}{Cl}
+
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\Norm}{N}
+\DeclareMathOperator{\chr}{char}
+\DeclareMathOperator{\disc}{disc}
+
+\DeclareMathOperator{\SL}{SL}
+\DeclareMathOperator{\PSL}{PSL}
+
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\supp}{supp}
+
+% Declare an image symbol
+\DeclareMathOperator{\im}{im}
+
+
+\DeclareMathOperator{\lcm}{lcm}
+
+% Define a placeholder for functions without arguments.
+\newcommand*{\placeholder}{\makebox[1ex]{\textbf{$\cdot$}}}
+
+
+% Define a plethora of theorem/definition/lemma/etc. environments.
+% Number them all using the same counter.
+\newtheorem{theorem}{Theorem}[subsection]
+\newtheorem*{theorem*}{Theorem}
+\newtheorem*{fact}{Fact}
+\newtheorem*{claim}{Claim}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{definitions}[theorem]{Definitions}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{axiom}[theorem]{Axiom}
+\newtheorem{problem}[theorem]{Problem}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+
+% Define special example(s) and solution(s) environments in order to have end-of-environment marks.
+\declaretheorem[
+	style = definition,
+	qed = $\blacktriangle$,
+	sibling = theorem
+]{example}
+\declaretheorem[
+	style = definition,
+	qed = $\blacktriangle$,
+	sibling = theorem
+]{examples}
+
+\declaretheorem[
+	style = definition,
+	qed = $\blacktriangle$,
+	sibling = theorem
+]{counterexample}
+
+\declaretheorem[
+	style = remark,
+	qed = $\blacklozenge$,
+	numbered = no
+]{solution}
+\declaretheorem[
+	style = remark,
+	qed = $\blacklozenge$,
+	numbered = no
+]{solutions}
+
+\declaretheorem[
+	style = remark,
+	qed = $\blacksquare$,
+	numberwithin = section,
+]{exercise}
+
+\newcommand*{\vv}[1]{\bm{#1}}
+
+
+% Redefine \overline to the nicely semantic \conjugate.
+\newcommand*{\conjugate}[1]{\overline{#1}}
+
+\newcommand*{\closure}[1]{\overline{#1}}
+
+\newcommand*{\reduction}[1]{\overline{#1}}
+
+\newcommand*{\completion}[1]{\widehat{#1}}
+
+% For all of the below, use \command* to make the delimiters adjust size automatically.
+
+% Defines an absolute value notation. Give it no argument and it'll default to \abs{\placeholder}.
+\DeclarePairedDelimiterX{\abs}[1]{\lvert}{\rvert}{% \abs{a}
+	\ifblank{#1}{\placeholder}{#1}%
+}
+
+\DeclarePairedDelimiterX{\floor}[1]{\lfloor}{\rfloor}{% \floor{a}
+	\ifblank{#1}{\placeholder}{#1}%
+}
+
+\DeclarePairedDelimiterX{\fracpart}[1]{\{}{\}}{% \fracpart{a}
+	\ifblank{#1}{\placeholder}{#1}%
+}
+
+% Defines a semantic notation for principal ideals.
+\DeclarePairedDelimiterX{\principal}[1]{\langle}{\rangle}{% \principal{a}
+	\ifblank{#1}{\placeholder}{#1}%
+}
+
+% Defines a norm notation. Give it no argument and it'll default to \norm{\placeholder}.
+\DeclarePairedDelimiterX{\norm}[1]{\lVert}{\rVert}{% \norm{a}
+	\ifblank{#1}{\placeholder}{#1}%
+}
+
+% Defines a scalar product notation. Takes two arguments,
+% and replaces any missing argument with \placeholder.
+\DeclarePairedDelimiterX{\scalar}[2]{\langle}{\rangle}{% \scalar{a}{b}
+	\ifblank{#1}{%
+		\ifblank{#2}{\placeholder, \placeholder}{#1, \placeholder}%
+	}{#1, #2}%
+}
+
+% Provide semantic notation for describing sets with conditions.
+\providecommand\given{\:\vert\:} % Just make sure this exists, so that things don't explode.
+\DeclarePairedDelimiterX{\set}[1]{\{}{\}}{% \Set{ x \given x > 0}
+	\,\renewcommand\given{\nonscript\:\delimsize\vert\nonscript\:\mathopen{}}#1\,
+}
+
+% The following makes \big the default for the \Set command:
+\let\oldset\set
+\def\set{\futurelet\testchar\MaybeOptArgSet}
+\def\MaybeOptArgSet{\ifx[\testchar \let\next\OptArgSet
+\else \let\next\NoOptArgSet \fi \next}
+\def\OptArgSet[#1]#2{\oldset[#1]{#2}}
+\def\NoOptArgSet#1{\OptArgSet[\big]{#1}}
+
+\makeatletter
+\newcommand{\Set}{%
+             \@ifstar
+                  {\oldset*}%
+                  {\set}%
+}
+\makeatother
+
+% Set the interval package to use parens for open intervals.
+\intervalconfig{
+	soft open fences
+}
+
+% Redefine \left and \right to use \mathopen{} and \mathclose{} appropriately, so as to correct spacing on, for instance, $\sin\left ( x \right )$.
+\let\originalleft\left
+\let\originalright\right
+\renewcommand{\left}{\mathopen{}\mathclose\bgroup\originalleft}
+\renewcommand{\right}{\aftergroup\egroup\originalright}

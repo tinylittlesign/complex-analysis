@@ -1,0 +1,198 @@
+%!TEX root = ../lectures.tex
+
+\lecture[October 10th, 2019]{Compactness in $M(G)$}
+
+\topic{Compactness in the space of meromorphic functions}
+
+Before moving on, let us take a step back and prove \autoref{thm7.13} from the end of last lecture.
+
+\begin{proof}
+	\begin{items}
+		\item Let $a \in G$.
+		Since $f$ is a function in $C(G, \C_\infty)$, there are essentially two cases on hand: either $f(a)$ is finite or $f(a) = \infty$.
+
+		Let us start with the first one: assume $f(a) \neq \infty$.
+		Since $f_n \to f$ in $C(G, \C_\infty)$, meaning $f_n(z) \to f(z)$ uniformly on compact subsets of $G$, we have in particular $d(f_n(z), f(z)) \to 0$ uniformly on $\closure{B(a, r)} \subset G$.
+		By \autoref{prop7.12}, restricting $d$ to $\C$ becomes the usual topology on $\C$, so $\abs{f_n(z) - f(z)} \to 0$ uniformly on $\closure{B(a, r)}$.
+
+		Notice how the set $S = \Set{f, f_1, f_2, \dots} \subset C(G, \C_\infty)$ is compact (since it it sequentially compact), and hence it is equicontinuous, since the \nameref{arzelaascoli} tells us compact is equivalent with closed, bounded, and equicontinuous.
+
+		Therefore given any $\varepsilon > 0$ there exists $r_1 < r$ such that $d(f_n(z), f_n(a)) < \varepsilon$ for all $z \in B(a, r_1)$ and all $n \in \N$.
+		Again by \autoref{prop7.12}, there then exists some $\rho > 0$ such that $\abs{f_n(z) - f_n(a)} < \frac{1}{2} \rho$ for all $z \in B(a, r_1)$ and all $n \in \N$.
+
+		On the other hand, $f_n(a) \to f(a)$ means that there exists some $N \in \N$ such that for $n \geq N$, $\abs{f_n(a) - f(a)} < \frac{1}{2} \rho$.
+		Putting these together, the triangle inequality tells us that for $n \geq N$ and $z \in B(a, r_1)$,
+		\[
+			\abs{f_n(z)} \leq \abs{f_n(z) - f_n(a)} + \abs{f_n(a) - f(a)} + \abs{f(a)} \leq \frac{1}{2} \rho + \frac{1}{2} \rho + \abs{f(a)} < \infty.
+		\]
+		So the set $\Set{f_n}_{n \geq N}$ is uniformly bounded on $B(a, r_1)$, and hence those $f_n$ are analytic, not just meromorphic, on $B(a, r_1)$ (since boundedness means they cannot get close to infinity, so can't have poles there).
+		We already know (\autoref{cor7.5}) that $H(G)$ is a complete metric space, so $f_n$ being analytic means their limit $f$ must be too, so $f$ is analytic on $B(a, r_1)$.
+
+		This leaves the case where $f(a) = \infty$.
+		In other words, $f(a)$ has a pole at $z = a$.
+		We need to show that it is isolated.
+
+		To this end, define
+		\[
+			g_n(z) = \begin{cases}
+				\frac{1}{f_n(z)}, & \text{if}~ f_n(z) \neq 0, \\
+				\infty, & \text{if}~ f_n(z) = 0.
+			\end{cases}
+		\]
+		Since $d(z_1, z_2) = d(\frac{1}{z_1}, \frac{1}{z_2})$ and $f_n \to f$, we consequently have $g_n \to \frac{1}{f}$ in $C(G, \C_\infty)$.
+
+		Now since $\frac{1}{f(a)} = 0$, not infinity, the first case we considered tells us that $f_n(z)$ and $\frac{1}{f(z)}$ are analytic on a ball $B(a, r) \subset G$ for some $n \geq N$ sufficiently large.
+		By \nameref{thm7.7}, either $\frac{1}{f}$ is identically zero or $\frac{1}{f(z)}$ has the same number of zeros as $g_n(z)$ in $B(a, r)$, for $n$ sufficiently large.
+		This in turn implies that $f \equiv \infty$ or $f$ has isolated poles (since its poles are zeros of $\frac{1}{f}$, and it has as many zeros as $g_n(z)$ in $B(a, r)$, and those zeros must be isolated, being analytic).
+
+		\item Assume $\Set{f_n} \subset H(G)$.
+		Then, since $f_n$ has no poles, $\frac{1}{f_n}$ has no zeros.
+		Since $f_n \to f$, we then have $\frac{1}{f_n} \to \frac{1}{f}$ in $C(G, \C_\infty)$, which in turn means $\frac{1}{f_n(z)} \to \frac{1}{f(z)}$ uniformly on $\closure{B(a, r)}$ (in both $C(G, \C_\infty)$ and $C(G, \C)$).
+
+		By the first case above, all $\frac{1}{f_n}$ are analytic for $n$ large enough, so by \nameref{thm7.7} either $\frac{1}{f} \equiv 0$ or $\frac{1}{f}$ and $\frac{1}{f_n}$ have the same number of zeros in $B(a, r)$ for $n$ sufficiently large.
+
+		But $\frac{1}{f_n}$ has no zeros, meaning that either $\frac{1}{f} \equiv 0$ or $\frac{1}{f(z)} \neq 0$ for all $z \in B(a, r)$.
+		The first situation means $f \equiv \infty$, and the second situation means $f$ has no poles, so $f(z)$ is analytic on $B(a, r)$. \qedhere
+	\end{items}
+\end{proof}
+
+With this out of the way we are ready to start answering our main question in this recent discussion: how do we classify normal families in $M(G)$?
+
+It is instructive at this point to recall what we did in the case of $H(G)$, namely \nameref{thm7.10}.
+The culmination of our argument in showing that our family was equicontinious was to instead show that it is uniformly Lipschitz, and to demonstrate this we showed that the derivatives $f'$ are uniformly bounded.
+
+The reason for this, of course, is that if we wish to show that $\abs{f(z) - f(a)}$ is small when $\abs{z - a}$ is small, we can instead show that their quotient is bounded (i.e., $f$ is Lipschitz), but their quotient is a good approximation of $f'(a)$, so we can instead show that the derivative is bounded.
+
+This is our approach also in the case of meromorphic functions, except now the metric we need to reconcile isn't $\abs{}$, but $d$, and hence we need another way of approximating the notion of continuity in terms of some kind of derivative.
+
+\begin{definition}\label{defmu}
+	Let $f \in M(G)$, and define $\mu(f) \colon G \to \R$ by
+	\[
+		\mu(f)(z) = \frac{2 \abs{f'(z)}}{1 + \abs{f(z)}^2}
+	\]
+	if $z$ is not a pole of $f$, and
+	\[
+		\mu(f)(a) = \lim_{z \to a} \frac{2 \abs{f'(z)}}{1 + \abs{f(z)}^2}
+	\]
+	if $z = a$ is a pole of $f$.
+\end{definition}
+
+The motivation is already outlined above, but concretely, this is because $d(f(z), f(w))$ is well approximated by $\mu(f)(z) \abs{z - w}$.
+
+Consequently, if $\mu(f)$ is bounded, then $f$ is Lipschitz, and so if $\mu(f)$ is uniformly bounded for all $f \in \mathcal{F}$, then $\mathcal{F}$ is uniformly Lipschitz.
+
+That said, we ought to first make sure this $\mu(f)$ makes sense at all.
+In particular, is it well-defined? Does the limit in the case of $z = a$ being a pole exist?
+
+Suppose $z = a$ is a pole of order $m$ of $f$.
+It has a Laurent expansion
+\[
+	f(z) = \frac{A_m}{(z - a)^m} + \dots + \frac{A_1}{z - a} + g(z),
+\]
+where $A_m \neq 0$ and $g(z)$ is analytic.
+Then
+\[
+	f'(z) = - \left ( \frac{m A_m}{(z - a)^{m + 1}} + \dots + \frac{A_1}{(z - a)^2} \right ) + g'(z),
+\]
+meaning that
+\begin{align*}
+	\frac{2 \abs{f'(z)}}{1 + \abs{f(z)}^2} &= \frac{2 \abs*{ \frac{m A_m}{(z - a)^{m + 1}} + \dots + \frac{A_1}{(z - a)^2} - g'(z) }}{1 + \abs*{\frac{A_m}{(z - a)^m} + \dots + \frac{A_1}{z - a} + g(z)}^2} \\
+	&= \frac{2 \abs{z - a}^{m + 1} \abs{m A_m + \dots + A_1(z - a)^{m - 1} - g'(z) (z - a)^{m + 1}}}{\abs{z - a}^{2 m} + \abs{A_m + \dots + A_1(z - a)^{m - 1} + g(z) (z - a)^{m}}^2}.
+\end{align*}
+Hence if $m \geq 2$, then
+\[
+	\lim_{z \to a} \frac{2 \abs{f'(z)}}{1 + \abs{f(z)}^2} = \frac{0}{A_m} = 0,
+\]
+and if $m = 1$, then
+\[
+	\lim_{z \to a} \frac{2 \abs{f'(z)}}{1 + \abs{f(z)}^2} = \frac{2 \abs{A_1}}{\abs{A_1}^2} = \frac{2}{\abs{A_1}}.
+\]
+Hence $\mu(f)(z) \in \R$ for all $z \in G$ and is well-defined, and moreover by construction $\mu(f) \in C(G, \R)$.
+
+\begin{theorem}\label{thm7.16}
+	A set $\mathcal{F} \subset M(G)$ is normal in $C(G, \C_\infty)$ if and only if $\mu(\mathcal{F}) = \Set{\mu(f) \given f \in \mathcal{F}}$ is locally bounded.
+\end{theorem}
+
+Before we go on to prove this, it is instructive to compare this to our approach in the case of $H(G)$ again.
+As previously discussed, we ended up showing that $\mathcal{F}'$ is locally bounded in this case, except in the end our characterisation was $\mathcal{F}$ is normal if and only if $\mathcal{F}$ is locally bounded.
+The reason for this is that the derivative of an analytic function is controlled by the function itself---the salient part of the proof \emph{is} still $\mathcal{F}'$ being locally bounded, it just so happens that $\mathcal{F} \subset H(G)$ being locally bounded implies $\mathcal{F}'$ is locally bounded.
+
+\begin{exercise}
+	Show that if $\mathcal{F} \subset H(G)$ is normal, then $\mathcal{F}' \coloneqq \Set{f' \given f \in \mathcal{F}}$ is also normal.
+	Is the converse true? Can you add something to the hypothesis that $\mathcal{F}'$ is normal to insure that $\mathcal{F}$ is normal?
+\end{exercise}
+
+With this in mind, it should come as no great surprise that the proof, whilst in parts a bit technical, is closely related to our proof of \nameref{thm7.10}.
+
+\begin{proof}
+	For the forward direction, suppose $\mu(\mathcal{F})$ is not locally bounded.
+	Then there exists $\Set{f_n} \subset \mathcal{F}$ and a compact subset $K \subset G$ such that
+	\[
+		\sup_{z \in K} \abs{\mu(f)(z)} \geq n.
+	\]
+	Since $\mathcal{F}$ is normal, there exists some convergent subsequence $\Set{f_{n_k}} \subset \Set{f_n}$ such that $f_{n_k} \to f$ in $C(G, \C_\infty)$, and in particular the convergence is uniform on compact subsets (such as $K$!).
+	Hence $\mu(f_{n_k}) \to \mu(f)$ in $C(G, \R)$.
+	Therefore
+	\[
+		n_k \leq \sup_{z \in K} \abs{\mu(f_{n_k})(z)} \leq \sup_{z \in K} \abs{\mu(f_{n_k}(z) - \mu(f)(z)} + \sup_{z \in K} \abs{\mu(f)(z)}.
+	\]
+	The left-hand side evidently goes to infinity as $n_k \to \infty$, but the right-hand side does not: since $\mu(f_{n_k}) \to \mu(f)$, the first term in the right-hand side vanishes, and the second term does not depend on $n_k$ and so is bounded.
+	This is a contradiction.
+
+	The converse direction is where things get technical, though the idea is fairly approachable.
+	Assume $\mu(\mathcal{F})$ is locally bounded.
+	We want to show that $\mathcal{F}$ is normal, which is equivalent to $\closure{\mathcal{F}}$ being compact.
+	The \nameref{arzelaascoli} tells us this is the case if and only if $\closure{\mathcal{F}}$ is closed, bounded, and equicontinuous.
+
+	The first two of these are not so bad: $\closure{\mathcal{F}}$ is definitely closed, being a closure, and moreover it is bounded; the point of working in $\C_\infty$ is that it is compact---it's a (one-point) compactification of $\C$---in particular $d(z, w) \leq 2$ for all $z, w \in \C_\infty$ (remember, the metric in $\C_\infty$ is defined as the Euclidean $\R^3$ distance between points on the unit sphere).
+
+	Therefore the only tricky bit is to show that $\closure{\mathcal{F}}$ is equicontinuous, which we want to show by proving that it is uniformly Lipschitz, which in turn we will acquire as a consequence of $\mu(\mathcal{F})$ being locally bounded.
+	The bad news is that this last part is nontrivial.
+
+	We want to work on compact subsets of $G$, but for convenience we will restrict ourselves to closed disks $K = \closure{B(a, r)}$, of which we could patch together several to get any compact subset.
+
+	Since $\mu(\mathcal{F})$ is locally bounded, there exists $M > 0$ such that $\mu(f)(z) \leq M$ for all $z \in K$ and all $f \in \mathcal{F}$.
+	Let $z, z' \in K$ and $f \in \mathcal{F}$.
+
+	There are three cases to consider.
+	First, suppose neither $z$ nor $z'$ are poles of $f$.
+	Let $\alpha > 0$ be arbitrary, and choose
+	\[
+		w_0 = z, w_1, w_2, \dots, w_n = z'
+	\]
+	in $K$ satisfying
+	\boolfalse{inSolution} % Temporarily supress list style in proof/solution.
+	\begin{items}
+		\item\label{l16pfi} for $w \in \interval{w_{k - 1}}{w_k}$, $w$ is not a pole of $f$;
+		\item\label{l16pfii} $\displaystyle \sum_{k = 1}^n \abs{w_k - w_{k - 1}} \leq 2 \abs{z - z'}$;
+		\item\label{l16pfiii} $\displaystyle \abs[\Big]{ \frac{1 + \abs{f(w_{k - 1})}^2}{(1 + \abs{f(w_k)}^2) (1 + \abs{f(w_k)}^2)} - 1 } < \alpha$ for all $1 \leq k \leq n$; and
+		\item\label{l16pfiv} $\displaystyle \abs[\Big]{ \frac{f(w_k) - f(w_{k - 1})}{w_k - w_{k - 1}} - f'(w_{k - 1})} < \alpha$ for all $1 \leq k \leq n$.
+	\end{items}
+
+	That such a polygonal path can always be found requires a little bit of care.
+	Certainly we can always find a path satisfying \ref{l16pfi} and \ref{l16pfii}---start by connecting $z$ and $z'$ by a straight line segment.
+	If $\interval{z}{z'}$ does not pass through any poles of $f$, we are done.
+	If it does, perturb a point on the line segment by a minuscule amount to avoid the pole, and repeat.
+	A sketch of this process is shown in \autoref{thm716a:fig} (though it is by no means the only approach).
+
+	\begin{marginfigure}
+		\centering
+		\mfincludegraphics[width=\textwidth]{figures/l16thm716a.tikz}
+
+		becomes
+
+		\mfincludegraphics[width=\textwidth]{figures/l16thm716b.tikz}
+
+		becomes
+
+		\mfincludegraphics[width=\textwidth]{figures/l16thm716c.tikz}
+
+		\caption{\label{thm716a:fig} Creating a polygonal path from $z$ to $z'$ avoiding poles of $f$, poles signified by $*$.}
+	\end{marginfigure}
+
+	Once a polygonal path $P$ satisfying \ref{l16pfi} and \ref{l16pfii} is found, note that conditions \ref{l16pfiii} and \ref{l16pfiv} are essentially convergence conditions on $f(w_{k})$ and $f(w_{k - 1})$ being close in the $d$-sense (for \ref{l16pfiii}) and \ref{l16pfiv} is about the limit quotient approaching the derivative.
+	Since both of those \emph{do} converge, we can find small enough balls along $P$ that they hold---we can in fact cover $P$ with such balls.
+
+	Now since $P$ is compact, we can moreover select a finite subcover of those balls, and then specifically pick points $w_0, w_1, \dots, w_n$ on $P$ such that each line segment $\interval{w_{k - 1}}{w_k}$ lies in one of those balls.
+	The resulting collection $\Set{w_0, w_1, \dots, w_n}$ satisfies all four conditions. \renewcommand{\qedsymbol}{}
+\end{proof}

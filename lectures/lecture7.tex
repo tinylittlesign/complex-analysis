@@ -1,0 +1,194 @@
+%!TEX root = ../lectures.tex
+
+\lecture[September 10th, 2019]{Singularities}
+
+\topic{Classifying isolated singularities}
+
+\begin{definition}[Singularity]
+	A function $f$ has an \keyword{isolated singularity}\index{singularity!isolated} at $z = a$ if there is an $R > 0$ such that $f$ is defined and analytic on $B(a, R) \setminus \Set{a}$, but not at $z = a$ itself.
+
+	Moreover the point $z = a$ is called a \keyword{removable singularity}\index{singularity!removable} if there is an analytic function $g \colon B(a, R) \to \C$ such that $g(z) = f(z)$ for all $z \in B(a, R) \setminus \Set{a}$.
+\end{definition}
+
+\begin{example}
+	The function $f(z) = \frac{\sin(z)}{z}$, $z \neq 0$, has the limit $\lim\limits_{z \to 0} f(z) = 1$.
+	Hence we can define
+	\[
+		g(z) = \begin{cases}
+			\frac{\sin(z)}{z}, & \text{if}~ z \neq 0 \\
+			1, & \text{if}~ z = 0,
+		\end{cases}
+	\]
+	where $g$ is analytic.
+	So $f$ has a removable singularity at $z = 0$.
+\end{example}
+
+This is an interesting point about complex analysis: if we have a function that is analytic apart from a single point, and we can fill that point in so that the resulting function is continuous, then the whole function becomes analytic.
+Compare that with the real case: if we have a differentiable function with a hole, filling that point in does not mean the filled in function is differentiable.
+For example, consider $f(x) = \abs{x}$, except undefined at $0$.
+
+\begin{example}
+	The function $f(z) = \frac{1}{z}$ has an isolated singularity at $z = 0$, but it is not removable, because $\lim\limits_{z \to 0} \abs{f(z)} = \infty$.
+\end{example}
+
+\begin{example}
+	The function $f(z) = \exp(\frac{1}{z})$, $z \neq 0$, is sort of different: this also has an isolated singularity at $z = 0$, but $\lim\limits_{z \to 0} \abs{f(z)}$ does not exist, even in the sense of infinity.
+\end{example}
+
+Of course the natural question that arises is how we would determine, in general, if an isolated singularity is removable or not.
+
+\begin{theorem}\label{thm5.1}
+	Suppose $f$ has an isolated singularity at $z = 0$.
+	Then $z = a$ is a removable singularity if and only if $\lim\limits_{z \to a} (z - a) f(z) = 0$.
+\end{theorem}
+
+\begin{proof}
+	For the forward direction, assume $z = a$ is a removable singularity of $f$, i.e., there exists some analytic $g \colon B(a, R) \to \C$ such that $f(z) = g(z)$ for all $z \in B(a, R) \setminus \Set{a}$.
+	So
+	\[
+		\lim_{z \to a} (z - a) f(z) = \lim_{z \to a} (z - a) g(z) = (a - a) g(a) = 0,
+	\]
+	where we can replace $f$ by $g$ in the limit since the limit never touches $z = a$, and in the last step we use the fact that both $z - a$ and $g(z)$ are continuous at $z = a$.
+
+	For the converse direction, define
+	\[
+		h(z) = \begin{cases}
+			(z - a) f(z), & \text{if}~ z \neq a \\
+			0, & \text{if}~ z = a.
+		\end{cases}
+	\]
+	Since $\lim\limits_{z \to a} (z - a)f(z) = 0 = h(a)$, $h$ is continuous.
+	Then if we can show that $h$ is analytic, then we are done, since it means that $h(z) = (z - a) g(z)$, $g$ analytic, and so for $z \neq a$ we have $(z - a) f(z) = (z - a) g(z)$, and cancelling $z - a$ we have $f(z) = g(z)$.
+
+	Now to prove that $h$ is analytic, it suffices by \nameref{thm4.5} to show that $\int_T h(z) \, d z = 0$ for all triangular paths $R$ in the domain.
+
+	There are (sort of) four cases to consider here.
+	Case 1, the point $z = a$ lies outside of $T$.
+	In that case
+	\[
+		\int_T h(z) \, d z = \int_T (z - a) f(z) \, d z = 0
+	\]
+	since $(z - a) f(z)$ is analytic inside $T$.
+
+	\begin{marginfigure}
+		\centering
+		\mfincludegraphics[width=\textwidth]{figures/l7figa.tikz}
+
+		becomes
+
+		\mfincludegraphics[width=\textwidth]{figures/l7figb.tikz}
+
+		\caption{\label{fig:triangularpathepsilon} Decomposing a triangular path $T$ into a smaller triangular path $T_\varepsilon$ and a quadrilateral path $P$.}
+	\end{marginfigure}
+
+	Case 2, $z = a$ is a vertex of $T$.
+	Then we can divide $T$ into a quadrilateral path $P$ and a smaller triangular path $T_\varepsilon$, as per \autoref{fig:triangularpathepsilon}.
+	Since $h$ is analytic inside $P$, we have
+	\[
+		\int_T h(z) \, d z = \int_{T_\varepsilon} h(z) \, d z + \int_P h(z) \, d z = \int_{T_\varepsilon} h(z) \, d z.
+	\]
+	Since $h$ is continuous at $z = a$ and $h(a) = 0$, for every $\varepsilon > 0$ there exists some $T_\varepsilon$ small enough such that $\abs{h(z)} < \varepsilon$ for all $z \in T_\varepsilon$.
+	Hence
+	\[
+		\abs[\Big]{\int_{T_\varepsilon} h(z) \, d z} \leq \int_{T_\varepsilon} \abs{h(z)} \, d z \leq \int_{T_\varepsilon} \varepsilon = \varepsilon \ell(T_\varepsilon) < \varepsilon,
+	\]
+	since we can choose the subdivision so that $\ell(T_\varepsilon) < 1$.
+	Hence $\int_T h(z) \, d z = 0$.
+
+	Case 3, $z = a$ lies inside of $T$. In this case, split $T$ into three triangular paths by joining the vertices up with $z = a$, see \autoref{fig:triangulartriple}.
+	Then
+	\[
+		\int_T h(z) \, d z = \int_{T_1} h(z) \, d z + \int_{T_2} h(z) \, d z + \int_{T_3} h(z) \, d z = 0
+	\]
+	by the previous case, since $a$ is a vertex for each of the three triangular paths.
+
+	Finally case 4, $z = a$ might sit on $T$ but not on a vertex.
+	In this case, we play the same subdivision game, only splitting into two triangular paths, and again $z = a$ is a vertex of each.
+\end{proof}
+
+\begin{marginfigure}
+	\centering
+	\mfincludegraphics[width=\textwidth]{figures/l7figc.tikz}
+
+	becomes
+
+	\mfincludegraphics[width=\textwidth]{figures/l7figd.tikz}
+
+	\caption{\label{fig:triangulartriple} Dividing a triangular path $T$ three triangular paths $T_1$, $T_2$, and $T_3$.}
+\end{marginfigure}
+
+\begin{remark}
+	If $f(z)$ has a `true' singularity at $z = a$, i.e., not removable, then $f(z)$ must behave badly near $z = a$, in the sense that $\abs{f(z)} \to \infty$ as $z \to a$ or the limit doesn't exist at all.
+\end{remark}
+
+\begin{definition}[Pole, essential singularity]
+	Let $z = a$ be an isolated singularity of a function $f$.
+	We call $z = a$ a \keyword{pole}\index{pole} of $f$ if $\lim\limits_{z \to a} \abs{f(z)} = \infty$.
+
+	If $z = a$ is neither a pole nor a removable singularity, then we call $z = a$ an \keyword{essential singularity}\index{singularity!essential} of $f$.
+\end{definition}
+
+\begin{example}
+	The function $f(z) = \frac{1}{(z - a)^m}$, $m \in \N$, has a pole at $z = a$.
+\end{example}
+
+\begin{example}
+	The example discussed previously, $f(z) = \exp(\frac{1}{z})$, has an essential singularity at $z = 0$.
+\end{example}
+
+\begin{proposition}\label{prop5.2}
+	Let $G$ be a region and $a \in G$.
+	Suppose $f$ is analytic on $G \setminus \Set{a}$ with a pole at $z = a$.
+	Then there exists some $m \in \N$ and an analytic $g \colon G \to \C$ such that
+	\[
+		f(z) = \frac{g(z)}{(z - a)^m},
+	\]
+	where $g(a) \neq 0$.
+\end{proposition}
+
+Compare this to how we can factor zeros of multiplicity $m$ out analytic functions.
+
+\begin{remark}
+	We say that $f$ as above has a pole of \keyword{order}\index{pole!order of} $m$ at $z = a$.
+\end{remark}
+
+\begin{proof}
+	Let
+	\[
+		h(z) = \begin{cases}
+			\frac{1}{f(z)}, & \text{if}~ z \neq a, \\
+			0, & \text{if}~ z = a.
+		\end{cases}
+	\]
+	Then $h(z)$ is analytic on a ball $B(a, R)$ for some $R > 0$ since the zeros of $f$ are isolated, and $h(a) = 0$.
+	Hence we can factor
+	\[
+		h(z) = (z - a)^m h_1(z)
+	\]
+	for some $m \in \N$ and $h_1$ analytic on $B(a, R)$ with $h_1(a) \neq 0$.
+	For $z \neq a$ we can therefore write
+	\[
+		\frac{1}{f(z)} = (z - a)^m h_1(z),
+	\]
+	and since the $h_1$ is analytic, its zeros are isolated, so there exists some ball $B(a, r)$, $r \leq R$, such that $h_1(z) \neq 0$ on it.
+	Thus
+	\[
+		f(z) (z - a)^m = \frac{1}{h_1(z)},
+	\]
+	for all $z \in B(a, r) \setminus \Set{a}$, where the left-hand side is undefined for $z = a$ but the right-hand side is.
+	This means that $z = a$ is a removable singularity of $f(z) (z -a )^m$, and therefore there exist some analytic $g \colon G \to \C$ such that $f(z) (z - a)^m = g(z)$ for all $z \neq a$ in $G$, and so finally
+	\[
+		f(z) = \frac{g(z)}{(z - a)^m}. \qedhere
+	\]
+\end{proof}
+
+Note that since this resulting $g$ is analytic, it has a power series expansion
+\[
+	g(z) = A_m + A_{m - 1} (z - a) + \dots + A_1 (z - a)^{m - 1} + (z - a)^m \sum_{k = 0}^\infty a_k (z - a)^k.
+\]
+Therefore $f$ has a sort of `almost' power series representation
+\[
+	f(z) = \frac{A_m}{(z - a)^m} + \frac{A_{m - 1}}{(z - a)^{m - 1}} + \dots + \frac{A_1}{z - a} + \sum_{k = 0}^\infty a_k (z - a)^k,
+\]
+where the infinite series at the end is analytic, and the $m$ terms at the front are not.
+We will talk more about this representation in the near future.
