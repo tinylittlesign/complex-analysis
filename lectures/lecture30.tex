@@ -86,7 +86,7 @@ This is the worst case scenario:
 		G(s) = D(s) - F(s) = \sum_{n = 1}^\infty \frac{a_n - b_n}{n^s} = \sum_{n = 1}^\infty \frac{c_n}{n^s},
 	\]
 	i.e., let $c_n = a_n - b_n$.
-	We wish to show that $c_n = 0$ for all $n \in N$.
+	We wish to show that $c_n = 0$ for all $n \in \N$.
 
 	Notice how, by assumption, $G(s_k) = 0$ for all $k$.
 	Now suppose $c_n \neq 0$ for some $n$.
@@ -101,7 +101,7 @@ This is the worst case scenario:
 	\]
 	which, if we rearrange and take absolute values, becomes
 	\[
-		\abs{c_N} \leq N^{\sigma_k} \sum_{n = N + 1}^\infty \frac{\abs{c_n}}{n^{\sigma_k}} \leq \frac{N^{\sigma_k}}{(N + 1)^{\sigma_k - \sigma - \varepsilon}} \sum_{n = N + 1}^\infty \frac{abs{c_n}}{n^{\sigma + \varepsilon}}.
+		\abs{c_N} \leq N^{\sigma_k} \sum_{n = N + 1}^\infty \frac{\abs{c_n}}{n^{\sigma_k}} \leq \frac{N^{\sigma_k}}{(N + 1)^{\sigma_k - \sigma - \varepsilon}} \sum_{n = N + 1}^\infty \frac{\abs{c_n}}{n^{\sigma + \varepsilon}}.
 	\]
 	The factor in front of the summation goes to $0$ as $\sigma_k \to \infty$, and the sum is finite since we are in the region of absolute convergence.
 	Hence all of this goes to $0$, implying that $c_N = 0$, which is a contradiction.
