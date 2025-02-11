@@ -1,0 +1,16 @@
+%!TEX root = ../lectures.tex
+
+\begin{tikzpicture}
+	\path (0, 0) node{$\times$}node[below]{$z = w_0$} --node(P1)[pos=0.3]{$*$}node[pos=0.7]{$*$} (10, 3) node{$\times$}node[above]{$z' = w_3$};
+	\draw[opacity=0.3] (0, 0) -- (S1) -- (10, 3);
+
+	\coordinate(S1) at ($ (P1) + (-0.2, 0.75)$);
+	\path (S1) --node(P2)[pos=0.4]{$*$} (10, 3);
+	\node at (S1) {$\times$};
+	\node[above] at (S1) {$w_1$};
+
+	\coordinate(S2) at ($ (P2) + (0.2, -0.75)$);
+	\node at (S2) {$\times$};
+	\node[below] at (S2) {$w_2$};
+	\draw (0, 0) -- (S1) -- (S2) -- (10, 3);
+\end{tikzpicture}

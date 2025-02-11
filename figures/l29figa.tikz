@@ -1,0 +1,37 @@
+%!TEX root = ../lectures.tex
+
+\begin{tikzpicture}
+  \begin{axis}[
+      axis equal,
+      axis x line = middle,
+      axis y line = middle,
+			axis line style=gray!50,
+      xmin = -3,
+      xmax = 3,
+      ymin = -3,
+      ymax = 3,
+      %xlabel = $\Re$,
+      %ylabel = $\Im$,
+      every axis x label/.style = {
+          at = {(ticklabel* cs:1.01)},
+          anchor = west,
+      },
+      every axis y label/.style = {
+          at = {(ticklabel* cs:1.01)},
+          anchor = south,
+      },
+      %grid=both,
+	    ytick=\empty,
+	    xtick=\empty,
+      ]
+
+			\path[draw, use Hobby shortcut, closed=true, opacity=0.5] (0, -0.5) .. (1, -1) .. (2, 0) .. (1.85, 2) .. (2, 2.5) .. (0, 1.5) .. (-1, 1) .. (-1.5, 0) .. (-1, -0.5);
+			\node[below] at (1.5, 2.5) {$G$};
+
+			\path[draw, use Hobby shortcut, closed=true, opacity=0.5, dashed] (0, 0.5) .. (1, 1) .. (2, 0) .. (1.85, -2) .. (2, -2.5) .. (0, -1.5) .. (-1, -1) .. (-1.5, 0) .. (-1, 0.5);
+			\node[above] at (1.5, -2.5) {$\conjugate{G}$};
+
+			\draw[thick] (-1.5, 0) -- (2, 0);
+
+  \end{axis}
+\end{tikzpicture}

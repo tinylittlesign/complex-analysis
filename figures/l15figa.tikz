@@ -1,0 +1,49 @@
+%!TEX root = ../lectures.tex
+
+\begin{tikzpicture}
+	\fill[fill = gray!40, opacity = 0.4] (-5, -1) -- (4, -1) -- (5, 1) -- (-4, 1) -- cycle;
+	\draw[black!40] (-4, 1) -- (-5, -1) -- (4, -1) -- (5, 1);
+
+	\path [name path=top1] (5, 1) -- (0, 1);
+	\path [name path=top2] (0, 1) -- (-4, 1);
+	\path [name path=bottom1] (-5, -1) -- (0, -1);
+	\path [name path=bottom2] (0, -1) -- (4, -1);
+
+  \shade[ball color = gray!40, opacity = 0.4] (0,0) circle (2);
+  \path[name path=circle] (0,0) circle (2);
+
+	\path[name intersections={of=top1 and circle,by=A}];
+	\path[name intersections={of=top2 and circle,by=B}];
+	\path[name intersections={of=bottom1 and circle,by=C}];
+	\path[name intersections={of=bottom2 and circle,by=D}];
+	\coordinate (E) at (-2, 0);
+	\coordinate (F) at (2, 0);
+	\coordinate (G) at (0, -2.05);
+
+	\draw[black!40] (5, 1) -- (A);
+	\draw[dashed, black!40] (A) -- (B);
+	\draw[black!40] (B) -- (-4, 1);
+
+	\begin{scope}
+		\clip (C -| E) -- (D -| F) -- (F) -- (E) -- cycle;
+		\draw[dashed] (0,0) circle (2);
+	\end{scope}
+	\begin{scope}
+		\clip (C |- G) -- (D |- G) -- (D) -- (C) -- cycle;
+		\draw (0,0) circle (2);
+	\end{scope}
+	\draw(2,0) arc (0:180:2);
+
+  \draw (-2,0) arc (180:360:2 and 0.6);
+  \draw[dashed] (2,0) arc (0:180:2 and 0.6);
+
+	\node at (0, 2) {$\times$};
+	\node[above] at (0, 2) {$\infty$};
+
+	\draw[black!50] (0, 2) --node[pos=0.3]{$\times$}node[pos=0.25, black, above right]{\contour{white}{$Z_1$}} (3.5, -0.4) node {$\times$}node[black, right]{\contour{white}{$z_1$}};
+
+	\draw[black!50] (0, 2) --node[pos=0.55]{$\times$}node[pos=0.53, black, above right]{\contour{white}{$z_2$}} (-120:2) node {$\times$}node[black, below]{\contour{white}{$Z_2$}};
+
+	\node[below left] at (4.85, 1) {$\C$};
+	\node[above left] at (110:2) {$\C_\infty$};
+\end{tikzpicture}

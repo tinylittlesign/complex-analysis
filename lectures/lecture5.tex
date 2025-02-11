@@ -43,7 +43,7 @@ Indeed this is the case, and first let us make sure it counts in a reasonable wa
 	\[
 		g(1) = \int_\gamma \frac{1}{z - a} \, d z.
 	\]
-	The strategy is this: since $e^{2 \pi i k} = 1$ for all integers $k$, we want to show that something like $e^g(t)$ is constant.
+	The strategy is this: since $e^{2 \pi i k} = 1$ for all integers $k$, we want to show that something like $e^{g(t)}$ is constant.
 	To this end, note how by the Fundamental theorem of calculus
 	\[
 		g'(t) = \frac{\gamma'(t)}{\gamma(t) - a},
@@ -135,6 +135,10 @@ The answer is no:
 	Then $f$ is analytic in $G$.
 \end{theorem}
 \index{Morera's theorem|)}
+
+\begin{remark}
+	This is a remarkably useful way to prove a function is analytic, as will be made apparent by its repeated use throughout these notes. 
+\end{remark}
 
 \begin{proof}
 	We will show that $f$ has a primitive $F$, i.e., $F'(z) = f(z)$ in $G$.

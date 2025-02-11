@@ -1,0 +1,45 @@
+%!TEX root = ../lectures.tex
+
+\begin{tikzpicture}
+  \begin{axis}[
+      axis equal,
+      axis x line = middle,
+      axis y line = middle,
+			axis line style=gray!50,
+      xmin = -3,
+      xmax = 3,
+      ymin = -3,
+      ymax = 3,
+      %xlabel = $\Re$,
+      %ylabel = $\Im$,
+      every axis x label/.style = {
+          at = {(ticklabel* cs:1.01)},
+          anchor = west,
+      },
+      every axis y label/.style = {
+          at = {(ticklabel* cs:1.01)},
+          anchor = south,
+      },
+      %grid=both,
+	    ytick=\empty,
+	    xtick=\empty,
+      ]
+
+			\draw[dashed, opacity=0.50] (0,0) circle [radius=2.4];
+			\draw[dashed, opacity=0.50] (0,0) -- (235:2.4) node[pos=0.5] {\contour{white}{$M$}};
+
+			\path[draw, use Hobby shortcut, closed=true, thick] (0, 0) .. (0, -0.5) .. (1, 1) .. (0, 2) .. (-1, 1);
+			\node[above right] at (1, 1) {\contour{white}{$K$}};
+			\node at (0, 1) {$\times$};
+			\node[below right] at (0, 1) {$z$};
+
+			\node at (-0.75, 0) {$\times$};
+			\node[below] at (-0.75, 0) {$a$};
+
+			\draw (-0.75, 0) .. controls (-2, 2.2) .. node[pos=0.6, above] {$\gamma$} (2.5, 2.5);
+
+			\node at (2.5, 2.5) {$\times$};
+			\node[above right] at (2.5, 2.5) {$b$};
+
+  \end{axis}
+\end{tikzpicture}

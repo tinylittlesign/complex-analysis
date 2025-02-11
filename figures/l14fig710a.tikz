@@ -1,0 +1,16 @@
+%!TEX root = ../lectures.tex
+
+\begin{tikzpicture}
+	%\fill [white!0, fill=gray, opacity=0.1, even odd rule] (0,0) circle[radius=3] circle[radius=1];
+	\draw[thick] (0, 0) circle[radius=1.5];
+	\draw[thick] (0, 0) circle[radius=3];
+	\node[above right] at (60:3) {$\gamma$};
+	\draw (0, 0) -- (20:1.5) node [midway] {\contour{white}{$\frac{r}{2}$}};
+	\draw (0, 0) -- (-10:3) node[pos=0.75] {\contour{white}{$r$}};
+	\node at (0, 0) {$\times$};
+	\node[below right] at (0, 0) {$a$};
+	\node at (120:1.5) {$\times$};
+	\node[below right] at (120:1.5) {$z$};
+	\node at (-100:3) {$\times$};
+	\node[below] at (-100:3) {$w$};
+\end{tikzpicture}

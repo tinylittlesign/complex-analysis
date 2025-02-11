@@ -1,0 +1,14 @@
+%!TEX root = ../lectures.tex
+
+\begin{tikzpicture}
+	\draw[thick] (0, 0) circle[radius=3];
+	\draw (0, 0) -- (170:3) node[pos=0.5] {\contour{white}{$1$}};
+	\node at (0, 0) {$\times$};
+	\node[below] at (0, 0) {$0$};
+
+	\node at (-40:1.25) {$\times$};
+	\node[above] at (-40:1.25) {$a$};
+
+	\draw[thick] (-40:1.25) circle[radius=1.75];
+	\draw (-40:1.25) -- ($ (-40:1.25) + (-110:1.75) $) node[pos=0.5] {\contour{white}{$1 - \abs{a}$}};
+\end{tikzpicture}

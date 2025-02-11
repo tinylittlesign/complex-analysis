@@ -1,0 +1,18 @@
+%!TEX root = ../lectures.tex
+
+\begin{tikzpicture}
+	\draw[thick] (0, 0) circle[radius=3];
+	\draw (0, 0) -- (170:3) node[pos=0.75] {\contour{white}{$\lambda$}};
+	\draw[dashed] (0, 0) circle[radius=2.75];
+	\draw (0, 0) -- (80:2.75) node[pos=0.6] {\contour{white}{$\lambda-\frac{1}{M}$}};
+	\node at (0, 0) {$\times$};
+	\node[right] at (0, 0) {$\alpha$};
+
+	\node at (-40:2.5) {$\times$};
+	\node[above] at (-40:2.5) {$w$};
+
+	\node at (-70:1) {$\times$};
+	\node[left] at (-70:1) {$\alpha_{n_k}$};
+	\draw[thick] (-70:1) circle[radius=1.9];
+	\draw (-70:1) -- ($ (-70:1) + (230:1.9)$) node[midway] {\contour{white}{$\lambda-\frac{1}{n_k}$}};
+\end{tikzpicture}

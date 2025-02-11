@@ -1,0 +1,48 @@
+%!TEX root = ../lectures.tex
+
+\begin{tikzpicture}
+  \begin{axis}[
+      axis equal,
+      axis x line = middle,
+      axis y line = middle,
+			axis line style=gray!50,
+      xmin = -2,
+      xmax = 2,
+      ymin = -3.5,
+      ymax = 3.5,
+      %xlabel = $\Re$,
+      %ylabel = $\Im$,
+      every axis x label/.style = {
+          at = {(ticklabel* cs:1.01)},
+          anchor = west,
+      },
+      every axis y label/.style = {
+          at = {(ticklabel* cs:1.01)},
+          anchor = south,
+      },
+      %grid=both,
+	    ytick=\empty,
+	    xtick=\empty,
+      ]
+
+			\draw[dashed, opacity=0.5] (1, -10) -- (1, 10);
+			\draw[thick, postaction={on each segment={q1 arrow={scale=0.7}, q2 arrow={scale=0.7}}}] (1, -2) -- (1, 2);
+			\draw[thick, postaction={on each segment={mid arrow={scale=0.7}}}] (1, 2) arc (90:270:2);
+
+			\node at (-1, -2) {$\gamma_R$};
+
+			\node at (1, 0) {$\times$};
+			\node[below right] at (1, 0) {$c$};
+
+			\node at (1, -2) {$\times$};
+			\node[right] at (1, -2) {$c - i R$};
+
+			\node at (1, 2) {$\times$};
+			\node[right] at (1, 2) {$c + i R$};
+
+			\node[right] at (1, -3) {\contour{white}{$(c)$}};
+
+			\node at (0, 0) {$*$};
+			\node[above left] at (0, 0) {$0$};
+  \end{axis}
+\end{tikzpicture}

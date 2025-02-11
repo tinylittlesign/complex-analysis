@@ -1,0 +1,31 @@
+%!TEX root = ../lectures.tex
+
+\begin{tikzpicture}
+  \begin{axis}[
+      axis equal,
+      axis x line = middle,
+      axis y line = middle,
+			axis line style=gray!50,
+      xmin = -3,
+      xmax = 3,
+      ymin = -3,
+      ymax = 3,
+      %xlabel = $\Re$,
+      %ylabel = $\Im$,
+      every axis x label/.style = {
+          at = {(ticklabel* cs:1.01)},
+          anchor = west,
+      },
+      every axis y label/.style = {
+          at = {(ticklabel* cs:1.01)},
+          anchor = south,
+      },
+      %grid=both,
+	    ytick=\empty,
+	    xtick=\empty,
+      ]
+
+			\draw[thick, postaction={on each segment={mid arrow={scale=0.7}}}] (-2, -2) -- (2, -1) -- (1, 2.5) -- cycle;
+			\node[above left] at (1, 2.3) {$T$};
+  \end{axis}
+\end{tikzpicture}

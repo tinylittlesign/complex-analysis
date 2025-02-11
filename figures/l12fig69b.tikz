@@ -1,0 +1,36 @@
+%!TEX root = ../lectures.tex
+
+\begin{tikzpicture}
+  \begin{axis}[
+      axis equal,
+      axis x line = middle,
+      axis y line = middle,
+			axis line style=gray!50,
+      xmin = -4,
+      xmax = 4,
+      ymin = -4,
+      ymax = 4,
+      %xlabel = $\Re$,
+      %ylabel = $\Im$,
+      every axis x label/.style = {
+          at = {(ticklabel* cs:1.01)},
+          anchor = west,
+      },
+      every axis y label/.style = {
+          at = {(ticklabel* cs:1.01)},
+          anchor = south,
+      },
+      %grid=both,
+	    ytick=\empty,
+	    xtick=\empty,
+      ]
+
+			\fill [white!0, fill=gray, opacity=0.1, even odd rule] (0,0) circle[radius=3] circle[radius=1];
+			\draw[thick] (0, 0) circle[radius=1];
+			\draw[thick] (0, 0) circle[radius=3];
+			\draw[dashed] (0, 0) circle[radius=1.8];
+			\node[above] at (1, 0) {\contour{white}{$r_1$}};
+			\node[below] at (1.8, 0) {\contour{white}{$r$}};
+			\node[above] at (3, 0) {\contour{white}{$r_2$}};
+  \end{axis}
+\end{tikzpicture}

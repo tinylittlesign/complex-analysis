@@ -1,0 +1,70 @@
+%!TEX root = ../lectures.tex
+
+\begin{tikzpicture}
+  \begin{axis}[
+      axis equal,
+      axis x line = middle,
+      axis y line = middle,
+			axis line style=gray!50,
+      xmin = -3,
+      xmax = 3,
+      ymin = -3,
+      ymax = 3,
+      %xlabel = $\Re$,
+      %ylabel = $\Im$,
+      every axis x label/.style = {
+          at = {(ticklabel* cs:1.01)},
+          anchor = west,
+      },
+      every axis y label/.style = {
+          at = {(ticklabel* cs:1.01)},
+          anchor = south,
+      },
+      %grid=both,
+	    ytick=\empty,
+	    xtick=\empty,
+      ]
+
+			\coordinate (t1) at (-2, -2);
+			\coordinate (t2) at (2, -1);
+			\coordinate (t3) at (1, 2.5);
+			\coordinate (alpha) at (-0.46666666, 0.3);
+			\coordinate (beta) at (1.6285714285, 0.3);
+			\coordinate (a) at (-0.86666666, -0.3);
+			\coordinate (b) at (1.8, -0.3);
+
+			\draw[thick, postaction={on each segment={mid arrow={scale=0.7}}}] (t1) -- (t2);
+			\draw[thick, postaction={on each segment={mid arrow={scale=0.7}}}] (t2) -- (b);
+			\draw[thick, postaction={on each segment={mid arrow={scale=0.7}}}] (b) -- (beta);
+			\draw[thick, postaction={on each segment={mid arrow={scale=0.7}}}] (beta) -- (t3);
+			\draw[thick, postaction={on each segment={mid arrow={scale=0.7}}}] (t3) -- (alpha);
+			\draw[thick, postaction={on each segment={mid arrow={scale=0.7}}}] (alpha) -- (a);
+			\draw[thick, postaction={on each segment={mid arrow={scale=0.7}}}] (a) -- (t1);
+
+			\draw[thick] (alpha) -- (beta);
+
+			\begin{scope}[shorten >=11pt, shorten <=11pt]
+				\draw[left to-left to,thick] (alpha) -- (beta);
+			\end{scope}
+
+			\draw[thick] (a) --(b);
+
+			\begin{scope}[shorten >=15pt, shorten <=15pt]
+				\draw[left to-left to,thick] (a) -- (b);
+			\end{scope}
+
+			\node at (barycentric cs:t1=1,t2=1,b=1,a=1){$T_-$};
+			\node at (barycentric cs:b=1,beta=1,alpha=1,a=1){$T_\varepsilon$};
+			\node at (barycentric cs:beta=1,t3=1,alpha=1){$T_+$};
+
+			\node at (alpha) {$\times$};
+			\node at (beta) {$\times$};
+			\node at (a) {$\times$};
+			\node at (b) {$\times$};
+
+			\node[right] at (beta) {$\beta$};
+			\node[right] at (b) {$b$};
+			\node[left] at (alpha) {$\alpha$};
+			\node[left] at (a) {$a$};
+  \end{axis}
+\end{tikzpicture}

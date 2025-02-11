@@ -1,0 +1,55 @@
+%!TEX root = ../lectures.tex
+
+\begin{tikzpicture}
+  \begin{axis}[
+      axis equal,
+      axis x line = middle,
+      axis y line = middle,
+			axis line style=gray!50,
+      xmin = -3,
+      xmax = 3,
+      ymin = -3,
+      ymax = 3,
+      %xlabel = $\Re$,
+      %ylabel = $\Im$,
+      every axis x label/.style = {
+          at = {(ticklabel* cs:1.01)},
+          anchor = west,
+      },
+      every axis y label/.style = {
+          at = {(ticklabel* cs:1.01)},
+          anchor = south,
+      },
+      %grid=both,
+	    ytick=\empty,
+	    xtick=\empty,
+      ]
+
+			% y-lines
+			\draw[very thin, gray!50] (-1.6, -1.0) -- (-1.6, 1.8);
+			\draw[very thin, gray!50] (-1.2, -1.0) -- (-1.2, 1.8);
+			\draw[very thin, gray!50] (-0.8, -1.0) -- (-0.8, 1.8);
+			\draw[very thin, gray!50] (-0.4, -1.0) -- (-0.4, 1.8);
+			\draw[very thin, gray!50] ( 0.0, -1.0) -- ( 0.0, 1.8);
+			\draw[very thin, gray!50] ( 0.4, -1.0) -- ( 0.4, 1.8);
+			\draw[very thin, gray!50] ( 0.8, -1.0) -- ( 0.8, 1.8);
+			\draw[very thin, gray!50] ( 1.2, -1.0) -- ( 1.2, 1.8);
+			\draw[very thin, gray!50] ( 1.6, -1.0) -- ( 1.6, 1.8);
+
+			% x-lines
+			\draw[very thin, gray!50] (-1.8, -0.8) -- (1.8, -0.8);
+			\draw[very thin, gray!50] (-1.8, -0.4) -- (1.8, -0.4);
+			\draw[very thin, gray!50] (-1.8,  0.0) -- (1.8,  0.0);
+			\draw[very thin, gray!50] (-1.8,  0.4) -- (1.8,  0.4);
+			\draw[very thin, gray!50] (-1.8,  0.8) -- (1.8,  0.8);
+			\draw[very thin, gray!50] (-1.8,  1.2) -- (1.8,  1.2);
+			\draw[very thin, gray!50] (-1.8,  1.6) -- (1.8,  1.6);
+
+			\path[draw, use Hobby shortcut, closed=true, dashed, opacity=0.5] (0, -1) .. (1, -2) .. (2, 0) .. (3, 2) .. (2, 3) .. (0, 2) .. (-1, 2) .. (-2, 0) .. (-1, -2);
+			\node[below left] at (-1, -2) {$G$};
+
+			\path[draw, use Hobby shortcut, closed=true, thick] (-1, 0) .. (0, -0.5) .. (1, 1) .. (0, 0.4) .. (-1, 1);
+
+			\node at (1.2, 0.8) {\contour{white}{$K$}};
+  \end{axis}
+\end{tikzpicture}

@@ -1,0 +1,14 @@
+%!TEX root = ../lectures.tex
+
+\begin{tikzpicture}
+	\draw[thick, postaction={on each segment={q1 arrow={scale=0.7}, q2 arrow={scale=0.7}}}] (a) node{$\times$}node[below]{$a$} --coordinate[pos=0.4](m1) (b) -- (c) -- coordinate[pos=0.6](m2) cycle;
+
+	\draw[thick] (m1) -- (m2);
+
+	\node at (barycentric cs:m1=1,b=1,c=1,m2=1){$P$};
+	\node at (barycentric cs:a=1,m1=1,m2=1){$T_\varepsilon$};
+
+	\begin{scope}[shorten >=10pt, shorten <=10pt]
+		\draw[left to-left to,thick] (m2) -- (m1);
+	\end{scope}
+\end{tikzpicture}

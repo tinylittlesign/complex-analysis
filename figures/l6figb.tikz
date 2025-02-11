@@ -1,0 +1,22 @@
+%!TEX root = ../lectures.tex
+
+\begin{tikzpicture}
+	\draw[thick, postaction={on each segment={q1 arrow={scale=0.7}, q2 arrow={scale=0.7}}}] (a) --coordinate[midway](m1) (b) --coordinate[midway](m2) (c) -- coordinate[midway](m3) cycle;
+
+	\draw[thick] (m1) -- (m2) -- (m3) -- cycle;
+
+	\node at (barycentric cs:m1=1,b=1,m2=1){$T_1$};
+	\node at (barycentric cs:m2=1,c=1,m3=1){$T_2$};
+	\node at (barycentric cs:m3=1,a=1,m1=1){$T_3$};
+	\node at (barycentric cs:m1=1,m2=1,m3=1){$T_4$};
+
+	\begin{scope}[shorten >=30pt, shorten <=30pt]
+		\draw[left to-left to,thick] (m2) -- (m1);
+	\end{scope}
+	\begin{scope}[shorten >=21pt, shorten <=21pt]
+		\draw[left to-left to,thick] (m3) -- (m2);
+	\end{scope}
+	\begin{scope}[shorten >=24pt, shorten <=24pt]
+		\draw[left to-left to,thick] (m1) -- (m3);
+	\end{scope}
+\end{tikzpicture}

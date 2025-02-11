@@ -1,0 +1,37 @@
+%!TEX root = ../lectures.tex
+
+\begin{tikzpicture}
+  \begin{axis}[
+      axis equal,
+      axis x line = middle,
+      axis y line = middle,
+			axis line style=gray!50,
+      xmin = -0.5,
+      xmax = 4,
+      ymin = -4,
+      ymax = 4,
+      %xlabel = $\Re$,
+      %ylabel = $\Im$,
+      every axis x label/.style = {
+          at = {(ticklabel* cs:1.01)},
+          anchor = west,
+      },
+      every axis y label/.style = {
+          at = {(ticklabel* cs:1.01)},
+          anchor = south,
+      },
+      %grid=both,
+	    ytick=\empty,
+	    xtick=\empty,
+      ]
+
+			\draw[white!0, fill=gray, opacity=0.1] (2, -4) -- (4.5, -4) -- (4.5, 4) -- (2, 4) -- cycle;
+			\draw[thick] (2, -4) -- node[midway, below left]{$a$} (2, 4);
+			\draw[thick] (4.5, -4) -- node[midway, below right]{$b$} (4.5, 4);
+			\draw[thick] (2, 2.5) node[left]{$\frac{B}{\varepsilon}$} -- (4.5, 2.5);
+			\draw[thick] (2, -2.5) node[left]{$-\frac{B}{\varepsilon}$} -- (4.5, -2.5);
+			\node[align=center] at (3.25, 0) {\contour{white}{Max}.\\ \contour{white}{mod.}\\ \contour{white}{princ.} \\ \contour{white}{here}};
+			\node[align=center] at (3.25, 3.3) {$f g_\varepsilon$ \\ small};
+			\node[align=center] at (3.25, -3.3) {$f g_\varepsilon$ \\ small};
+  \end{axis}
+\end{tikzpicture}

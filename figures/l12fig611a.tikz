@@ -1,0 +1,35 @@
+%!TEX root = ../lectures.tex
+
+\begin{tikzpicture}
+  \begin{axis}[
+      axis equal,
+      axis x line = middle,
+      axis y line = middle,
+			axis line style=gray!50,
+      xmin = -0.5,
+      xmax = 3,
+      ymin = -3,
+      ymax = 3,
+      %xlabel = $\Re$,
+      %ylabel = $\Im$,
+      every axis x label/.style = {
+          at = {(ticklabel* cs:1.01)},
+          anchor = west,
+      },
+      every axis y label/.style = {
+          at = {(ticklabel* cs:1.01)},
+          anchor = south,
+      },
+      %grid=both,
+	    ytick=\empty,
+	    xtick=\empty,
+      ]
+
+			\draw[white!0, fill=gray, opacity=0.1] (0, 0) -- (37:5) -- (-37:5) -- cycle;
+			\draw[thick] (0, 0) -- (37:5);
+			\draw[thick] (0, 0) -- (-37:5);
+			\draw[stealth-] (37:1.5) arc(37:-37:1.5);
+			\node at (20:2){$\frac{\pi}{a}$};
+			\node at (0:3){\contour{white}{$G$}};
+  \end{axis}
+\end{tikzpicture}

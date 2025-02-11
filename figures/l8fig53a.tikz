@@ -1,0 +1,16 @@
+%!TEX root = ../lectures.tex
+
+\begin{tikzpicture}
+	\draw[thick, postaction={on each segment={mid arrow={scale=0.7}}}] (0, 0) circle[radius=4];
+	\draw[thick, postaction={on each segment={mid arrow={scale=0.7}}}] (2.5, 0) arc(0:-360:2.5);
+	\fill [white!0, fill=gray, opacity=0.1, even odd rule] (0,0) circle[radius=4] circle[radius=2.5];
+	\draw[thick] (2.5, 0) --node[midway, above]{$L$} (4, 0);
+	\begin{scope}[shorten >=5pt, shorten <=5pt]
+		\draw[left to-left to,thick] (2.5, 0) -- (4, 0);
+	\end{scope}
+	\node[above] at (110:4) {$\gamma_2$};
+	\node[below right] at (150:2.5) {$-\gamma_1$};
+	\node at (0, 0) {$\times$} node[above right]{$0$};
+	\node at (50:3.2) {$\times$};
+	\node[below right] at (50:3.2) {$z$};
+\end{tikzpicture}

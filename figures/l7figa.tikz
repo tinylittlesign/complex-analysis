@@ -1,0 +1,11 @@
+%!TEX root = ../lectures.tex
+
+\begin{tikzpicture}
+	\coordinate (a) at (0, 0);
+	\coordinate (b) at (4, 2);
+	\coordinate (c) at (1, 4);
+
+	\draw[thick, postaction={on each segment={mid arrow={scale=0.7}}}] (a) node{$\times$}node[below]{$a$} --coordinate[midway](m1) (b) --coordinate[midway](m2) (c) -- coordinate[midway](m3) cycle;
+
+	\node at (barycentric cs:a=1,b=1,c=1){$T$};
+\end{tikzpicture}

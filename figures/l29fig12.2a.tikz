@@ -1,0 +1,42 @@
+%!TEX root = ../lectures.tex
+
+\begin{tikzpicture}
+  \begin{axis}[
+      axis equal,
+      axis x line = middle,
+      axis y line = middle,
+			axis line style=gray!50,
+      xmin = 0,
+      xmax = 3,
+      ymin = -2,
+      ymax = 4,
+      %xlabel = $\Re$,
+      %ylabel = $\Im$,
+      every axis x label/.style = {
+          at = {(ticklabel* cs:1.01)},
+          anchor = west,
+      },
+      every axis y label/.style = {
+          at = {(ticklabel* cs:1.01)},
+          anchor = south,
+      },
+      %grid=both,
+	    ytick=\empty,
+	    xtick=\empty,
+      ]
+
+			\begin{scope}[xshift=0.5cm, yshift=1cm]
+				\draw[white!0, fill=gray, opacity=0.1] (0, 0) -- (57:10) -- (-57:10) -- cycle;
+				\draw[thick] (0, 0) -- (57:10);
+				\draw[thick] (0, 0) -- (-57:10);
+				\draw[-stealth, opacity=0.5] (0,1.5) arc(90:57:1.5);
+				\node at (0.5, 1.75) {$\delta$};
+				\draw[-stealth, opacity=0.5] (0,-1.5) arc(-90:-57:1.5);
+				\node at (0.5, -1.75) {$\delta$};
+
+				\draw[dashed, opacity=0.5] (0, -10) -- (0, 10);
+				\node at (0, 0) {$\times$};
+				\node[left] at (0, 0) {$s_0$};
+			\end{scope}
+  \end{axis}
+\end{tikzpicture}
