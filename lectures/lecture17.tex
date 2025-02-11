@@ -7,12 +7,12 @@
 \begin{proof}[Proof, continued]
 	The goal, as mentioned, is to establish that $d(f(z), f(z'))$ is well approximated by $\mu(f)(z) \abs{z - z'}$, so that $\mu(f)$ being uniformly bounded on compact subsets gives us that $f$ is uniformly Lipschitz.
 
-	With the polygonal as set up above, let $\beta_k = (1 + \abs{f(w_{k - 1})}^2)^{1/2} (1 + \abs{f(w_k)}^2)^{1/2}$, and study the aforementioned distance.
+	With the polygonal path as set up above, let $\beta_k = (1 + \abs{f(w_{k - 1})}^2)^{1/2} (1 + \abs{f(w_k)}^2)^{1/2}$, and study the aforementioned distance.
 	By the triangle inequality,
 	\[
 		d(f(z), f(z')) \leq \sum_{k = 1}^n d(f(w_{k - 1}), f(w_k)) = \sum_{k = 1}^n \frac{2 \abs{f(w_{k - 1}) - f(w_k)}}{\beta_k}
 	\]
-	by the definition of $d$ (see \autopageref{ddefi}) since neither the polygonal path never touches a pole in this case.
+	by the definition of $d$ (see \autopageref{ddefi}) since the polygonal path never touches a pole in this case.
 	By the triangle inequality again, adding and subtracting $f'(w_k) (w_k - w_{k - 1})$,
 	\begin{gather*}
 		d(f(z), f(z')) \leq \sum_{k = 1}^n \frac{2}{\beta_k} \abs[\Big]{\frac{f(w_{k - 1}) - f(w_k)}{w_k - w_{k - 1}} - f'(w_k)} \abs{w_k - w_{k - 1}} \\ + \sum_{k = 1}^n \frac{2}{\beta_k} \abs{f'(w_k)} \abs{w_k - w_{k - 1}}.
