@@ -5,6 +5,7 @@
 \topic{Residue calculus}
 
 Residues offer a very powerful tool for evaluating real integrals, as it happens.
+In the (\href{https://philosophy.stackexchange.com/a/61924}{apparently misquoted}) words of Jacques Hadamard, ``The shortest path between two truths in the real domain passes through the complex domain.''
 
 \begin{example}
 	We have
@@ -142,7 +143,7 @@ so the integrand above has a primitive, meaning that for any closed, rectifiable
 \]
 However, we define $\log z \coloneqq \log\abs{z} + i \arg z$, and for this to make sense we need, apart from $z \neq 0$, to make a branch cut, i.e., pick an open interval of length $2 \pi$ for the argument.
 Hence $\log f(z)$ is defined if $f(z) \neq 0$ and $f(z)$ doesn't lie on the line removed by the branch cut.
-But we have zeros and poles, meaning that $f(z) = 0$ for some $z$ or $f(z) = \infty$ (in a manner of speaking) for some $z$, both of which like on any line removed by any branch cut.
+But we have zeros and poles, meaning that $f(z) = 0$ for some $z$ or $f(z) = \infty$ (in a manner of speaking) for some $z$, both of which lie on any line removed by any branch cut.
 So if $f$ has any zeros or poles inside $\gamma$, $\log f(z)$ is not defined.
 
 But for $z$ on $\gamma$ itself there are no zeros or poles of $f$ (by hypothesis), so for any $a \in \gamma$, $\log f(z)$ is defined near $z = a$.

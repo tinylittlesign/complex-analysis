@@ -97,6 +97,17 @@
 \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{proposition}[theorem]{Proposition}
 \newtheorem{conjecture}[theorem]{Conjecture}
+
+% For manually numbering a theorem, e.g. for use in restating a theorem.
+% see https://tex.stackexchange.com/questions/391443/new-theorem-environment-with-manual-theorem-number
+\newtheorem{manualtheoreminner}{Theorem}
+\newenvironment{manualtheorem}[1]{%
+  \IfBlankTF{#1}
+    {\renewcommand{\themanualtheoreminner}{\unskip}}
+    {\renewcommand\themanualtheoreminner{#1}}%
+  \manualtheoreminner
+}{\endmanualtheoreminner}
+
 \theoremstyle{definition}
 \newtheorem{definition}[theorem]{Definition}
 \newtheorem{definitions}[theorem]{Definitions}
